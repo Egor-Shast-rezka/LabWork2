@@ -18,6 +18,7 @@ protected:
     std::vector<Card> cards; // List of cards on the table
     Dealler dealler; // Dealer at the table
     int currentBet; // Current rate
+    int Bank;
     
 public:
 

@@ -44,13 +44,6 @@ void AllBots::setupForAllBots(Game& game) {
     
     std::cout << "Names for bots has been set\n";
     
-    // Set count chips
-    int answerPlayer3 = game.answerUserCheckInt("> Write chips for all player: ");
-    
-    game.setChipsAllPlayer(answerPlayer3);
-    
-    std::cout << "Chips has been set" << "\n";
-    
 }
 
 
