@@ -18,7 +18,7 @@ public:
     
     void viewNextCard();
 };
-
+/*
 
 // -------------------------
 class AllBots : public Game {
@@ -45,5 +45,5 @@ class WithoutCards : public Game {
 public:
     void setup(Game& game);
 };
-
+*/
 #endif
