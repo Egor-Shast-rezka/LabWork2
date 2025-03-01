@@ -25,9 +25,9 @@ public:
 
     bool isBot() override;
 
-    int chipRandom(int countChips);
+    int chipRandom(int countChips, int Allin);
     
-    int BotActions(int countChips, int currentBet) override;
+    int BotActions(int countChips, int currentBet, int Bank, int Allin) override;
 };
 
 
