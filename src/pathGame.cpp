@@ -97,10 +97,13 @@ void Game::resetGame() {
 }
 
 bool Game::checkContinueGame() {
-    char act;
-    std::cout << "Do you want to continue the game? (y/n): ";
-    std::cin >> act;
-    return act == 'y';
+
+    std::string act = "";
+    while (!(act == "y" || act == "n")){
+        act = answerUserCheckString("Do you want to continue the game? (y/n): ");
+    }
+
+    return act == "y";
 }
 
 void Game::setMode(){
@@ -184,18 +187,18 @@ int Game::startGame() {
                     }
                 }
                 else {
-                    char act = 'p';
-                    std::cout << "Your answer (p - pass, c - call): ";
-                    std::cin >> act;
+                
+                    std::string act = "";
+                    while (!(act == "pass" || act == "call" || act == "allin")){
+                        act = answerUserCheckString("Your answer (pass, call, allin): ");
+                    }
 
-                    if (act == 'p') {
+                    if (act == "pass") {
                         player->getName();
                         std::cout << "Player passed.\n";
                     }
-                    else if (act == 'c') {
-                        int bet = 0;
-                        std::cout << "Your bet: ";
-                        std::cin >> bet;
+                    else if (act == "call") {
+                        int bet = answerUserCheckInt("Your bet: ");
 
                         currentBet += bet;
                         player->PlaceBid(bet);
