@@ -109,7 +109,7 @@ public:
     
     virtual bool isBot();
 
-    virtual int BotActions(int countChips, int currentBet);
+    virtual int BotActions(int countChips, int currentBet, int Bank, int Allin);
 };
 
 
@@ -135,7 +135,7 @@ public:
     
     void newDeck();
 
-    std::vector<int> SearchWinner(std::vector<Player>& players, std::vector<Card>& cards) const;  // Search for a winner
+    std::vector<int> SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<int>& DataPass) const;  // Search for a winner
 };
 
 #endif

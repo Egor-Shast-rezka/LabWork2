@@ -163,7 +163,7 @@ bool Player::isBot() {
     return false;
 }
 
-int Player::BotActions(int countChips, int currentBet) {
+int Player::BotActions(int countChips, int currentBet, int Bank, int Allin) {
     return 0;
 }
 
@@ -217,132 +217,152 @@ void Dealler::newDeck() {
     deck = Deck();
 }
 
-std::vector<int> Dealler::SearchWinner(std::vector<Player>& players, std::vector<Card>& cards) const { // Search for a winner
+std::vector<int> Dealler::SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<int>& DataPass) const { // Search for a winner
     std::vector<int> answer; // Final number of winning players
     std::vector<std::vector<int>> handPlayer; // List of cards in players hands
+    int cntPass = 0;
     
     std::size_t CountCard = cards.size();
     int CardsCount = static_cast<int>(CountCard) + players[0].getCountCards();
     
-    std::cout << "Cards count: " << players[0].getCountCards() << " " << cards.size() << "\n"; // <-----------
+    for (std::size_t i = 0; i < players.size(); i++) {
+        
+        if (DataPass[i] == 1) {
+        
+            std::vector<int> hand;
+            for (int i = 0; i <= CardsCount; i++) {
+                hand.push_back(0);
+            }
+            
+            handPlayer.push_back(hand);
+            cntPass++;
+            
+            // For checking
+            std::cout << "Player " << i+1 << "passed.\n";
+            
+        } else {
+        
+            std::vector<Card> allCardsPlayer = players[i].getAllCards(); // Getting all player cards
+            allCardsPlayer.insert(allCardsPlayer.end(), cards.begin(), cards.end()); // Mixing cards on the table and cards in the player's hand
     
-    for (auto& player : players) {
-
-        std::vector<Card> allCardsPlayer = player.getAllCards(); // Getting all player cards
-        allCardsPlayer.insert(allCardsPlayer.end(), cards.begin(), cards.end()); // Mixing cards on the table and cards in the player's hand
-
-        // Matching a set of cards with 5 numbers, where 1 is the number of cards of one rank, and the other 4 are all possible suits
-        std::vector<int> result = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; 
-        for (auto& card : allCardsPlayer) {
-            result[card.getNumber() - 1] += 10000;
-            result[card.getNumber() - 1] += pow(10, (card.getSuit() - 1));
-        }
-
-        // Search for lucky hands
-
-        // Flash presence (search through fours)
-        int seekFlash = 0;
-
-        // The presence of these card combinations
-        int Flash = 0;
-        int Street = 0;
-        int Roal = 0;
-
-        // Index designation: 0 - cards that appear 1 time. 1 - number of pairs of cards. 2 - number of threes. 3 - number of fours.
-        std::vector<int> resultCountPair = {0, 0, 0, 0};
-        
-        for (int& elem : result) {
-            if (elem != 0) {
-                seekFlash += elem;
-                elem /= 10000;
-                resultCountPair[elem - 1] += 1;
+            // Matching a set of cards with 5 numbers, where 1 is the number of cards of one rank, and the other 4 are all possible suits
+            std::vector<int> result = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; 
+            for (auto& card : allCardsPlayer) {
+                result[card.getNumber() - 1] += 10000;
+                result[card.getNumber() - 1] += pow(10, (card.getSuit() - 1));
             }
-        }
 
-        int index = 0; // Variable points to the number of 4 in seekFlash
-        while (seekFlash > 0) {
-            int digit = seekFlash % 10;
-            if (digit == 4) {
-                index++;
-            }
-            seekFlash /= 10;
-        }
-        if (index == 2) { // If there are 2 fours, then one is the number of cards, and 2 is 4 of the same suit, that is, a flush
-            Flash++;
-        }
+            // Search for lucky hands
 
-        if (result[1] != 0 && result[2] != 0 && result[3] != 0 && result[4] != 0 && result[13] != 0) { // Street check
-            Street++;
-        }
+            // Flash presence (search through fours)
+            int seekFlash = 0;
 
-        if (result[9] != 0 && result[10] != 0 && result[11] != 0 && result[12] != 0 && result[13] != 0) { // Check for a roal
-            Roal++;
-        }
+            // The presence of these card combinations
+            int Flash = 0;
+            int Street = 0;
+            int Roal = 0;
 
-        index = 1; // This variable now indicates the power of the hand
-
-        // Search for all possible 10 lucky hands, where 1 is the high card, 10 is a royal flush
-        if (resultCountPair[1] == 1) {
-            index = 2;
-        }
-        if (resultCountPair[1] == 2) {
-            index = 3;
-        }
-        if (resultCountPair[2] == 1) {
-            index = 4;
-        }
-        if (resultCountPair[1] == 1 && resultCountPair[2] == 1) {
-            index = 7;
-        }
-        if (resultCountPair[3] == 1) {
-            index = 8;
-        }
-        if (Street == 1) {
-            index = 5;
-        }
-        if (Flash == 1) {
-            index = 6;
-        }
-        if (Street == 1 and Flash == 1) {
-            index = 9;
-        }
-        if (Roal == 1 and Flash == 1) {
-            index = 10;
-        }
-            
-        // Checking the highest cards in case of a combination match
-        std::vector<int> hand = {index};
+            // Index designation: 0 - cards that appear 1 time. 1 - number of pairs of cards. 2 - number of threes. 3 - number of fours.
+            std::vector<int> resultCountPair = {0, 0, 0, 0};
         
-        for (int i = 0; i < CardsCount; i++) {
-            hand.push_back(0);
-        }
-        
-        int cnt = 13;
-        int count = 1;
-        while (cnt > 0 && hand[CardsCount] == 0) {
-            if (result[cnt] != 0) {
-                if (result[cnt] > 15) {
-                    result[cnt] /= 10000;
+            for (int& elem : result) {
+                if (elem != 0) {
+                    seekFlash += elem;
+                    elem /= 10000;
+                    resultCountPair[elem - 1] += 1;
                 }
-                hand[count] = cnt + 1;
-                count++;
-                result[cnt]--;
             }
-            else {
-                cnt--;
-            }
-        }
-        handPlayer.push_back(hand);
 
-        // For checking
-        std::cout << "Power Hand: ";
-        for (int& elem : hand) {
-            std::cout << elem << " ";
-        }
-        std::cout << "\n";
+            int index = 0; // Variable points to the number of 4 in seekFlash
+            while (seekFlash > 0) {
+                int digit = seekFlash % 10;
+                if (digit == 4) {
+                    index++;
+                }
+                seekFlash /= 10;
+            }
+            if (index == 2) { // If there are 2 fours, then one is the number of cards, and 2 is 4 of the same suit, that is, a flush
+                Flash++;
+            }
+
+            if (result[1] != 0 && result[2] != 0 && result[3] != 0 && result[4] != 0 && result[13] != 0) { // Street check
+                Street++;
+            }
+
+            if (result[9] != 0 && result[10] != 0 && result[11] != 0 && result[12] != 0 && result[13] != 0) { // Check for a roal
+                Roal++;
+            }
+
+            index = 1; // This variable now indicates the power of the hand
+    
+            // Search for all possible 10 lucky hands, where 1 is the high card, 10 is a royal flush
+            if (resultCountPair[1] == 1) {
+                index = 2;
+            }
+            if (resultCountPair[1] == 2) {
+                index = 3;
+            }
+            if (resultCountPair[2] == 1) {
+            index = 4;
+            }
+            if (resultCountPair[1] == 1 && resultCountPair[2] == 1) {
+                index = 7;
+            }
+            if (resultCountPair[3] == 1) {
+                index = 8;
+            }
+            if (Street == 1) {
+                index = 5;
+            }
+            if (Flash == 1) {
+                index = 6;
+            }
+            if (Street == 1 and Flash == 1) {
+                index = 9;
+            }
+            if (Roal == 1 and Flash == 1) {
+                index = 10;
+            }
             
-    }
+            // Checking the highest cards in case of a combination match
+            std::vector<int> hand = {index};
+        
+            for (int i = 0; i < CardsCount; i++) {
+                hand.push_back(0);
+            }
+        
+            int cnt = 13;
+            int count = 1;
+            while (cnt > 0 && hand[CardsCount] == 0) {
+                if (result[cnt] != 0) {
+                    if (result[cnt] > 15) {
+                        result[cnt] /= 10000;
+                    }
+                    hand[count] = cnt + 1;
+                    count++;
+                    result[cnt]--;
+                }
+                else {
+                    cnt--;
+                }
+            }
+            handPlayer.push_back(hand);
+            
+            // For checking
+            std::cout << "Player " << i+1 << ": Power Hand: ";
+            for (int& elem : hand) {
+                std::cout << elem << " ";
+            }
+            std::cout << "\n";
 
+        }
+    }
+    
+    // If all players make a pass
+    if (cntPass == static_cast<int>(players.size())) {
+        return {123456};
+    }
+    
     // Finding a winner, taking into account high cards and combinations
     int cnt = 0;
     while (cnt < CardsCount) {
