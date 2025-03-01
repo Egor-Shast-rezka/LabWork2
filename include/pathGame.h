@@ -23,7 +23,11 @@ public:
 
     Game();
     ~Game();
-
+    
+    int answerUserCheckInt(std::string value);
+    
+    std::string answerUserCheckString(std::string value);
+    
     void setPlayer(std::string name);  // Creating players. 
     
     void setBot(std::string name, int index);

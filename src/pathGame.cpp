@@ -13,6 +13,55 @@
 Game::Game() {}
 Game::~Game() {}
 
+// Check answer user
+int Game::answerUserCheckInt(std::string value) {
+
+    int answer = -100;
+    while (true) {
+        std::cout << value;
+        std::cin >> answer;
+        
+        if (std::cin.fail() || answer < 0){
+            std::cin.clear();
+            
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "ERROR: Write integer!" << std::endl;
+        } else {
+            return answer;
+        }
+        
+    }
+    return 0;
+}
+
+std::string Game::answerUserCheckString(std::string value) {
+
+    std::string answer = "";
+    while (true) {
+        std::cout << value;
+        std::cin >> answer;
+        
+
+        bool isNumberOnly = true;
+        for (char c : answer) {
+            if (c < '0' || c > '9') {
+                isNumberOnly = false;
+                break;
+            }
+        }
+
+        if (std::cin.fail() || answer.empty() || isNumberOnly) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "ERROR: Write what is required using letters, not only numbers!" << std::endl;
+        } else {
+            return answer;
+        }
+        
+    }
+    return "";
+}
+
 // Creating players
 void Game::setPlayer(std::string name) {
     players.push_back(std::make_unique<Player>(name));
@@ -56,48 +105,30 @@ bool Game::checkContinueGame() {
 
 void Game::setMode(){
 
-    int answerPlayer1 = 0; // Number for chips
-    std::string answerPlayer2 = "NewPlayer";
-    
-    // Set name player
-    std::cout << "> Write your name: ";
-    std::cin >> answerPlayer2;
-    
-    setPlayer(answerPlayer2);
-    
-    std::cout << "Name has been set\n";
-    /*
     // Set game mode
     
     int modeChoice = 0;
-    while (!(modeChoice == 1 || modeChoice == 2 || modeChoice == 3 || modeChoice == 4)){
+    std::cout << "Choose game mode: 1 - AllBots, 2 - OneOnOne.\n";
+    while (!(modeChoice == 1 || modeChoice == 2)){
     
-        std::cout << "Choose game mode: 1 - AllBots, 2 - MoreChances, 3 - OneOnOne, 4 - WithoutCards.\n";
-        std::cout << "> Write name game mode: ";
-        std::cin >> modeChoice;
-        std::cout << "\n";
+        modeChoice = answerUserCheckInt("> Write name game mode: ");
+        
+        if (!(modeChoice == 1 || modeChoice == 2)) {
+            std::cout << "ERROR: Write integer 1 or 2!\n";
+        }
         
     } 
     
     if (modeChoice == 1) {
-        AllBots.setur(*this);
+        AllBots gamepath;
+        gamepath.setupForAllBots(*this);
     } if (modeChoice == 2) {
-        MoreChances.setur(*this);
-    } if (modeChoice == 3) {
-        OneOnOne.setur(*this);
-    } if (modeChoice == 4) {
-        WithoutCards.setur(*this);
-    }
+        OneOnOne gamepath;
+        gamepath.setupForAllBots(*this);
+    } 
     
-    std::cout << "Game mode has been set.\n";
-    */
-    // Set count chips
-    std::cout << "> Write chips for all player: ";
-    std::cin >> answerPlayer1;
+    std::cout << "Game mode has been set.\n\n========Start Play========\n";
     
-    setChipsAllPlayer(answerPlayer1);
-    
-    std::cout << "Chips has been set" << "\n";
 }
 
 void Game::setChipsAllPlayer(int count) {
