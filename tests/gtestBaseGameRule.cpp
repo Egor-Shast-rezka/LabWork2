@@ -99,7 +99,9 @@ TEST(DeallerTest, TestShuffleDeck) {
     Dealler dealer2;
     dealer1.shuffleDeck();
     dealer2.shuffleDeck();
-    EXPECT_NE(dealer1.getOneCard().getNumber(), dealer2.getOneCard().getNumber());
+    Card CardDealer1 = dealer1.getOneCard();
+    Card CardDealer2 = dealer2.getOneCard();
+    EXPECT_NE(CardDealer1.getNumber(), CardDealer2.getNumber());
 }
 
 TEST(DeallerTest, TestSearchWinner) {
