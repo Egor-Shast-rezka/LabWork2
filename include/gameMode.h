@@ -12,38 +12,20 @@
 
 
 // -------------------------
-class EaggedDeck : public Deck {
-public:
-    EaggedDeck();
-    
-    void viewNextCard();
-};
-/*
-
-// -------------------------
 class AllBots : public Game {
 public:
-    void setup(Game& game);
+
+    void setAllBots(Game& game, int complexity, std::string value);
+    void setupForAllBots(Game& game);
 };
-
-
-// -------------------------
-class MoreChances : public Game {
-public:
-    void setup(Game& game);
 
 
 // -------------------------
 class OneOnOne : public Game {
 public:
-    void setup(Game& game);
+
+    void setupForAllBots(Game& game);
 };
 
 
-// -------------------------
-class WithoutCards : public Game {
-public:
-    void setup(Game& game);
-};
-*/
 #endif

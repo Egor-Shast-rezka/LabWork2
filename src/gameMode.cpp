@@ -9,47 +9,66 @@
 #include "characters.h"
 #include "gameMode.h"
 
-// ---------------
-EaggedDeck::EaggedDeck() : Deck() {}
 
-void EaggedDeck::viewNextCard() {
-    if (cards.empty()) {
-        std::cout << "No cards left in the deck!" << std::endl;
-    }
-    else {
-        Card card = cards.back();
-        card.display();
+// -------------------------
+void AllBots::setAllBots(Game& game, int complexity, std::string value){
+    int answerPlayer2 = game.answerUserCheckInt(value);
+    
+    for (int i = 0; i < answerPlayer2; i++) {
+        std::string NameForBot = game.answerUserCheckString("> Write name for bot: ");
+        game.setBot(NameForBot, complexity);
     }
 }
 
-/*
 // -------------------------
-void AllBots::setup(Game& game) {
+void AllBots::setupForAllBots(Game& game) {
     std::cout << "Setting up AllBots mode.\n";
-    for (int i = 0; i < 4; ++i) {
-        game.setBot("Bot" + std::to_string(i + 1), 1);
-    }
+    
+    // Set name player
+    std::string answerPlayer1 = game.answerUserCheckString("> Write your name: ");
+    
+    game.setPlayer(answerPlayer1);
+    
+    std::cout << "Name for player has been set\n";
+    
+    // Set count bot
+    
+    // Easy bot
+    setAllBots(game, 1, "> Write count bot complexity easy: ");
+    
+    // Normal bot
+    setAllBots(game, 1, "> Write count bot complexity normal: ");
+    
+    // Hard bot
+    setAllBots(game, 1, "> Write count bot complexity hard: ");
+    
+    std::cout << "Names for bots has been set\n";
+    
+    // Set count chips
+    int answerPlayer3 = game.answerUserCheckInt("> Write chips for all player: ");
+    
+    game.setChipsAllPlayer(answerPlayer3);
+    
+    std::cout << "Chips has been set" << "\n";
+    
 }
 
 
 // -------------------------
-void MoreChances::setup(Game& game) {
-    std::cout << "Setting up MoreChances mode.\n";
-        // Здесь могут быть добавлены дополнительные возможности для игроков
-}
-
-
-// -------------------------
-void OneOnOne::setup(Game& game) {
+void OneOnOne::setupForAllBots(Game& game) {
     std::cout << "Setting up OneOnOne mode.\n";
-    game.setPlayer("Player1");
-    game.setPlayer("Player2");
+    /*
+    std::string answerPlayer1 = "NewPlayer";
+    int answerPlayer2 = 0;
+    
+    // Set name player
+    std::cout << "> Write count players: ";
+    std::cin >> answerPlayer;
+    
+    setPlayer(answerPlayer);
+    
+    std::cout << "Name has been set\n";
+    */
 }
 
 
-// -------------------------
-void WithoutCards::setup(Game& game) {
-    std::cout << "Setting up WithoutCards mode.\n";
-        // Здесь можно реализовать логику игры без карт
-}
-*/
