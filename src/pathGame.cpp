@@ -67,9 +67,29 @@ void Game::setPlayer(std::string name) {
     players.push_back(std::make_unique<Player>(name));
 }
 
+std::vector<std::unique_ptr<Player>>& Game::getPlayer() {
+    return players;
+}
+
 void Game::setDealler() { // Creating a dealer.
     Dealler diller;
     dealler = diller;
+}
+
+Dealler Game::getDealler() {
+    return dealler;
+}
+
+Card Game::seeLastCardInDeallerDeck() const { // See last card for Engaged deck
+    return dealler.seeLastCard();
+}
+    
+void Game::putOneCardInDeckInDeallerHand(Card card) { // Put one card in deck for CheaterPlayer
+    dealler.putOneCardInDeck(card);
+}
+
+std::vector<Card> Game::getAllCardsForTable() {
+    return cards;
 }
 
 // Function for adding bots
@@ -85,14 +105,33 @@ void Game::setBot(std::string name, int index) {
     }
 }
 
+void Game::setPlayerCharacter(std::string name, int index) {
+    
+    if (index == 1) {
+        players.push_back(std::make_unique<AllSeeingPlayer>(name));
+    }
+    // finish writing
+}
+
 void Game::resetGame() {
+    
+    if ((static_cast<int>(players.size()) * 2 + 3) * (CountGame + 2) > 52) {
+    
+        CountGame = 0;
+        dealler.newDeck();
+        dealler.shuffleDeck();
+        
+        std::cout << "> The cards are out. Get new colode!\n";
+    }
+    
+    CountGame++;
+    
     cards.clear();
-    dealler.newDeck();
-    dealler.shuffleDeck();
     currentBet = 0;
     for (auto& player : players) {
         player->delAllCards();
     }
+    
     std::cout << "\n";
 }
 
@@ -229,6 +268,7 @@ int Game::startGame() {
                         std::cout << "\n";
                         
                     } else {
+                        
                         std::string act = "";
                         
                         if (Allin == 0) {

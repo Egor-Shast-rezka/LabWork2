@@ -16,61 +16,27 @@
 
 
 // -------------------------
-class PlayerDecorator : public Player {
-protected:
-    Player* player;
-
-public:
-    PlayerDecorator(Player* p);
-    virtual ~PlayerDecorator();
-
-    virtual void setName(std::string name) override;
-    virtual std::string getName() const override;
-    virtual void getNameOnDisplay() const override;
-
-    virtual void setChips(int num) override;
-    virtual void getChipsOnDisplay() const override;
-    virtual int getChips() const override;
-
-    virtual void PlaceBid(int num) override;
-
-    virtual void setCard(Card elem) override;
-    virtual std::vector<Card> getAllCards() const override;
-
-    virtual void getCardsOnDisplay() const override;
-    virtual int getCountCards() const override;
-
-    virtual void delAllCards() override;
-
-    virtual bool isBot() override;
-    virtual int BotActions(int countChips, int currentBet, int Bank, int Allin) override;
-};
-
-
-// -------------------------
-class AllSeeingPlayer : public PlayerDecorator, public Game {
+class AllSeeingPlayer : public Player {
 public:
     
-    AllSeeingPlayer(Player* p);
+    AllSeeingPlayer(std::string name);
     
-    Card CheckCardEnemy(Game& game, int player, int card);
+    bool isCharacter() override;
     
-    Card CharacterActions(Game& game, int player, int card);
+    Card CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler, int player, int card) override;
 };
 
 /*
 // -------------------------
-class CheaterPlayer : public PlayerDecorator, public Game {
+class CheaterPlayer : public Player {
 public:
     
-    CheaterPlayer(Player* p);
+    CheaterPlayer(std::string name);
     
     bool isCharacter() override;
     
-    void ReplaceCardInHand(Game& game, Dealler& dealler, int card);
-    
-    int CharacterActions();
+    Card CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler, int player, int card);
 };
-
 */
+
 #endif

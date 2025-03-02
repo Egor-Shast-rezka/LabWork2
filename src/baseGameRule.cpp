@@ -194,8 +194,9 @@ bool Player::isCharacter(){
     return false;
 }
 
-int Player::CharacterActions(){
-    return 0;
+Card Player::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler, int player, int card) {
+    Card empty(1, 1);
+    return empty;
 }
 
 
@@ -249,6 +250,14 @@ void Dealler::newDeck() {
     deck = Deck();
 }
 
+Card Dealler::seeLastCard() const { // See last card for Engaged deck
+    return deck.seeLastCard();
+}
+
+void Dealler::putOneCardInDeck(Card card) { // Put one card in deck for CheaterPlayer
+    deck.putOneCardInDeck(card);
+}
+
 std::vector<int> Dealler::SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<int>& DataPass) const { // Search for a winner
     std::vector<int> answer; // Final number of winning players
     std::vector<std::vector<int>> handPlayer; // List of cards in players hands
@@ -270,7 +279,7 @@ std::vector<int> Dealler::SearchWinner(std::vector<Player>& players, std::vector
             cntPass++;
             
             // For checking
-            std::cout << "Player " << i+1 << "passed.\n";
+            std::cout << "Player " << i+1 << " passed.\n";
             
         } else {
         

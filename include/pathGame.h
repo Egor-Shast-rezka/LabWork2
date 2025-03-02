@@ -8,7 +8,6 @@
 #include <memory>
 #include <cstring>
 
-
 #ifndef PATHGAME_H
 #define PATHGAME_H
 
@@ -21,6 +20,7 @@ protected:
     int Character;
     int currentBet; // Current rate
     int Bank;
+    int CountGame;
     
 public:
 
@@ -33,9 +33,21 @@ public:
     
     void setPlayer(std::string name);  // Creating players. 
     
+    std::vector<std::unique_ptr<Player>>& getPlayer();
+    
     void setBot(std::string name, int index);
     
+    void setPlayerCharacter(std::string name, int index);
+    
     void setDealler();  // Creating a dealer.
+    
+    Dealler getDealler();
+    
+    Card seeLastCardInDeallerDeck() const; // See last card for Engaged deck
+    
+    void putOneCardInDeckInDeallerHand(Card card); // Put one card in deck for CheaterPlayer
+    
+    std::vector<Card> getAllCardsForTable();
     
     void resetGame();
     

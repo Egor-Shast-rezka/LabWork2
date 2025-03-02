@@ -8,6 +8,8 @@
 #include <algorithm> // Just for shuffle
 #include <random>
 #include <cstring>
+#include <memory>
+
 
 #ifndef BASEGAMERULE_H
 #define BASEGAMERULE_H
@@ -87,31 +89,31 @@ private:
 public:
 
     Player(std::string name);
-    virtual ~Player();
+    ~Player();
 
-    virtual void setName(std::string name);  // Set Name
+    void setName(std::string name);  // Set Name
 
-    virtual void getNameOnDisplay() const;
+    void getNameOnDisplay() const;
 
-    virtual std::string getName() const;
+    std::string getName() const;
 
-    virtual void setChips(int num);  // Set deb
+    void setChips(int num);  // Set deb
 
-    virtual void getChipsOnDisplay() const;
+    void getChipsOnDisplay() const;
 
-    virtual int getChips() const;
+    int getChips() const;
 
-    virtual void PlaceBid(int num);  // Make a bed
+    void PlaceBid(int num);  // Make a bed
 
-    virtual void setCard(Card elem);  // Set Card
+    void setCard(Card elem);  // Set Card
 
-    virtual std::vector<Card> getAllCards() const;
+    std::vector<Card> getAllCards() const;
 
-    virtual void getCardsOnDisplay() const;  // Get cards in hand on display
+    void getCardsOnDisplay() const;  // Get cards in hand on display
 
-    virtual int getCountCards() const;  // Get count card in head
+    int getCountCards() const;  // Get count card in head
 
-    virtual void delAllCards();  // Delete all cards after end play
+    void delAllCards();  // Delete all cards after end play
     
     virtual bool isBot();
 
@@ -119,7 +121,7 @@ public:
     
     virtual bool isCharacter();
     
-    virtual int CharacterActions();
+    virtual Card CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler, int player, int card);
     
 };
 
@@ -145,6 +147,10 @@ public:
     Card getOneCard();  // Drawing a card from the deck
     
     void newDeck();
+    
+    Card seeLastCard() const; // See last card for Engaged deck
+    
+    void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
 
     std::vector<int> SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<int>& DataPass) const;  // Search for a winner
 };
