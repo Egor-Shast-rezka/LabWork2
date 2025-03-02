@@ -12,6 +12,18 @@
 
 // -------------------------
 void AllBots::setAllBots(Game& game, int complexity, std::string value){
+    /*
+    int answerPlayer2 = 0;
+    while (answerPlayer2 + static_cast<int>(players.size()) - 1 <= 23) {
+        
+        answerPlayer2 = game.answerUserCheckInt(value);
+            
+        if (answerPlayer2 + static_cast<int>(players.size()) - 1 <= 23) {
+            std::cout << "ERROR: All count bots < 23!\n";
+            answerPlayer2 = 0;
+        }
+    }
+    */
     int answerPlayer2 = game.answerUserCheckInt(value);
     
     for (int i = 0; i < answerPlayer2; i++) {
@@ -27,8 +39,22 @@ void AllBots::setupForAllBots(Game& game) {
     // Set name player
     std::string answerPlayer1 = game.answerUserCheckString("> Write your name: ");
     
-    game.setPlayer(answerPlayer1);
-    //game.setPlayer(new AllSeeingPlayer(new Player(answerPlayer1)));
+    // if Character = 1, choise character
+    if (Character == 1) {
+        int act = 0;
+        while (!(act == 1 || act == 2 || act == 3 || act == 4 || act == 5 || act == 6)) {
+            
+            act = game.answerUserCheckInt("> Choise your class: 1 - AllSeeingPlayer, 2 -  , 3 -  , 4 -  , 5 -  , 6 -  .");
+            
+            if (!(act == 1 || act == 2 || act == 3 || act == 4 || act == 5 || act == 6)) {
+                std::cout << "ERROR: Write number in range 1 - 6";
+            }
+        }
+        
+        game.setPlayerCharacter(answerPlayer1, act);
+    } else {
+        game.setPlayer(answerPlayer1);
+    }
     
     std::cout << "Name for player has been set\n";
     
