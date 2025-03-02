@@ -17,6 +17,8 @@ protected:
     std::vector<std::unique_ptr<Player>> players; // List of players
     std::vector<Card> cards; // List of cards on the table
     Dealler dealler; // Dealer at the table
+    
+    int Character;
     int currentBet; // Current rate
     int Bank;
     
@@ -43,7 +45,7 @@ public:
     
     void setChipsAllPlayer(int count);
     
-    int startGame();  // Issuing chips
+    int startGame();
 };
 
 #endif

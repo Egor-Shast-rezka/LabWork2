@@ -101,15 +101,34 @@ bool Game::checkContinueGame() {
     std::string act = "";
     while (!(act == "y" || act == "n")){
         act = answerUserCheckString("Do you want to continue the game? (y/n): ");
+        
+        if (!(act == "y" || act == "n")) {
+        
+            std::cout << "ERROR: Write integer 'y' or 'n'!\n";
+        }
     }
 
     return act == "y";
 }
 
 void Game::setMode(){
-
-    // Set game mode
     
+    // Set Character for Player
+    std::string setCharacter = "";
+    while (!(setCharacter == "y" || setCharacter == "n")){
+        setCharacter = answerUserCheckString("> Do you want to play with character? (y/n): ");
+        
+        if (!(setCharacter == "y" || setCharacter == "n")) {
+        
+            std::cout << "ERROR: Write integer 'y' or 'n'!\n";
+        }
+    }
+        
+    if (setCharacter == "y") {
+        Character = 1;
+    }
+    
+    // Set game mode
     int modeChoice = 0;
     std::cout << "Choose game mode: 1 - AllBots, 2 - OneOnOne.\n";
     while (!(modeChoice == 1 || modeChoice == 2)){
@@ -127,8 +146,8 @@ void Game::setMode(){
         gamepath.setupForAllBots(*this);
     } if (modeChoice == 2) {
         OneOnOne gamepath;
-        gamepath.setupForAllBots(*this);
-    } 
+        gamepath.setupForAllPlayers(*this);
+    }
     
     // Set count chips
     int answerPlayer = answerUserCheckInt("> Write chips for all player: ");
@@ -172,7 +191,7 @@ int Game::startGame() {
         }
 
         for (auto& player : players) {
-            player->getName();
+            player->getNameOnDisplay();
             player->getChipsOnDisplay();
             if (!player->isBot()) {
                 player->getCardsOnDisplay();
@@ -195,7 +214,7 @@ int Game::startGame() {
                     if (players[i]->isBot()) {
                 
                         int BotBet = players[i]->BotActions(players[i]->getChips(), currentBet, Bank, Allin);
-                        players[i]->getName();
+                        players[i]->getNameOnDisplay();
                         if (BotBet == Bank - currentBet) {
                     
                             std::cout << "Bot get All in!" << "\n";
@@ -230,7 +249,7 @@ int Game::startGame() {
                             }
                         }
                         
-                        players[i]->getName();
+                        players[i]->getNameOnDisplay();
                         
                         if (act == "pass") {
                         
