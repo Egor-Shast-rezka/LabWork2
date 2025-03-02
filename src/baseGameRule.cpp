@@ -61,6 +61,25 @@ Card Deck::deal() { // Take one card from deck
         return Last_Card;
     }
 }
+
+Card Deck::seeLastCard() const {
+    if (cards.size() == 0) {
+        throw std::out_of_range("No cards left in the deck!"); // Error if in deck none cards
+    }
+    else {
+        return cards.back();
+    }
+}
+
+void Deck::putOneCardInDeck(Card card) {
+
+     std::random_device rd;
+     std::mt19937 gen(rd());
+     std::uniform_int_distribution<> distr(0, cards.size());
+
+     cards.insert(cards.begin() + distr(gen), card);
+
+}
     
     
 // -----------------------------
@@ -108,12 +127,16 @@ void Player::setName(std::string name) { // Set Name
     Name = name;
 }
 
-void Player::getName() const { // Get Name
+void Player::getNameOnDisplay() const { // Get Name on display
     std::cout << "Player name: ";
     for (std::size_t i = 0; i < Name.size(); i++) {
         std::cout << Name[i];
     }
     std::cout << ".\n";
+}
+
+std::string Player::getName() const { // Get Name
+    return Name;
 }
 
 void Player::setChips(int num) { // Set deb
@@ -166,6 +189,15 @@ bool Player::isBot() {
 int Player::BotActions(int countChips, int currentBet, int Bank, int Allin) {
     return 0;
 }
+
+bool Player::isCharacter(){
+    return false;
+}
+
+int Player::CharacterActions(){
+    return 0;
+}
+
 
 //----------------------
 std::vector<std::vector<int>> search_max_number(std::vector<std::vector<int>>& vectors, int index) {

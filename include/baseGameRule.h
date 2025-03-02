@@ -48,6 +48,10 @@ public:
     void shuffle(); // Shuffle cards in deck
 
     Card deal(); // Take one card from deck
+    
+    Card seeLastCard() const; // See last card for Engaged deck
+    
+    void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
 };
 
 
@@ -83,33 +87,40 @@ private:
 public:
 
     Player(std::string name);
-    ~Player();
+    virtual ~Player();
 
-    void setName(std::string name);  // Set Name
+    virtual void setName(std::string name);  // Set Name
 
-    void getName() const;  // Get Name
+    virtual void getNameOnDisplay() const;
 
-    void setChips(int num);  // Set deb
+    virtual std::string getName() const;
 
-    void getChipsOnDisplay() const;
+    virtual void setChips(int num);  // Set deb
 
-    int getChips() const;
+    virtual void getChipsOnDisplay() const;
 
-    void PlaceBid(int num);  // Make a bed
+    virtual int getChips() const;
 
-    void setCard(Card elem);  // Set Card
+    virtual void PlaceBid(int num);  // Make a bed
 
-    std::vector<Card> getAllCards() const;
+    virtual void setCard(Card elem);  // Set Card
 
-    void getCardsOnDisplay() const;  // Get cards in hand on display
+    virtual std::vector<Card> getAllCards() const;
 
-    int getCountCards() const;  // Get count card in head
+    virtual void getCardsOnDisplay() const;  // Get cards in hand on display
 
-    void delAllCards();  // Delete all cards after end play
+    virtual int getCountCards() const;  // Get count card in head
+
+    virtual void delAllCards();  // Delete all cards after end play
     
     virtual bool isBot();
 
     virtual int BotActions(int countChips, int currentBet, int Bank, int Allin);
+    
+    virtual bool isCharacter();
+    
+    virtual int CharacterActions();
+    
 };
 
 
