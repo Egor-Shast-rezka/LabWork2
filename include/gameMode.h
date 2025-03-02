@@ -24,7 +24,7 @@ public:
 class OneOnOne : public Game {
 public:
 
-    void setupForAllBots(Game& game);
+    void setupForAllPlayers(Game& game);
 };
 
 

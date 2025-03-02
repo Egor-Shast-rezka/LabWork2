@@ -28,6 +28,7 @@ void AllBots::setupForAllBots(Game& game) {
     std::string answerPlayer1 = game.answerUserCheckString("> Write your name: ");
     
     game.setPlayer(answerPlayer1);
+    //game.setPlayer(new AllSeeingPlayer(new Player(answerPlayer1)));
     
     std::cout << "Name for player has been set\n";
     
@@ -48,7 +49,7 @@ void AllBots::setupForAllBots(Game& game) {
 
 
 // -------------------------
-void OneOnOne::setupForAllBots(Game& game) {
+void OneOnOne::setupForAllPlayers(Game& game) {
     std::cout << "Setting up OneOnOne mode.\n";
     /*
     std::string answerPlayer1 = "NewPlayer";
