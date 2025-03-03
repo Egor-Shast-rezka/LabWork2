@@ -11,6 +11,81 @@
 
 
 // ---------------------------
+
+bool ContactWithPlayer::isNumber(std::string answer) {
+    for (char c : answer) {
+        if (c < '0' || c > '9') {
+            return false;
+        }
+    }
+    return true;
+}
+     
+int ContactWithPlayer::stringToInt(const std::string& str) {
+    int number = 0;
+    for (char c : str) {
+        number = number * 10 + (c - '0');
+    }
+    return number;
+}
+
+// Check answer user
+int ContactWithPlayer::answerUserCheckInt(std::string value) {
+    std::string answer = "";
+    while (true) {
+        std::cout << value;
+        std::cin >> answer;
+
+        if (answer == "rule") {
+            
+            Rule rule;
+            rule.getRuleOnDisplay(*this);
+            std::cin.clear();
+        } else {
+        
+            if (!isNumber(answer)) {
+                std::cout << "ERROR: Write integer!" << std::endl;
+                std::cin.clear();
+            } else {
+
+                return stringToInt(answer);
+            }
+        }
+    }
+    return 0;
+}
+
+std::string ContactWithPlayer::answerUserCheckString(std::string value) {
+
+    std::string answer = "";
+    while (true) {
+        std::cout << value;
+        std::cin >> answer;
+        
+        if (std::cin.fail() || answer.empty() || isNumber(answer)) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "ERROR: Write what is required using letters, not only numbers!" << std::endl;
+        } else {
+        
+            if (answer == "rule"){
+            
+                Rule rule;
+                rule.getRuleOnDisplay(*this);
+                std::cin.clear();
+                
+            } else {
+            
+                return answer;
+            }
+        }
+        
+    }
+    return "";
+}
+
+
+// ---------------------------
 Card::Card(int num, int val): number(num), suit(val){}
 Card::~Card() {}
 

@@ -19,6 +19,8 @@ protected:
     std::vector<Card> cards; // List of cards on the table
     Dealler dealler; // Dealer at the table
     
+    ContactWithPlayer contact;
+    
     int Character;
     int currentBet; // Current rate
     int Bank;
@@ -28,14 +30,6 @@ public:
 
     Game();
     ~Game();
-    
-    bool isNumber(std::string answer);
-    
-    int stringToInt(const std::string& str);
-    
-    int answerUserCheckInt(std::string value);
-    
-    std::string answerUserCheckString(std::string value);
     
     void setPlayer(std::string name);  // Creating players. 
     
@@ -73,9 +67,9 @@ public:
 class Rule {
 public:
 
-    bool resetGetRule(Game& game);
+    bool resetGetRule(ContactWithPlayer& contact);
     
-    void getRuleOnDisplay(Game& game);
+    void getRuleOnDisplay(ContactWithPlayer& contact);
     
 };
 

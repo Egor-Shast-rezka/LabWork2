@@ -13,78 +13,6 @@
 Game::Game() {}
 Game::~Game() {}
 
-bool Game::isNumber(std::string answer) {
-    for (char c : answer) {
-        if (c < '0' || c > '9') {
-            return false;
-        }
-    }
-    return true;
-}
-     
-int Game::stringToInt(const std::string& str) {
-    int number = 0;
-    for (char c : str) {
-        number = number * 10 + (c - '0');
-    }
-    return number;
-}
-
-// Check answer user
-int Game::answerUserCheckInt(std::string value) {
-    std::string answer = "";
-    while (true) {
-        std::cout << value;
-        std::cin >> answer;
-
-        if (answer == "rule") {
-            
-            Rule rule;
-            rule.getRuleOnDisplay(*this);
-            std::cin.clear();
-        } else {
-        
-            if (!isNumber(answer)) {
-                std::cout << "ERROR: Write integer!" << std::endl;
-                std::cin.clear();
-            } else {
-
-                return stringToInt(answer);
-            }
-        }
-    }
-    return 0;
-}
-
-std::string Game::answerUserCheckString(std::string value) {
-
-    std::string answer = "";
-    while (true) {
-        std::cout << value;
-        std::cin >> answer;
-        
-        if (std::cin.fail() || answer.empty() || isNumber(answer)) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "ERROR: Write what is required using letters, not only numbers!" << std::endl;
-        } else {
-        
-            if (answer == "rule"){
-            
-                Rule rule;
-                rule.getRuleOnDisplay(*this);
-                std::cin.clear();
-                
-            } else {
-            
-                return answer;
-            }
-        }
-        
-    }
-    return "";
-}
-
 // Creating players
 void Game::setPlayer(std::string name) {
     players.push_back(std::make_unique<Player>(name));
@@ -166,7 +94,7 @@ bool Game::checkContinueGame() {
 
     std::string act = "";
     while (!(act == "y" || act == "n")){
-        act = answerUserCheckString("Do you want to continue the game? (y/n): ");
+        act = contact.answerUserCheckString("Do you want to continue the game? (y/n): ");
         
         if (!(act == "y" || act == "n")) {
         
@@ -182,7 +110,7 @@ void Game::setMode(){
     // Set Character for Player
     std::string setCharacter = "";
     while (!(setCharacter == "y" || setCharacter == "n")){
-        setCharacter = answerUserCheckString("> Do you want to play with character? (y/n): ");
+        setCharacter = contact.answerUserCheckString("> Do you want to play with character? (y/n): ");
         
         if (!(setCharacter == "y" || setCharacter == "n")) {
         
@@ -199,7 +127,7 @@ void Game::setMode(){
     std::cout << "Choose game mode: 1 - AllBots, 2 - OneOnOne.\n";
     while (!(modeChoice == 1 || modeChoice == 2)){
     
-        modeChoice = answerUserCheckInt("> Write name game mode: ");
+        modeChoice = contact.answerUserCheckInt("> Write name game mode: ");
         
         if (!(modeChoice == 1 || modeChoice == 2)) {
             std::cout << "ERROR: Write integer 1 or 2!\n";
@@ -216,7 +144,7 @@ void Game::setMode(){
     }
     
     // Set count chips
-    int answerPlayer = answerUserCheckInt("> Write chips for all player: ");
+    int answerPlayer = contact.answerUserCheckInt("> Write chips for all player: ");
     
     setChipsAllPlayer(answerPlayer);
     
@@ -304,7 +232,7 @@ int Game::startGame() {
                         if (Character == 1) {
                             if (Allin == 0) {
                                 while (!(act == "pass" || act == "call" || act == "allin" || act == "act")){
-                                    act = answerUserCheckString("Your answer (pass, call, allin, act): ");
+                                    act = contact.answerUserCheckString("Your answer (pass, call, allin, act): ");
                                 
                                     if (!(act == "pass" || act == "call" || act == "allin" || act == "act")) {
                                         std::cout << "Available actions: pass, call, allin, act.\n";
@@ -312,7 +240,7 @@ int Game::startGame() {
                                 }
                             } else {
                                 while (!(act == "allin" || act == "pass" || act == "act")){
-                                    act = answerUserCheckString("Your answer (pass, allin, act): ");
+                                    act = contact.answerUserCheckString("Your answer (pass, allin, act): ");
                                     
                                     if (!(act == "allin" || act == "pass" || act == "act")) {
                                         std::cout << "All in was made, bet all, pass or made an act.\n";
@@ -322,7 +250,7 @@ int Game::startGame() {
                         } else {
                             if (Allin == 0) {
                                 while (!(act == "pass" || act == "call" || act == "allin")){
-                                    act = answerUserCheckString("Your answer (pass, call, allin): ");
+                                    act = contact.answerUserCheckString("Your answer (pass, call, allin): ");
                                 
                                     if (!(act == "pass" || act == "call" || act == "allin")) {
                                         std::cout << "Available actions: pass, call, allin.\n";
@@ -330,7 +258,7 @@ int Game::startGame() {
                                 }
                             } else {
                                 while (!(act == "allin" || act == "pass")){
-                                    act = answerUserCheckString("Your answer (pass, allin): ");
+                                    act = contact.answerUserCheckString("Your answer (pass, allin): ");
                                     
                                     if (!(act == "allin" || act == "pass")) {
                                         std::cout << "All in was made, bet all or pass.\n";
@@ -349,7 +277,7 @@ int Game::startGame() {
                             
                         } if (act == "call") {
                             
-                            int bet = answerUserCheckInt("Your bet (write 0 if you wishn`t make a chip): ");
+                            int bet = contact.answerUserCheckInt("Your bet (write 0 if you wishn`t make a chip): ");
 
                             currentBet += bet;
                             players[i]->PlaceBid(bet);
@@ -407,40 +335,42 @@ int Game::startGame() {
 
 
 // -------------------
-bool Rule::resetGetRule(Game& game) {
-    std::string answer = game.answerUserCheckString("> Do you want to know any other rules?");
+bool Rule::resetGetRule(ContactWithPlayer& contact) {
+    std::string answer = contact.answerUserCheckString("> Do you want to know any other rules?");
     while (!(answer == "y" || answer == "n")) {
         std::cout << "ERROR: Write 'y' or 'n'\n";
         
-        answer = game.answerUserCheckInt("> Do you want to know any other rules? (y, n)");
+        answer = contact.answerUserCheckInt("> Do you want to know any other rules? (y, n)");
     }
     return answer == "y";
 }
 
-void Rule::getRuleOnDisplay(Game& game) {
+void Rule::getRuleOnDisplay(ContactWithPlayer& contact) {
     std::cout << "\n\n===============Game Rule===============\n";
     do {
-        int act = game.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-...): ");
+        int act = contact.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-...): ");
         while (!(act == 1 || act == 2 || act == 3 || act == 4 || act == 5 || act == 6)) {
             std::cout << "ERROR: Choise integer in range 1 - 6\n";
         
-            act = game.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-...): ");
+            act = contact.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-...): ");
         }
     
         if (act == 1) {
             std::cout << "\n\n===============Bot Rule===============\nThere are 3 types of bots: simple, normal and complex. The maximum number of bots is 23 (excluding the player and with standard rules of the game with 2 cards for the player and 3 cards on the table). \n1) A simple bot acts completely randomly, does not pass, and only goes all-in if the player does so.\n2) A normal bot calculates the chance of winning based on the cards in hand and the remaining cards in the deck, can pass and go all-in.\n3) A complex bot is a simple AI, can pass and go all-in.\n4) Bots cannot be assigned characters, or have their difficulty changed during the game.\n";
         } if (act == 2) {
-            std::cout << "> There are no rules yet.";
+            std::cout << "> There are no rules yet.\n";
         } if (act == 3) {
-            std::cout << "> There are no rules yet.";
+            std::cout << "> There are no rules yet.\n";
         } if (act == 4) {
-            std::cout << "> There are no rules yet.";
+            std::cout << "> There are no rules yet.\n";
         } if (act == 5) {
-            std::cout << "> There are no rules yet.";
+            std::cout << "> There are no rules yet.\n";
         } if (act == 6) {
-            std::cout << "> There are no rules yet.";
+            std::cout << "> There are no rules yet.\n";
         } 
-    } while (resetGetRule(game));
+    } while (resetGetRule(contact));
+    
+    std::cout << "\n\n=============Exit Game Rule============\n";
 }
 
 

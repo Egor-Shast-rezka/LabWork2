@@ -19,12 +19,12 @@ bool AllSeeingPlayer::isCharacter() {
 
 void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler) {
     
-    //int player = answerUserCheckInt("Which player does the action apply to?: ");
-    //int card = answerUserCheckInt("Which card does the action apply to?: ");
+    int player = contact.answerUserCheckInt("Which player does the action apply to?: ");
+    int card = contact.answerUserCheckInt("Which card does the action apply to?: ");
     
-    //Card characterCardAct = players[player-1].get()->getAllCards()[card-1];
+    Card characterCardAct = players[player-1].get()->getAllCards()[card-1];
     
-    std::cout << "Rang card: " /*<< characterCardAct.getNumber() << ", suit card: " << characterCardAct.getSuit() << "\n"*/;
+    std::cout << "Rang card: " << characterCardAct.getNumber() << ", suit card: " << characterCardAct.getSuit() << "\n";
 }
 
 /*

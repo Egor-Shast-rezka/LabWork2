@@ -13,6 +13,9 @@
 
 // -------------------------
 class AllBots : public Game {
+private:
+    ContactWithPlayer contact;
+    
 public:
 
     void setAllBots(Game& game, int complexity, std::string value);

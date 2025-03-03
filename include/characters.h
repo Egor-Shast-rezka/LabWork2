@@ -17,6 +17,9 @@
 
 // -------------------------
 class AllSeeingPlayer : public Player {
+private:
+    ContactWithPlayer contact;
+    
 public:
     
     AllSeeingPlayer(std::string name);

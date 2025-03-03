@@ -16,6 +16,18 @@
 
 
 // ----------------------
+class ContactWithPlayer {
+public:
+    bool isNumber(std::string answer);
+    
+    int stringToInt(const std::string& str);
+    
+    int answerUserCheckInt(std::string value);
+    
+    std::string answerUserCheckString(std::string value);
+};
+
+// ----------------------
 class Card {
 private:
     int number; // Number card (11 - Valet, 12 - Dama, 13 - Korol, 14 - Tus)
