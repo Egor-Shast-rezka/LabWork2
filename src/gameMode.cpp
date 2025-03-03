@@ -36,11 +36,11 @@ void AllBots::setupForAllBots(Game& game) {
     std::string answerPlayer1 = game.answerUserCheckString("> Write your name: ");
     
     // if Character = 1, choise character
-    if (Character == 1) {
+    if (game.getCharacter() == 1) {
         int act = 0;
         while (!(act == 1 || act == 2 || act == 3 || act == 4 || act == 5 || act == 6)) {
             
-            act = game.answerUserCheckInt("> Choise your class: 1 - AllSeeingPlayer, 2 -  , 3 -  , 4 -  , 5 -  , 6 -  .");
+            act = game.answerUserCheckInt("> Choise your class (1 - AllSeeingPlayer, 2 -  , 3 -  , 4 -  , 5 -  , 6 -  .): ");
             
             if (!(act == 1 || act == 2 || act == 3 || act == 4 || act == 5 || act == 6)) {
                 std::cout << "ERROR: Write number in range 1 - 6";
@@ -48,11 +48,12 @@ void AllBots::setupForAllBots(Game& game) {
         }
         
         game.setPlayerCharacter(answerPlayer1, act);
+        std::cout << "Name and character for player has been set\n";
+        
     } else {
         game.setPlayer(answerPlayer1);
+        std::cout << "Name for player has been set\n";
     }
-    
-    std::cout << "Name for player has been set\n";
     
     // Set count bot
     

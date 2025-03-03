@@ -23,7 +23,7 @@ public:
     
     bool isCharacter() override;
     
-    Card CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler, int player, int card) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler) override;
 };
 
 /*

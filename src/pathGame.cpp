@@ -103,6 +103,10 @@ Dealler Game::getDealler() {
     return dealler;
 }
 
+int Game::getCharacter() {
+    return Character;
+}
+
 Card Game::seeLastCardInDeallerDeck() const { // See last card for Engaged deck
     return dealler.seeLastCard();
 }
@@ -232,7 +236,9 @@ void Game::setChipsAllPlayer(int count) {
 
 // Main function to start the game
 int Game::startGame() {
-
+    
+    std::cout << "> To enter settings or open rules, write 'rule' and 'setting' respectively.\n";
+    
     setMode();
     
     // Path game
@@ -255,9 +261,10 @@ int Game::startGame() {
         for (auto& player : players) {
             player->getNameOnDisplay();
             player->getChipsOnDisplay();
-            if (!player->isBot()) {
-                player->getCardsOnDisplay();
-            }
+            //if (!player->isBot()) {
+            //    player->getCardsOnDisplay();
+            //}
+            player->getCardsOnDisplay();
             std::cout << "\n";
         }
 
@@ -294,23 +301,44 @@ int Game::startGame() {
                         
                         std::string act = "";
                         
-                        if (Allin == 0) {
-                            while (!(act == "pass" || act == "call" || act == "allin")){
-                                act = answerUserCheckString("Your answer (pass, call, allin): ");
+                        if (Character == 1) {
+                            if (Allin == 0) {
+                                while (!(act == "pass" || act == "call" || act == "allin" || act == "act")){
+                                    act = answerUserCheckString("Your answer (pass, call, allin, act): ");
                                 
-                                if (!(act == "pass" || act == "call" || act == "allin")) {
-                                    std::cout << "Available actions: pass, call, allin.\n";
+                                    if (!(act == "pass" || act == "call" || act == "allin" || act == "act")) {
+                                        std::cout << "Available actions: pass, call, allin, act.\n";
+                                    }
+                                }
+                            } else {
+                                while (!(act == "allin" || act == "pass" || act == "act")){
+                                    act = answerUserCheckString("Your answer (pass, allin, act): ");
+                                    
+                                    if (!(act == "allin" || act == "pass" || act == "act")) {
+                                        std::cout << "All in was made, bet all, pass or made an act.\n";
+                                    }
                                 }
                             }
                         } else {
-                            while (!(act == "allin" || act == "pass")){
-                                act = answerUserCheckString("Your answer (pass, allin): ");
+                            if (Allin == 0) {
+                                while (!(act == "pass" || act == "call" || act == "allin")){
+                                    act = answerUserCheckString("Your answer (pass, call, allin): ");
                                 
-                                if (!(act == "allin" || act == "pass")) {
-                                    std::cout << "All in was made, bet all or pass.\n";
+                                    if (!(act == "pass" || act == "call" || act == "allin")) {
+                                        std::cout << "Available actions: pass, call, allin.\n";
+                                    }
+                                }
+                            } else {
+                                while (!(act == "allin" || act == "pass")){
+                                    act = answerUserCheckString("Your answer (pass, allin): ");
+                                    
+                                    if (!(act == "allin" || act == "pass")) {
+                                        std::cout << "All in was made, bet all or pass.\n";
+                                    }
                                 }
                             }
                         }
+                        
                         
                         players[i]->getNameOnDisplay();
                         
@@ -333,6 +361,12 @@ int Game::startGame() {
                             Allin = 1;
                             currentBet += players[i]->getChips();
                             players[i]->PlaceBid(players[i]->getChips());
+                            
+                        } if (act == "act") {
+                        
+                            std::cout << "The player uses the character's ability.\n";
+                            
+                            players[i]->CharacterActions(getPlayer(), getAllCardsForTable(), getDealler().getAllCardsFromDeck());
                             
                         }
                         std::cout << "\n";
@@ -414,7 +448,6 @@ void Rule::getRuleOnDisplay(Game& game) {
 void Timer::setTimerForGame() { 
     std::cout << "Add Timer\n";
 }
-
 
 
 // -------------------

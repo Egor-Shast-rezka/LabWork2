@@ -14,6 +14,7 @@
 #ifndef BASEGAMERULE_H
 #define BASEGAMERULE_H
 
+
 // ----------------------
 class Card {
 private:
@@ -54,6 +55,9 @@ public:
     Card seeLastCard() const; // See last card for Engaged deck
     
     void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
+    
+    std::vector<Card> getAllCards() const;
+    
 };
 
 
@@ -121,7 +125,7 @@ public:
     
     virtual bool isCharacter();
     
-    virtual Card CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler, int player, int card);
+    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler);
     
 };
 
@@ -151,6 +155,8 @@ public:
     Card seeLastCard() const; // See last card for Engaged deck
     
     void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
+    
+    std::vector<Card> getAllCardsFromDeck() const;
 
     std::vector<int> SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<int>& DataPass) const;  // Search for a winner
 };

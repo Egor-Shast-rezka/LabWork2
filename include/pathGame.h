@@ -49,6 +49,8 @@ public:
     
     Dealler getDealler();
     
+    int getCharacter();
+    
     Card seeLastCardInDeallerDeck() const; // See last card for Engaged deck
     
     void putOneCardInDeckInDeallerHand(Card card); // Put one card in deck for CheaterPlayer
