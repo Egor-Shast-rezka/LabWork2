@@ -78,4 +78,21 @@ public:
 };
 
 
+// -------------------
+class Timer : public Game {
+public:
+    
+    void setTimerForGame();
+};
+
+
+// -------------------
+class Settings : public Game {
+public:
+    
+    void setGameSettings();
+    
+};
+
+
 #endif

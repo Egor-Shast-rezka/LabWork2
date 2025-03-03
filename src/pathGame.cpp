@@ -409,3 +409,17 @@ void Rule::getRuleOnDisplay(Game& game) {
     } while (resetGetRule(game));
 }
 
+
+// -------------------  
+void Timer::setTimerForGame() { 
+    std::cout << "Add Timer\n";
+}
+
+
+
+// -------------------
+void Settings::setGameSettings() {
+    std::cout << "Add Settings\n";
+}
+    
+
