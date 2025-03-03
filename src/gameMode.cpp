@@ -12,19 +12,15 @@
 
 // -------------------------
 void AllBots::setAllBots(Game& game, int complexity, std::string value){
-    /*
-    int answerPlayer2 = 0;
-    while (answerPlayer2 + static_cast<int>(players.size()) - 1 <= 23) {
+    
+    int answerPlayer2 = game.answerUserCheckInt(value);
+    
+    while (answerPlayer2 + static_cast<int>(game.getPlayer().size()) > 24) {
+        
+        std::cout << "ERROR: All count bots < 23!\n";
         
         answerPlayer2 = game.answerUserCheckInt(value);
-            
-        if (answerPlayer2 + static_cast<int>(players.size()) - 1 <= 23) {
-            std::cout << "ERROR: All count bots < 23!\n";
-            answerPlayer2 = 0;
-        }
     }
-    */
-    int answerPlayer2 = game.answerUserCheckInt(value);
     
     for (int i = 0; i < answerPlayer2; i++) {
         std::string NameForBot = game.answerUserCheckString("> Write name for bot: ");
