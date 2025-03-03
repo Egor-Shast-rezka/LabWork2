@@ -13,23 +13,45 @@
 Game::Game() {}
 Game::~Game() {}
 
+bool Game::isNumber(std::string answer) {
+    for (char c : answer) {
+        if (c < '0' || c > '9') {
+            return false;
+        }
+    }
+    return true;
+}
+     
+int Game::stringToInt(const std::string& str) {
+    int number = 0;
+    for (char c : str) {
+        number = number * 10 + (c - '0');
+    }
+    return number;
+}
+
 // Check answer user
 int Game::answerUserCheckInt(std::string value) {
-
-    int answer = -100;
+    std::string answer = "";
     while (true) {
         std::cout << value;
         std::cin >> answer;
-        
-        if (std::cin.fail() || answer < 0){
-            std::cin.clear();
+
+        if (answer == "rule") {
             
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "ERROR: Write integer!" << std::endl;
+            Rule rule;
+            rule.getRuleOnDisplay(*this);
+            std::cin.clear();
         } else {
-            return answer;
-        }
         
+            if (!isNumber(answer)) {
+                std::cout << "ERROR: Write integer!" << std::endl;
+                std::cin.clear();
+            } else {
+
+                return stringToInt(answer);
+            }
+        }
     }
     return 0;
 }
@@ -41,21 +63,22 @@ std::string Game::answerUserCheckString(std::string value) {
         std::cout << value;
         std::cin >> answer;
         
-
-        bool isNumberOnly = true;
-        for (char c : answer) {
-            if (c < '0' || c > '9') {
-                isNumberOnly = false;
-                break;
-            }
-        }
-
-        if (std::cin.fail() || answer.empty() || isNumberOnly) {
+        if (std::cin.fail() || answer.empty() || isNumber(answer)) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "ERROR: Write what is required using letters, not only numbers!" << std::endl;
         } else {
-            return answer;
+        
+            if (answer == "rule"){
+            
+                Rule rule;
+                rule.getRuleOnDisplay(*this);
+                std::cin.clear();
+                
+            } else {
+            
+                return answer;
+            }
         }
         
     }
@@ -348,4 +371,41 @@ int Game::startGame() {
     return 0;
 }
 
+
+// -------------------
+bool Rule::resetGetRule(Game& game) {
+    std::string answer = game.answerUserCheckString("> Do you want to know any other rules?");
+    while (!(answer == "y" || answer == "n")) {
+        std::cout << "ERROR: Write 'y' or 'n'\n";
+        
+        answer = game.answerUserCheckInt("> Do you want to know any other rules? (y, n)");
+    }
+    return answer == "y";
+}
+
+void Rule::getRuleOnDisplay(Game& game) {
+    std::cout << "\n\n===============Game Rule===============\n";
+    do {
+        int act = game.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-...): ");
+        while (!(act == 1 || act == 2 || act == 3 || act == 4 || act == 5 || act == 6)) {
+            std::cout << "ERROR: Choise integer in range 1 - 6\n";
+        
+            act = game.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-...): ");
+        }
+    
+        if (act == 1) {
+            std::cout << "\n\n===============Bot Rule===============\nThere are 3 types of bots: simple, normal and complex. The maximum number of bots is 23 (excluding the player and with standard rules of the game with 2 cards for the player and 3 cards on the table). \n1) A simple bot acts completely randomly, does not pass, and only goes all-in if the player does so.\n2) A normal bot calculates the chance of winning based on the cards in hand and the remaining cards in the deck, can pass and go all-in.\n3) A complex bot is a simple AI, can pass and go all-in.\n4) Bots cannot be assigned characters, or have their difficulty changed during the game.\n";
+        } if (act == 2) {
+            std::cout << "> There are no rules yet.";
+        } if (act == 3) {
+            std::cout << "> There are no rules yet.";
+        } if (act == 4) {
+            std::cout << "> There are no rules yet.";
+        } if (act == 5) {
+            std::cout << "> There are no rules yet.";
+        } if (act == 6) {
+            std::cout << "> There are no rules yet.";
+        } 
+    } while (resetGetRule(game));
+}
 

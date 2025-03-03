@@ -11,6 +11,8 @@
 #ifndef PATHGAME_H
 #define PATHGAME_H
 
+
+// -------------------
 class Game {
 protected:
     std::vector<std::unique_ptr<Player>> players; // List of players
@@ -26,6 +28,10 @@ public:
 
     Game();
     ~Game();
+    
+    bool isNumber(std::string answer);
+    
+    int stringToInt(const std::string& str);
     
     int answerUserCheckInt(std::string value);
     
@@ -59,5 +65,17 @@ public:
     
     int startGame();
 };
+
+
+// -------------------
+class Rule {
+public:
+
+    bool resetGetRule(Game& game);
+    
+    void getRuleOnDisplay(Game& game);
+    
+};
+
 
 #endif
