@@ -13,6 +13,7 @@
 #ifndef BOTS_H
 #define BOTS_H
 
+
 // -------------
 class AIPlayer_easy : public Player {
 private:
@@ -51,5 +52,6 @@ public:
     
     // None
 };
+
 
 #endif
