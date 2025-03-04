@@ -149,9 +149,40 @@ bool PhotographicMemoryPlayer::isCharacter() {
     return true;
 }
 
+// Check if there is a card in the deck
+bool PhotographicMemoryPlayer::searchCardInDeck(Card& InFullDeck, std::vector<Card>& deck) {
+    
+    for (std::size_t i = 0; i < deck.size(); i++) {
+        if (deck[i].getNumber() == InFullDeck.getNumber() && deck[i].getSuit() == InFullDeck.getSuit()) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Main method for CheaterPlayer
 void PhotographicMemoryPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
-   std::cout << "";
+
+   std::cout << "&& Remaining cards in the deck: \n";
+   
+   // Create new deck
+   Deck newdeck;
+   
+   std::vector<Card> FullDeck = newdeck.getAllCards();
+   
+   // Deck with remain card
+   std::vector<Card> RemainDeck = deck.getAllCards();
+   
+   for (std::size_t i = 0; i < FullDeck.size(); i++) {
+       
+       if (searchCardInDeck(FullDeck[i], RemainDeck)) {
+       
+           // Check card
+           std::cout << "&& Number: " << FullDeck[i].getNumber() << ", Suit: " << FullDeck[i].getSuit() << "\n";
+       }
+       
+   }
+
 }
 
 
