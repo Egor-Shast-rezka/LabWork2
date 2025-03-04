@@ -337,7 +337,7 @@ int Game::startGame() {
 
 // -------------------
 bool Rule::resetGetRule(ContactWithPlayer& contact) {
-    std::string answer = contact.answerUserCheckString("> Do you want to know any other rules?");
+    std::string answer = contact.answerUserCheckString("> Do you want to know any other rules?(y, n)");
     while (!(answer == "y" || answer == "n")) {
         std::cout << "ERROR: Write 'y' or 'n'\n";
         
@@ -349,29 +349,30 @@ bool Rule::resetGetRule(ContactWithPlayer& contact) {
 void Rule::getRuleOnDisplay(ContactWithPlayer& contact) {
     std::cout << "\n\n===============Game Rule===============\n";
     do {
-        int act = contact.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-...): ");
+        int act = contact.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-Mode Rule, 6-...): ");
         while (!(act == 1 || act == 2 || act == 3 || act == 4 || act == 5 || act == 6)) {
             std::cout << "ERROR: Choise integer in range 1 - 6\n";
         
-            act = contact.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-...): ");
+            act = contact.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-Mode Rule, 6-...): ");
         }
     
         if (act == 1) {
             std::cout << "\n\n===============Bot Rule===============\nThere are 3 types of bots: simple, normal and complex. The maximum number of bots is 23 (excluding the player and with standard rules of the game with 2 cards for the player and 3 cards on the table). \n1) A simple bot acts completely randomly, does not pass, and only goes all-in if the player does so.\n2) A normal bot calculates the chance of winning based on the cards in hand and the remaining cards in the deck, can pass and go all-in.\n3) A complex bot is a simple AI, can pass and go all-in.\n4) Bots cannot be assigned characters, or have their difficulty changed during the game.\n";
         } if (act == 2) {
-            std::cout << "> There are no rules yet.\n";
+            std::cout << "\n\n=============Player Rule==============\n1) In the all bots game mode there is one player who can be one of 6 characters. He can call, allin, act (if it is a character) and pass.\n2) In the one-on-one game mode you can add up to 24 players, each can be given one of 6 characters. They can call, allin, act (if it is a character) and pass.\n";
         } if (act == 3) {
-            std::cout << "> There are no rules yet.\n";
+            std::cout << "\n\n===========Characters Rule============\n1) AllSeeingPlayer - Player who can look at any one card of any player.\n2) CheaterPlayer - Player who can replace one of his cards with the first card from the deck, his old card is sent back to the deck in a random place.\n3) EngagedDeckPlayer - Player who can look at the top card of the deck.\n4) DeallersFrendPlayer - Player who can replace the last card put on the table.\n5) PhotographicMemoryPlayer - Player who can look at the remaining cards in the deck.\n6) BettingManipulatorPlayer - Player who can change the current bet.\n";
         } if (act == 4) {
-            std::cout << "> There are no rules yet.\n";
+            std::cout << "\n\n==============Game Rule===============\n";
         } if (act == 5) {
-            std::cout << "> There are no rules yet.\n";
+            std::cout << "\n\n==============Mode Rule===============\n";
         } if (act == 6) {
-            std::cout << "> There are no rules yet.\n";
-        } 
+            std::cout << "\n\n===============No Rule================\n";
+        }
+        
     } while (resetGetRule(contact));
     
-    std::cout << "\n\n=============Exit Game Rule============\n";
+    std::cout << "=============Exit Game Rule===========\n\n";
 }
 
 
