@@ -26,7 +26,7 @@ public:
     
     bool isCharacter() override;
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
 };
 
 
@@ -41,7 +41,7 @@ public:
     
     bool isCharacter() override;
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
 };
 
 
@@ -56,29 +56,53 @@ public:
     
     bool isCharacter() override;
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
 };
 
 
+// -------------------------
+class DeallersFrendPlayer : public Player {
+private:
+    ContactWithPlayer contact;
+    
+public:
+    
+    DeallersFrendPlayer(std::string name);
+    
+    bool isCharacter() override;
+    
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
+};
 
 
+// -------------------------
+class PhotographicMemoryPlayer : public Player {
+private:
+    ContactWithPlayer contact;
+    
+public:
+    
+    PhotographicMemoryPlayer(std::string name);
+    
+    bool isCharacter() override;
+    
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
+};
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// -------------------------
+class BettingManipulatorPlayer : public Player {
+private:
+    ContactWithPlayer contact;
+    
+public:
+    
+    BettingManipulatorPlayer(std::string name);
+    
+    bool isCharacter() override;
+    
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
+};
 
 
 #endif

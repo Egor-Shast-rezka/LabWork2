@@ -19,7 +19,7 @@ bool AllSeeingPlayer::isCharacter() {
 }
 
 // Main method for AllSeeingPlayer
-void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) {
+void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
     
     // Getting data from the player
     int player = contact.answerUserCheckInt("> Which player does the action apply to?: ");
@@ -57,7 +57,7 @@ bool CheaterPlayer::isCharacter() {
 }
 
 // Main method for CheaterPlayer
-void CheaterPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) {
+void CheaterPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
     
     // Getting data from the player
     int card = contact.answerUserCheckInt("> Which card does the action apply to?: ");
@@ -101,19 +101,71 @@ void CheaterPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& playe
 
 // -------------------------
 EngagedDeckPlayer::EngagedDeckPlayer(std::string name) : Player(name) {}
-    
+
+// Check if it's a character or not
 bool EngagedDeckPlayer::isCharacter() {
     return true;
 }
 
-void EngagedDeckPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) {
+// Main method for CheaterPlayer
+void EngagedDeckPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
 
     std::cout << "Last Card in Deck: Number: " << deck.seeLastCard().getNumber() << ", Suit: " << deck.seeLastCard().getSuit() << "\n";
 }
 
 
+// -------------------------
+DeallersFrendPlayer::DeallersFrendPlayer(std::string name) : Player(name) {}
+
+// Check if it's a character or not
+bool DeallersFrendPlayer::isCharacter() {
+    return true;
+}
+
+// Main method for CheaterPlayer
+void DeallersFrendPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
+    
+    // Gat Last card on table
+    Card LastCard = cardsOnTable.back();
+    
+    // Put one card in Deck
+    deck.putOneCardInDeck(LastCard);
+    
+    // Del Last card on table
+    cardsOnTable.pop_back();
+    
+    // New card on table
+    cardsOnTable.push_back(deck.deal());
+    
+    std::cout << "&& A new card is put on the table.\n";
+}
 
 
+// -------------------------
+PhotographicMemoryPlayer::PhotographicMemoryPlayer(std::string name) : Player(name) {}
+
+// Check if it's a character or not
+bool PhotographicMemoryPlayer::isCharacter() {
+    return true;
+}
+
+// Main method for CheaterPlayer
+void PhotographicMemoryPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
+   std::cout << "";
+}
+
+
+// -------------------------
+BettingManipulatorPlayer::BettingManipulatorPlayer(std::string name) : Player(name) {}
+    
+bool BettingManipulatorPlayer::isCharacter() {
+    return true;
+}
+
+// Main method for CheaterPlayer
+void BettingManipulatorPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
+    std::cout << "";
+}
 
 
 
