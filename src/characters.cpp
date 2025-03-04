@@ -99,8 +99,6 @@ void CheaterPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& playe
 }
 
 
-
-//seeLastCard()
 // -------------------------
 EngagedDeckPlayer::EngagedDeckPlayer(std::string name) : Player(name) {}
     
