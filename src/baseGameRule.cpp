@@ -156,8 +156,12 @@ void Deck::putOneCardInDeck(Card card) {
 
 }
     
-std::vector<Card> Deck::getAllCards() const {
+std::vector<Card>& Deck::getAllCards() {
     return cards;
+}
+
+int Deck::getCountCards() {
+    return static_cast<int>(cards.size());
 }
     
 // -----------------------------
@@ -172,7 +176,7 @@ int Hand::getCountCards() const{ // Show count card in hand
     return cards.size();
 }
 
-std::vector<Card> Hand::getAllCards() const { // Show all card in hand
+std::vector<Card>& Hand::getAllCards() { // Show all card in hand
     return cards;
 }
 
@@ -237,7 +241,7 @@ void Player::setCard(Card elem) { // Set Card
     hand.setCards(elem);
 }
 
-std::vector<Card> Player::getAllCards() const {
+std::vector<Card>& Player::getAllCards() {
     return hand.getAllCards();
 }
 
@@ -249,14 +253,9 @@ int Player::getCountCards() const { // Get count card in head
     return hand.getCountCards();
 }
 
-void Player::delAllCards() { // Delete all cards after end play
-    if (hand.getCountCards() == 0) {
-        throw std::out_of_range("No cards in the hand!"); // Error if in hand none card
-    }
-    else {
-        for (int i = 0; i <= hand.getCountCards(); i++) {
-            hand.delLastCard();
-        }
+void Player::delAllCards() {// Delete all cards 
+    while (hand.getCountCards() > 0) {
+        hand.delLastCard();
     }
 }
 
@@ -272,7 +271,7 @@ bool Player::isCharacter(){
     return false;
 }
 
-void Player::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler) {
+void Player::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) {
     std::cout << "";
 }
 
@@ -327,17 +326,13 @@ void Dealler::newDeck() {
     deck = Deck();
 }
 
-Card Dealler::seeLastCard() const { // See last card for Engaged deck
-    return deck.seeLastCard();
-}
-
 void Dealler::putOneCardInDeck(Card card) { // Put one card in deck for CheaterPlayer
     deck.putOneCardInDeck(card);
 }
 
 
-std::vector<Card> Dealler::getAllCardsFromDeck() const {
-    return deck.getAllCards();
+Deck& Dealler::getDeck() {
+    return deck;
 }
 
 std::vector<int> Dealler::SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<int>& DataPass) const { // Search for a winner

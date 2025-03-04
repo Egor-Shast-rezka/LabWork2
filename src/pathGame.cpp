@@ -35,14 +35,6 @@ int Game::getCharacter() {
     return Character;
 }
 
-Card Game::seeLastCardInDeallerDeck() const { // See last card for Engaged deck
-    return dealler.seeLastCard();
-}
-    
-void Game::putOneCardInDeckInDeallerHand(Card card) { // Put one card in deck for CheaterPlayer
-    dealler.putOneCardInDeck(card);
-}
-
 std::vector<Card> Game::getAllCardsForTable() {
     return cards;
 }
@@ -64,6 +56,10 @@ void Game::setPlayerCharacter(std::string name, int index) {
     
     if (index == 1) {
         players.push_back(std::make_unique<AllSeeingPlayer>(name));
+    } if (index == 2) {
+        players.push_back(std::make_unique<CheaterPlayer>(name));
+    } if (index == 3) {
+        players.push_back(std::make_unique<EngagedDeckPlayer>(name));
     }
     // finish writing
 }
@@ -294,7 +290,7 @@ int Game::startGame() {
                         
                             std::cout << "The player uses the character's ability.\n";
                             
-                            players[i]->CharacterActions(getPlayer(), getAllCardsForTable(), getDealler().getAllCardsFromDeck());
+                            players[i]->CharacterActions(getPlayer(), getAllCardsForTable(), getDealler().getDeck(), i);
                             
                         }
                         std::cout << "\n";

@@ -68,7 +68,9 @@ public:
     
     void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
     
-    std::vector<Card> getAllCards() const;
+    std::vector<Card>& getAllCards();
+    
+    int getCountCards();
     
 };
 
@@ -87,7 +89,7 @@ public:
 
     int getCountCards() const;  // Show count card in hand
 
-    std::vector<Card> getAllCards() const;  // Show all card in hand
+    std::vector<Card>& getAllCards();  // Show all card in hand
 
     void getCardsOnDisplay() const;  // Show all card in hand on display
 
@@ -123,7 +125,7 @@ public:
 
     void setCard(Card elem);  // Set Card
 
-    std::vector<Card> getAllCards() const;
+    std::vector<Card>& getAllCards();
 
     void getCardsOnDisplay() const;  // Get cards in hand on display
 
@@ -137,7 +139,7 @@ public:
     
     virtual bool isCharacter();
     
-    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler);
+    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer);
     
 };
 
@@ -164,11 +166,9 @@ public:
     
     void newDeck();
     
-    Card seeLastCard() const; // See last card for Engaged deck
-    
     void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
     
-    std::vector<Card> getAllCardsFromDeck() const;
+    Deck& getDeck();
 
     std::vector<int> SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<int>& DataPass) const;  // Search for a winner
 };

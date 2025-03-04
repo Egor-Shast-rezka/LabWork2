@@ -19,47 +19,46 @@ protected:
     std::vector<Card> cards; // List of cards on the table
     Dealler dealler; // Dealer at the table
     
-    ContactWithPlayer contact;
+    ContactWithPlayer contact; // Add obj for contact with player
     
-    int Character;
+    int Character; // 1 or 0 - exist character
     int currentBet; // Current rate
-    int Bank;
-    int CountGame;
+    int Bank; //Initial bet
+    int CountGame; // Count game
     
 public:
 
     Game();
     ~Game();
     
-    void setPlayer(std::string name);  // Creating players. 
+    // Set all data for Game
+    void setPlayer(std::string name);  // Creating players
     
-    std::vector<std::unique_ptr<Player>>& getPlayer();
+    void setBot(std::string name, int index); // Creating bots
     
-    void setBot(std::string name, int index);
+    void setPlayerCharacter(std::string name, int index); // Creating character
     
-    void setPlayerCharacter(std::string name, int index);
+    void setDealler();  // Creating a dealer
     
-    void setDealler();  // Creating a dealer.
+    void setChipsAllPlayer(int count); // Set chips for all player
     
-    Dealler getDealler();
+    // Get all data for Game
+    std::vector<std::unique_ptr<Player>>& getPlayer(); // Returns all cards to players
     
-    int getCharacter();
+    Dealler getDealler(); // Get all dealer data
     
-    Card seeLastCardInDeallerDeck() const; // See last card for Engaged deck
+    int getCharacter(); // Add Character varriable
     
-    void putOneCardInDeckInDeallerHand(Card card); // Put one card in deck for CheaterPlayer
+    std::vector<Card> getAllCardsForTable(); // Returns all cards on the table
     
-    std::vector<Card> getAllCardsForTable();
+    // Game path
+    void resetGame(); // Reset game in case player wants to continue playing
     
-    void resetGame();
+    bool checkContinueGame(); // Checking if the player wants to continue playing
     
-    bool checkContinueGame();
+    void setMode(); // Set mode, character, count chips ...
     
-    void setMode();
-    
-    void setChipsAllPlayer(int count);
-    
-    int startGame();
+    int startGame(); // Start all game
 };
 
 
