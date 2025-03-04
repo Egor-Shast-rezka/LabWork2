@@ -26,20 +26,59 @@ public:
     
     bool isCharacter() override;
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) override;
 };
 
-/*
+
 // -------------------------
 class CheaterPlayer : public Player {
+private:
+    ContactWithPlayer contact;
+    
 public:
     
     CheaterPlayer(std::string name);
     
     bool isCharacter() override;
     
-    Card CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, std::vector<Card> cardsByDealler, int player, int card);
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) override;
 };
-*/
+
+
+// -------------------------
+class EngagedDeckPlayer : public Player {
+private:
+    ContactWithPlayer contact;
+    
+public:
+    
+    EngagedDeckPlayer(std::string name);
+    
+    bool isCharacter() override;
+    
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) override;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif
