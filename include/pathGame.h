@@ -53,7 +53,7 @@ public:
     
     int getCharacter(); // Add Character varriable
     
-    std::vector<Card> getAllCardsForTable(); // Returns all cards on the table
+    std::vector<Card>& getAllCardsForTable(); // Returns all cards on the table
     
     // Game path
     void resetGame(); // Reset game in case player wants to continue playing

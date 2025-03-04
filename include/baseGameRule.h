@@ -139,7 +139,7 @@ public:
     
     virtual bool isCharacter();
     
-    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer);
+    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer);
     
 };
 

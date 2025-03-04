@@ -35,7 +35,7 @@ int Game::getCharacter() {
     return Character;
 }
 
-std::vector<Card> Game::getAllCardsForTable() {
+std::vector<Card>& Game::getAllCardsForTable() {
     return cards;
 }
 
@@ -60,8 +60,13 @@ void Game::setPlayerCharacter(std::string name, int index) {
         players.push_back(std::make_unique<CheaterPlayer>(name));
     } if (index == 3) {
         players.push_back(std::make_unique<EngagedDeckPlayer>(name));
+    } if (index == 4) {
+        players.push_back(std::make_unique<DeallersFrendPlayer>(name));
+    } if (index == 5) {
+        players.push_back(std::make_unique<PhotographicMemoryPlayer>(name));
+    } if (index == 6) {
+        players.push_back(std::make_unique<BettingManipulatorPlayer>(name));
     }
-    // finish writing
 }
 
 void Game::resetGame() {

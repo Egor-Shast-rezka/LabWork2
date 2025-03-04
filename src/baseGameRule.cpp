@@ -271,7 +271,7 @@ bool Player::isCharacter(){
     return false;
 }
 
-void Player::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card> cardsOnTable, Deck& deck, int indexPlayer) {
+void Player::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
     std::cout << "";
 }
 
