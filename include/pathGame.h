@@ -8,6 +8,10 @@
 #include <memory>
 #include <cstring>
 
+// For timer
+#include <chrono>
+#include <thread>
+
 #ifndef PATHGAME_H
 #define PATHGAME_H
 
@@ -65,9 +69,11 @@ public:
 // -------------------
 class Rule {
 public:
-
+    
+    // Check if player wants reset Rule
     bool resetGetRule(ContactWithPlayer& contact);
     
+    // Get Rule on Display
     void getRuleOnDisplay(ContactWithPlayer& contact);
     
 };
@@ -77,7 +83,8 @@ public:
 class Timer : public Game {
 public:
     
-    void setTimerForGame();
+    // Set Timer
+    bool setTimerForGame(int seconds);
 };
 
 

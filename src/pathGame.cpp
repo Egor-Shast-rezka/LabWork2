@@ -371,8 +371,31 @@ void Rule::getRuleOnDisplay(ContactWithPlayer& contact) {
 
 
 // -------------------  
-void Timer::setTimerForGame() { 
-    std::cout << "Add Timer\n";
+bool Timer::setTimerForGame(int seconds) { 
+
+    // Variable for tracking time
+    auto start = std::chrono::steady_clock::now();
+
+    // Loop until the specified number of seconds have passed
+    while (true) {
+        auto now = std::chrono::steady_clock::now();
+        std::chrono::duration<double> elapsed = now - start;
+
+        // If the specified amount of time has passed, exit the loop
+        if (elapsed.count() >= seconds + 1) {
+            std::cout << "Timer finished!\n";
+            return true;
+        }
+
+        // Pause for 1 second so that the timer does not load the processor
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        // Print the remaining time
+        if ((seconds - static_cast<int>(elapsed.count())) % 5 == 0 || seconds - static_cast<int>(elapsed.count()) < 5) {
+            std::cout << "Time left: " << seconds - static_cast<int>(elapsed.count()) << " seconds\n";
+        }
+        
+    }
 }
 
 
