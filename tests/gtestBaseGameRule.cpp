@@ -71,7 +71,7 @@ TEST(PlayerTest, TestPlayerNameAndChips) {
     EXPECT_EQ(output_1, "Chips count: 100.\n");
     
     testing::internal::CaptureStdout();
-    player.getName();
+    player.getNameOnDisplay();
     std::string output_2 = testing::internal::GetCapturedStdout();
     EXPECT_EQ(output_2, "Player name: Vova.\n");
 }
@@ -112,7 +112,8 @@ TEST(DeallerTest, TestSearchWinner) {
     std::vector<Card> tableCards = {Card(10, 1), Card(11, 1), Card(12, 1)};
     dealer.dealCards(2, player1);
     dealer.dealCards(2, player2);
-    std::vector<int> winners = dealer.SearchWinner(players, tableCards);
+    std::vector<int> DataPass = {0, 0};
+    std::vector<int> winners = dealer.SearchWinner(players, tableCards, DataPass);
     EXPECT_TRUE(winners.size() > 0);
 }
 
