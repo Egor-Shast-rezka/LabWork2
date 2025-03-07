@@ -61,10 +61,7 @@ void AllBots::setupForAllBots(Game& game) {
     setAllBots(game, 1, "> Write count bot complexity easy: ");
     
     // Normal bot
-    setAllBots(game, 1, "> Write count bot complexity normal: ");
-    
-    // Hard bot
-    setAllBots(game, 1, "> Write count bot complexity hard: ");
+    setAllBots(game, 2, "> Write count bot complexity normal: ");
     
     std::cout << "Names for bots has been set\n";
     
