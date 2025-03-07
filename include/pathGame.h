@@ -24,10 +24,9 @@ protected:
     Dealler dealler; // Dealer at the table
     
     ContactWithPlayer contact; // Add obj for contact with player
+    Bank bank;
     
-    int Character; // 1 or 0 - exist character
-    int currentBet; // Current rate
-    int Bank; //Initial bet
+    bool Character; // Exist character
     int CountGame; // Count game
     
 public:
@@ -55,6 +54,8 @@ public:
     
     std::vector<Card>& getAllCardsForTable(); // Returns all cards on the table
     
+    Bank& getBank();
+    
     // Game path
     void resetGame(); // Reset game in case player wants to continue playing
     
@@ -63,6 +64,7 @@ public:
     void setMode(); // Set mode, character, count chips ...
     
     int startGame(); // Start all game
+    
 };
 
 
@@ -85,14 +87,6 @@ public:
     
     // Set Timer
     bool setTimerForGame(int seconds);
-};
-
-
-// -------------------
-class Settings : public Game {
-public:
-    
-    void setGameSettings();
     
 };
 
