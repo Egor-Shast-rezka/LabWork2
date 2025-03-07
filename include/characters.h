@@ -26,7 +26,7 @@ public:
     
     bool isCharacter() override;
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) override;
 };
 
 
@@ -41,7 +41,7 @@ public:
     
     bool isCharacter() override;
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) override;
 };
 
 
@@ -56,7 +56,7 @@ public:
     
     bool isCharacter() override;
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) override;
 };
 
 
@@ -71,7 +71,7 @@ public:
     
     bool isCharacter() override;
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) override;
 };
 
 
@@ -88,7 +88,7 @@ public:
     
     bool searchCardInDeck(Card& InFullDeck, std::vector<Card>& deck);
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) override;
 };
 
 
@@ -103,7 +103,7 @@ public:
     
     bool isCharacter() override;
     
-    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) override;
+    void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) override;
 };
 
 

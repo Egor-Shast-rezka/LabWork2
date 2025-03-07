@@ -19,7 +19,7 @@ bool AllSeeingPlayer::isCharacter() {
 }
 
 // Main method for AllSeeingPlayer
-void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
+void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
     
     // Getting data from the player
     int player = contact.answerUserCheckInt("> Which player does the action apply to?: ");
@@ -57,7 +57,7 @@ bool CheaterPlayer::isCharacter() {
 }
 
 // Main method for CheaterPlayer
-void CheaterPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
+void CheaterPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
     
     // Getting data from the player
     int card = contact.answerUserCheckInt("> Which card does the action apply to?: ");
@@ -108,7 +108,7 @@ bool EngagedDeckPlayer::isCharacter() {
 }
 
 // Main method for CheaterPlayer
-void EngagedDeckPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
+void EngagedDeckPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
 
     std::cout << "Last Card in Deck: Number: " << deck.seeLastCard().getNumber() << ", Suit: " << deck.seeLastCard().getSuit() << "\n";
 }
@@ -123,7 +123,7 @@ bool DeallersFrendPlayer::isCharacter() {
 }
 
 // Main method for CheaterPlayer
-void DeallersFrendPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
+void DeallersFrendPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
     
     // Gat Last card on table
     Card LastCard = cardsOnTable.back();
@@ -161,7 +161,7 @@ bool PhotographicMemoryPlayer::searchCardInDeck(Card& InFullDeck, std::vector<Ca
 }
 
 // Main method for CheaterPlayer
-void PhotographicMemoryPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
+void PhotographicMemoryPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
 
    std::cout << "&& Remaining cards in the deck: \n";
    
@@ -194,8 +194,23 @@ bool BettingManipulatorPlayer::isCharacter() {
 }
 
 // Main method for CheaterPlayer
-void BettingManipulatorPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer) {
-    std::cout << "";
+void BettingManipulatorPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
+    
+    // Steal money from Bank
+    int actionPlayer = contact.answerUserCheckInt("&& How manu do you want to steal: ");
+    
+    while (actionPlayer > bank.getPlayerMoney()) {
+        
+        std::cerr << "ERROR: You want to steal too much!\n";
+        
+        actionPlayer = contact.answerUserCheckInt("&& How manu do you want to steal: ");
+        
+    }
+    
+    bank.setPlayerMoney(bank.getPlayerMoney() - actionPlayer);
+    
+    players[indexPlayer]->setChips(players[indexPlayer]->getChips() + actionPlayer);
+        
 }
 
 
