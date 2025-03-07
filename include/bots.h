@@ -16,19 +16,12 @@
 
 // -------------
 class AIPlayer_easy : public Player {
-private:
-    std::string Name; // Name for bot
-    int Chips; // Count money (chips, deb)
-    Hand hand; // Player's hand
-
 public:
     AIPlayer_easy(std::string name);
 
     bool isBot() override;
-
-    int chipRandom(int countChips, int Allin);
     
-    int BotActions(int countChips, int currentBet, int Bank, int Allin) override;
+    std::vector<int> BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Deck& deck, int currentBet, bool Allin, bool ifReboot) override;
 };
 
 
@@ -39,18 +32,6 @@ public:
 
     bool isBot() override;
     
-    // None
-};
-
-
-// -------------
-class AIPlayer_hard : public Player {
-public:
-    AIPlayer_hard(std::string name);
-    
-    bool isBot() override;
-    
-    // None
 };
 
 

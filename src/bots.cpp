@@ -17,43 +17,67 @@ AIPlayer_easy::AIPlayer_easy(std::string name) : Player(name) {}
 bool AIPlayer_easy::isBot() {
     return true;
 }
-    
-int AIPlayer_easy::chipRandom(int count, int Allin) {
-    
-    if (Allin == 1) {
-        return count;
-    }
-    std::vector<float> weights;
-    float summ = 0;
-    int answer = 0;
 
-    for (int i = 1; i <= count; i++) {
-        summ += i;
-    }
 
-    float cumulativeWeight = 0.0f;
-    for (int i = count; i > 0; i--) {
-        cumulativeWeight += static_cast<float>(i) / summ;
-        weights.push_back(cumulativeWeight);
-    }
+//=================
+std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Deck& deck, int currentBet, bool Allin, bool ifReboot) {
+
+    int chips = player->getChips();
+
+    std::vector<int> action(3, 0);
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1.0);
+    
+    std::uniform_int_distribution<> chanceReboot(1, 5);
+    if (chanceReboot(gen) == 1 || ifReboot) {
+        action[0] = 0;
+        action[1] = 0;
+        action[2] = 0;
+        return action;
+    }
+    
+    std::uniform_int_distribution<> chanceAllin(1, 40);
+    if (chanceAllin(gen) == 1 || Allin) {
+        action[0] = chips;
+        action[1] = 0;
+        action[2] = 1;
+        return action;
+    }
 
+    std::vector<float> weights;
+    float sumWeights = 0.0;
+
+    for (int i = currentBet; i <= chips; i++) {
+        float weight = 1.0f / (i - currentBet + 1);
+        weights.push_back(weight);
+        sumWeights += weight;
+    }
+
+    std::vector<float> probabilities;
+    float cumulativeProbability = 0.0f;
+    for (float weight : weights) {
+        cumulativeProbability += weight / sumWeights;
+        probabilities.push_back(cumulativeProbability);
+    }
+
+    std::uniform_real_distribution<> dis(0.0, 1.0);
     double randomValue = dis(gen);
 
-    for (int i = 0; i < count; i++) {
-        if (randomValue < weights[i]) {
-            return answer;
+    for (std::size_t i = 0; i < probabilities.size(); i++) {
+        if (randomValue < probabilities[i]) {
+            action[0] = i + currentBet;
+            action[1] = 0;
+            action[2] = 0;
+            return action;
         }
-        answer++;
     }
-    return 0;
-}
 
-int AIPlayer_easy::BotActions(int countChips, int currentBet, int Bank, int Allin) {
-    return chipRandom(countChips, Allin);
+
+    action[0] = currentBet;
+    action[1] = 0;
+    action[2] = 0;
+    return action;
 }
 
 
@@ -65,11 +89,5 @@ bool AIPlayer_normal::isBot() {
 }
 
 
-// -------------
-AIPlayer_hard::AIPlayer_hard(std::string name) : Player(name) {}
-
-bool AIPlayer_hard::isBot() {
-    return true;
-}
 
 
