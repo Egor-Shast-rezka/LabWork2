@@ -97,6 +97,33 @@ public:
 };
 
 
+// -------------------
+class Bank {
+private:
+    int CurrentBet; // Current rate
+    int PlayerMoney; // Money that players bet
+    
+public:
+
+    Bank();
+    ~Bank();
+    
+    // Set for Bank
+    void setCurrentBet(int value);
+    
+    void setPlayerMoney(int value);
+    
+    // Get for Bank
+    int getCurrentBet() const;
+    
+    int getPlayerMoney() const;
+    
+    // Add for Bank
+    void addPlayerMoney(int value);
+    
+};
+
+
 // ----------------------
 class Player {
 private:
@@ -135,17 +162,13 @@ public:
     
     virtual bool isBot();
 
-    virtual int BotActions(int countChips, int currentBet, int Bank, int Allin);
+    virtual std::vector<int> BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Deck& deck, int currentBet, bool Allin, bool ifReboot);
     
     virtual bool isCharacter();
     
-    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, int indexPlayer);
+    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer);
     
 };
-
-
-// --------------------
-std::vector<std::vector<int>> search_max_number(std::vector<std::vector<int>>& vectors, int index);
 
 
 // ---------------------
@@ -169,9 +192,14 @@ public:
     void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
     
     Deck& getDeck();
+    
+    std::vector<std::vector<int>> search_max_number(std::vector<std::vector<int>>& vectors, int index, std::vector<bool>& DataPass);
+    
+    std::vector<int> PowerHand(std::vector<Card> allCardsPlayer);
 
-    std::vector<int> SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<int>& DataPass) const;  // Search for a winner
+    std::vector<int> SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<bool>& DataPass);  // Search for a winner
 };
+
 
 #endif
 
