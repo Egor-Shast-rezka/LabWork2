@@ -11,6 +11,7 @@ This project is a C++ implementation of a poker game that simulates gameplay wit
 ## Table of Contents
 - [Installation and Build](#installation-and-build)
 - [Tests](#tests)
+- [Doxygen](#doxygen)
 
 ## Installation and Build
 
@@ -41,3 +42,5 @@ make test_bot     # Runs tests for bot behavior
 make test_game    # Runs full integration tests for the game logic
 ```
 
+## Doxygen
+[Drawio to open UML diagramm](https://app.diagrams.net/)
