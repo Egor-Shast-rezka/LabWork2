@@ -26,6 +26,7 @@ jobs:
           make test_bot
           make test_game
           make test_char
+          make test_mode
           make clean
 
   build:

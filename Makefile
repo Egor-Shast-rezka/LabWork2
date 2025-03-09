@@ -49,6 +49,11 @@ test_char: $(OBJDIR)/gtestCharacters.o $(OBJS_NO_MAIN)
 	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_char $(OBJDIR)/gtestCharacters.o $(OBJS_NO_MAIN) $(GTEST_LIBS)
 	$(BINDIR)/test_char
 
+test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN)
+	@mkdir -p $(BINDIR)
+	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_mode $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) $(GTEST_LIBS)
+	$(BINDIR)/test_mode
+
 $(OBJDIR)/gtestBaseGameRule.o: $(TESTDIR)/gtestBaseGameRule.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -60,8 +65,11 @@ $(OBJDIR)/gtestPathGame.o: $(TESTDIR)/gtestPathGame.cpp
 
 $(OBJDIR)/gtestCharacters.o: $(TESTDIR)/gtestCharacters.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+	
+$(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJDIR)/*.o $(BINDIR)/Poker $(BINDIR)/test_base $(BINDIR)/test_bot $(BINDIR)/test_game $(BINDIR)/test_char
+	rm -rf $(OBJDIR)/*.o $(BINDIR)/Poker $(BINDIR)/test_base $(BINDIR)/test_bot $(BINDIR)/test_game $(BINDIR)/test_char $(BINDIR)/test_mode
 
-.PHONY: all clean test_base test_bot test_game test_char doc
+.PHONY: all clean test_base test_bot test_game test_char test_mode
