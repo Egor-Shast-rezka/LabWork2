@@ -259,7 +259,65 @@ int Game::startGame() {
                     
                     players[a]->getNameOnDisplay();
                     
-                     else {
+                    if (players[a]->isBot()) {
+                        
+                        std::vector<int> BotBet = players[a]->BotActions(players[a], getAllCardsForTable(), getDealler().getDeck(), bank.getCurrentBet(), Allin, repeatBettingForBot);
+                        
+                        // If it's the first game, then everyone places a bet, not raises it
+                        if (raund != 1 && BotBet[0] != 0) {
+                            BotBet[0] -= bank.getCurrentBet();
+                        }
+                        
+                        // If the bot agrees with the bet
+                        if (BotBet[0] == 0) {
+                    
+                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " agrees with the current bet.\n";
+                        
+                        // If the bot goes all-in
+                        } else if (BotBet[2] == 1) {
+                        
+                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " get All in!" << "\n";
+                            
+                            Allin = true;
+                            
+                            if (players[a]->getChips() > 0) {
+                                
+                                players[a]->PlaceBid(players[a]->getChips());
+                                
+                                bank.addPlayerMoney(BotBet[0]);
+                            }
+                            
+                        // If the bot passes
+                        } else if (BotBet[1] == 1) {
+                            
+                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " pass." << "\n";
+                            
+                            ifActPlayerData[a] = true;
+                        
+                        // If the bot makes a bet
+                        } else {
+                    
+                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " take Bet: " << BotBet[0] << ".\n";
+                            
+                            bank.setCurrentBet(BotBet[0]);
+                            
+                            players[a]->PlaceBid(BotBet[0]);
+                            
+                            bank.addPlayerMoney(BotBet[0]);
+                                
+                            repeatBetting = true;
+                            
+                            std::cout << "Remain Chips: " << players[a]->getChips() << ".\n";
+                            
+                            std::cout << "Current Bet: " << bank.getCurrentBet() << ".\n";
+                            
+                            std::cout << "Bank: " << bank.getPlayerMoney() << ".\n";
+                        }
+                        
+                        
+                        std::cout << "\n";
+                        
+                    } else {
                         
                         std::string act;
                         
