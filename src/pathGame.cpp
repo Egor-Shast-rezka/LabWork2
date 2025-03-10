@@ -95,7 +95,15 @@ void Game::setPlayerCharacter(std::string name, int index) {
 }
 
 Bank& Game::getBank() {
+
     return bank;
+    
+}
+
+void Game::setupForGameMode(Game& game) {
+
+    std::cout << "";
+    
 }
 
 void Game::resetGame() {
@@ -163,14 +171,20 @@ void Game::setMode(){
         modeChoice = contact.answerUserCheckInt("Choose game mode: 1 - AllBots, 2 - OneOnOne.\n> Write name game mode: ");
         
     } 
-    
-    if (modeChoice == 1) {
-        AllBots gamepath;
-        gamepath.setupForAllBots(*this);
-    } if (modeChoice == 2) {
-        OneOnOne gamepath;
-        gamepath.setupForAllPlayers(*this);
+    switch(modeChoice) {
+        case 1:
+        
+            gamemode.push_back(std::make_unique<AllBots>());
+            break;
+            
+        case 2:
+        
+            gamemode.push_back(std::make_unique<OneOnOne>());
+            break;
+            
     }
+    
+    gamemode[0]->setupForGameMode(*this);
     
     // Set count chips
     int answerPlayer = contact.answerUserCheckInt("> Write chips for all player: ");
@@ -245,65 +259,7 @@ int Game::startGame() {
                     
                     players[a]->getNameOnDisplay();
                     
-                    if (players[a]->isBot()) {
-                        
-                        std::vector<int> BotBet = players[a]->BotActions(players[a], getAllCardsForTable(), getDealler().getDeck(), bank.getCurrentBet(), Allin, repeatBettingForBot);
-                        
-                        // If it's the first game, then everyone places a bet, not raises it
-                        if (raund != 1 && BotBet[0] != 0) {
-                            BotBet[0] -= bank.getCurrentBet();
-                        }
-                        
-                        // If the bot agrees with the bet
-                        if (BotBet[0] == 0) {
-                    
-                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " agrees with the current bet.\n";
-                        
-                        // If the bot goes all-in
-                        } else if (BotBet[2] == 1) {
-                        
-                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " get All in!" << "\n";
-                            
-                            Allin = true;
-                            
-                            if (players[a]->getChips() > 0) {
-                                
-                                players[a]->PlaceBid(players[a]->getChips());
-                                
-                                bank.addPlayerMoney(BotBet[0]);
-                            }
-                            
-                        // If the bot passes
-                        } else if (BotBet[1] == 1) {
-                            
-                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " pass." << "\n";
-                            
-                            ifActPlayerData[a] = true;
-                        
-                        // If the bot makes a bet
-                        } else {
-                    
-                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " take Bet: " << BotBet[0] << ".\n";
-                            
-                            bank.setCurrentBet(BotBet[0]);
-                            
-                            players[a]->PlaceBid(BotBet[0]);
-                            
-                            bank.addPlayerMoney(BotBet[0]);
-                                
-                            repeatBetting = true;
-                            
-                            std::cout << "Remain Chips: " << players[a]->getChips() << ".\n";
-                            
-                            std::cout << "Current Bet: " << bank.getCurrentBet() << ".\n";
-                            
-                            std::cout << "Bank: " << bank.getPlayerMoney() << ".\n";
-                        }
-                        
-                        
-                        std::cout << "\n";
-                        
-                    } else {
+                     else {
                         
                         std::string act;
                         

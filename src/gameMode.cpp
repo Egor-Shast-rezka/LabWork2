@@ -12,6 +12,9 @@
 
 
 // -------------------------
+AllBots::AllBots() {}
+AllBots::~AllBots() {}
+
 void AllBots::setAllBots(Game& game, int complexity, std::string value){
     
     int answerPlayer2 = contact.answerUserCheckInt(value);
@@ -30,7 +33,7 @@ void AllBots::setAllBots(Game& game, int complexity, std::string value){
 }
 
 // -------------------------
-void AllBots::setupForAllBots(Game& game) {
+void AllBots::setupForGameMode(Game& game) {
     std::cout << "Setting up AllBots mode.\n";
     
     // Set name player
@@ -70,20 +73,30 @@ void AllBots::setupForAllBots(Game& game) {
 
 
 // -------------------------
-void OneOnOne::setupForAllPlayers(Game& game) {
-    std::cout << "Setting up OneOnOne mode.\n";
-    /*
-    std::string answerPlayer1 = "NewPlayer";
-    int answerPlayer2 = 0;
+OneOnOne::OneOnOne() {}
+OneOnOne::~OneOnOne() {}
+
+void OneOnOne::setupForGameMode(Game& game) {
+    std::cout << "Setting up AllBots mode.\n";
     
-    // Set name player
-    std::cout << "> Write count players: ";
-    std::cin >> answerPlayer;
+    // Get players count
+    int answerPlayer1 = contact.answerUserCheckInt("> Write count players (less to 25): ");
+    while (answerPlayer1 > 25) {
+        
+        std::cerr << "ERROR: Write correct integer (less to 25)!";
+        
+        answerPlayer1 = contact.answerUserCheckInt("> Write count players (less to 25): ");
+        
+    }
     
-    setPlayer(answerPlayer);
-    
-    std::cout << "Name has been set\n";
-    */
+    // Set all players
+    while (answerPlayer1 > 0) {
+        answerPlayer1--;
+        
+        std::string NameForPlayer = contact.answerUserCheckString("> Write name for player: ");
+        game.setPlayer(NameForPlayer);
+        
+    }
 }
 
 
