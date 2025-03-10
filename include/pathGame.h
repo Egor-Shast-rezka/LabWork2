@@ -25,6 +25,7 @@ private:
     
     ContactWithPlayer contact; // Add obj for contact with player
     Bank bank;
+    std::vector<std::unique_ptr<Game>> gamemode;
     
     bool Character; // Exist character
     int CountGame; // Count game
@@ -55,6 +56,8 @@ public:
     std::vector<Card>& getAllCardsForTable(); // Returns all cards on the table
     
     Bank& getBank();
+    
+    virtual void setupForGameMode(Game& game);
     
     // Game path
     void resetGame(); // Reset game in case player wants to continue playing

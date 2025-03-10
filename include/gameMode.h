@@ -17,17 +17,26 @@ public:
     ContactWithPlayer contact;
     
 public:
-
+    
+    AllBots();
+    ~AllBots();
+    
     void setAllBots(Game& game, int complexity, std::string value);
-    void setupForAllBots(Game& game);
+    void setupForGameMode(Game& game) override;
 };
 
 
 // -------------------------
 class OneOnOne : public Game {
 public:
+    ContactWithPlayer contact;
+    
+public:
 
-    void setupForAllPlayers(Game& game);
+    OneOnOne();
+    ~OneOnOne();
+    
+    void setupForGameMode(Game& game) override;
 };
 
 
