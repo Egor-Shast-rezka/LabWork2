@@ -3,40 +3,49 @@
     
 */
 
+
 #include <iostream>
 #include <vector>
 #include <cstring>
+
 
 #ifndef GAMEMODE_H
 #define GAMEMODE_H
 
 
 // -------------------------
-class AllBots : public Game {
+class AllBots : public GameMode {
 public:
     ContactWithPlayer contact;
+    Game& game;
     
 public:
     
-    AllBots();
+    AllBots(Game& game);
     ~AllBots();
     
-    void setAllBots(Game& game, int complexity, std::string value);
-    void setupForGameMode(Game& game) override;
+    void setAllBots(int complexity, std::string value);
+    
+    void setupForGameMode() override;
+    
+    void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, bool& repeatBettingForBot, bool& repeatBetting, int& raund) override;
 };
 
 
 // -------------------------
-class OneOnOne : public Game {
+class OneOnOne : public GameMode {
 public:
     ContactWithPlayer contact;
+    Game& game;
     
 public:
 
-    OneOnOne();
+    OneOnOne(Game& game);
     ~OneOnOne();
     
-    void setupForGameMode(Game& game) override;
+    void setupForGameMode() override;
+    
+    void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, bool& repeatBettingForBot, bool& repeatBetting, int& raund) override;
 };
 
 
