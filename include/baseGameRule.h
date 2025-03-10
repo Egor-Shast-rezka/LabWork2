@@ -18,13 +18,13 @@
 // ----------------------
 class ContactWithPlayer {
 public:
-    bool isNumber(std::string answer);
+    bool isNumber(std::string answer); // Check is number or no
     
-    int stringToInt(const std::string& str);
+    int stringToInt(const std::string& str); // Convert string to integer
     
-    int answerUserCheckInt(std::string value);
+    int answerUserCheckInt(std::string value); // Check is integer or no
     
-    std::string answerUserCheckString(std::string value);
+    std::string answerUserCheckString(std::string value); // Check is string or no
 };
 
 // ----------------------
@@ -84,9 +84,9 @@ public:
 
     Hand();
     ~Hand();
-
+    
     void setCards(Card card);  // Add Card in hand
-
+    
     int getCountCards() const;  // Show count card in hand
 
     std::vector<Card>& getAllCards();  // Show all card in hand
@@ -138,21 +138,21 @@ public:
 
     void setName(std::string name);  // Set Name
 
-    void getNameOnDisplay() const;
+    void getNameOnDisplay() const; // Write Name on display
 
-    std::string getName() const;
+    std::string getName() const; // Get Name
 
     void setChips(int num);  // Set deb
 
-    void getChipsOnDisplay() const;
+    void getChipsOnDisplay() const; // Write Chips on display
 
-    int getChips() const;
+    int getChips() const; // Get Chips
 
     void PlaceBid(int num);  // Make a bed
 
     void setCard(Card elem);  // Set Card
 
-    std::vector<Card>& getAllCards();
+    std::vector<Card>& getAllCards(); // Get all cards
 
     void getCardsOnDisplay() const;  // Get cards in hand on display
 
@@ -160,13 +160,13 @@ public:
 
     void delAllCards();  // Delete all cards after end play
     
-    virtual bool isBot();
+    virtual bool isBot(); // Check is Bot or no
 
-    virtual std::vector<int> BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Deck& deck, int currentBet, bool Allin, bool ifReboot);
+    virtual std::vector<int> BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Deck& deck, int currentBet, bool Allin, bool ifReboot); // Action if Player it is Bot
     
-    virtual bool isCharacter();
+    virtual bool isCharacter(); // Check is Character or no
     
-    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer);
+    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer); // Action if Player it is Character
     
 };
 
@@ -187,15 +187,15 @@ public:
 
     Card getOneCard();  // Drawing a card from the deck
     
-    void newDeck();
+    void newDeck(); // Create new deck after reload game
     
     void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
     
-    Deck& getDeck();
+    Deck& getDeck(); // Get deck
     
-    std::vector<std::vector<int>> search_max_number(std::vector<std::vector<int>>& vectors, int index, std::vector<bool>& DataPass);
+    std::vector<std::vector<int>> search_max_number(std::vector<std::vector<int>>& vectors, int index, std::vector<bool>& DataPass); // Search max number for Search Winner
     
-    std::vector<int> PowerHand(std::vector<Card> allCardsPlayer);
+    std::vector<int> PowerHand(std::vector<Card> allCardsPlayer); // Search power hand for Search Winner and normal bot
 
     std::vector<int> SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<bool>& DataPass);  // Search for a winner
 };
