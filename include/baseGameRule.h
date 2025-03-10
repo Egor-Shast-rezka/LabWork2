@@ -1,0 +1,204 @@
+/*
+    Egor Shastin st129457@student.spbu.ru
+    
+*/
+
+#include <iostream>
+#include <vector>
+#include <algorithm> // Just for shuffle
+#include <random>
+#include <cstring>
+#include <memory>
+
+
+#ifndef BASEGAMERULE_H
+#define BASEGAMERULE_H
+
+
+// ----------------------
+class ContactWithPlayer {
+public:
+    bool isNumber(std::string answer);
+    
+    int stringToInt(const std::string& str);
+    
+    int answerUserCheckInt(std::string value);
+    
+    std::string answerUserCheckString(std::string value);
+};
+
+// ----------------------
+class Card {
+private:
+    int number; // Number card (11 - Valet, 12 - Dama, 13 - Korol, 14 - Tus)
+    int suit; // Card suit
+    
+public:
+
+    Card(int num, int val);
+    ~Card();
+
+    void setNumber(int num); // Set number
+
+    int getNumber() const; // Get number
+
+    void setSuit (int value); // Set suit
+
+    int getSuit() const; // Get Suit
+
+    void display() const; // Show Card on screen
+};
+
+
+// --------------------------
+class Deck {
+private:
+    std::vector<Card> cards; // All cards in deck ( 52 cards )
+    
+public:
+
+    Deck(); // Generate all cards
+    ~Deck();
+
+    void shuffle(); // Shuffle cards in deck
+
+    Card deal(); // Take one card from deck
+    
+    Card seeLastCard() const; // See last card for Engaged deck
+    
+    void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
+    
+    std::vector<Card>& getAllCards();
+    
+    int getCountCards();
+    
+};
+
+
+// --------------------------
+class Hand {
+private:
+    std::vector<Card> cards; // All cards in hand ( 2 cards )
+    
+public:
+
+    Hand();
+    ~Hand();
+
+    void setCards(Card card);  // Add Card in hand
+
+    int getCountCards() const;  // Show count card in hand
+
+    std::vector<Card>& getAllCards();  // Show all card in hand
+
+    void getCardsOnDisplay() const;  // Show all card in hand on display
+
+    void delLastCard(); // Remove last card
+};
+
+
+// -------------------
+class Bank {
+private:
+    int CurrentBet; // Current rate
+    int PlayerMoney; // Money that players bet
+    
+public:
+
+    Bank();
+    ~Bank();
+    
+    // Set for Bank
+    void setCurrentBet(int value);
+    
+    void setPlayerMoney(int value);
+    
+    // Get for Bank
+    int getCurrentBet() const;
+    
+    int getPlayerMoney() const;
+    
+    // Add for Bank
+    void addPlayerMoney(int value);
+    
+};
+
+
+// ----------------------
+class Player {
+private:
+    std::string Name; // Name for player
+    int Chips; // Count money (chips, deb)
+    Hand hand; // Player's hand
+
+public:
+
+    Player(std::string name);
+    ~Player();
+
+    void setName(std::string name);  // Set Name
+
+    void getNameOnDisplay() const;
+
+    std::string getName() const;
+
+    void setChips(int num);  // Set deb
+
+    void getChipsOnDisplay() const;
+
+    int getChips() const;
+
+    void PlaceBid(int num);  // Make a bed
+
+    void setCard(Card elem);  // Set Card
+
+    std::vector<Card>& getAllCards();
+
+    void getCardsOnDisplay() const;  // Get cards in hand on display
+
+    int getCountCards() const;  // Get count card in head
+
+    void delAllCards();  // Delete all cards after end play
+    
+    virtual bool isBot();
+
+    virtual std::vector<int> BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Deck& deck, int currentBet, bool Allin, bool ifReboot);
+    
+    virtual bool isCharacter();
+    
+    virtual void CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer);
+    
+};
+
+
+// ---------------------
+class Dealler {
+private:
+    Deck deck; // Dealer's deck
+    
+public:
+
+    Dealler();
+    ~Dealler();
+
+    void shuffleDeck();  // Shuffer deck
+
+    void dealCards(int num, Player& player);  // Issuing 'num' cards to a player
+
+    Card getOneCard();  // Drawing a card from the deck
+    
+    void newDeck();
+    
+    void putOneCardInDeck(Card card); // Put one card in deck for CheaterPlayer
+    
+    Deck& getDeck();
+    
+    std::vector<std::vector<int>> search_max_number(std::vector<std::vector<int>>& vectors, int index, std::vector<bool>& DataPass);
+    
+    std::vector<int> PowerHand(std::vector<Card> allCardsPlayer);
+
+    std::vector<int> SearchWinner(std::vector<Player>& players, std::vector<Card>& cards, std::vector<bool>& DataPass);  // Search for a winner
+};
+
+
+#endif
