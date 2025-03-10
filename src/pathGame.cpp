@@ -6,9 +6,23 @@
 
 #include "baseGameRule.h"
 #include "pathGame.h"
+#include "gameMode.h"
 #include "bots.h"
 #include "characters.h"
-#include "gameMode.h"
+
+
+// -------------------------
+void GameMode::setupForGameMode() {
+
+    std::cout << "";
+    
+}
+    
+void GameMode::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, bool& repeatBettingForBot, bool& repeatBetting, int& raund) {
+
+    std::cout << "";
+    
+}
 
 
 // -----------------
@@ -31,10 +45,6 @@ void Game::setDealler() { // Creating a dealer.
 
 Dealler Game::getDealler() {
     return dealler;
-}
-
-int Game::getCharacter() {
-    return Character;
 }
 
 std::vector<Card>& Game::getAllCardsForTable() {
@@ -100,9 +110,9 @@ Bank& Game::getBank() {
     
 }
 
-void Game::setupForGameMode(Game& game) {
+bool Game::getCharacter() {
 
-    std::cout << "";
+    return Character;
     
 }
 
@@ -174,17 +184,16 @@ void Game::setMode(){
     switch(modeChoice) {
         case 1:
         
-            gamemode.push_back(std::make_unique<AllBots>());
+            gamemode.push_back(std::make_unique<AllBots>(*this));
             break;
             
         case 2:
         
-            gamemode.push_back(std::make_unique<OneOnOne>());
+            gamemode.push_back(std::make_unique<OneOnOne>(*this));
             break;
-            
     }
     
-    gamemode[0]->setupForGameMode(*this);
+    gamemode[0]->setupForGameMode();
     
     // Set count chips
     int answerPlayer = contact.answerUserCheckInt("> Write chips for all player: ");
@@ -253,216 +262,7 @@ int Game::startGame() {
             
                 repeatBetting = false;
                 
-                for (std::size_t a = 0; a < players.size(); a++) {
-                
-                    if (DataPass[a]) continue;
-                    
-                    players[a]->getNameOnDisplay();
-                    
-                    if (players[a]->isBot()) {
-                        
-                        std::vector<int> BotBet = players[a]->BotActions(players[a], getAllCardsForTable(), getDealler().getDeck(), bank.getCurrentBet(), Allin, repeatBettingForBot);
-                        
-                        // If it's the first game, then everyone places a bet, not raises it
-                        if (raund != 1 && BotBet[0] != 0) {
-                            BotBet[0] -= bank.getCurrentBet();
-                        }
-                        
-                        // If the bot agrees with the bet
-                        if (BotBet[0] == 0) {
-                    
-                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " agrees with the current bet.\n";
-                        
-                        // If the bot goes all-in
-                        } else if (BotBet[2] == 1) {
-                        
-                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " get All in!" << "\n";
-                            
-                            Allin = true;
-                            
-                            if (players[a]->getChips() > 0) {
-                                
-                                players[a]->PlaceBid(players[a]->getChips());
-                                
-                                bank.addPlayerMoney(BotBet[0]);
-                            }
-                            
-                        // If the bot passes
-                        } else if (BotBet[1] == 1) {
-                            
-                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " pass." << "\n";
-                            
-                            ifActPlayerData[a] = true;
-                        
-                        // If the bot makes a bet
-                        } else {
-                    
-                            std::cout << "Bot " << a+1 << ": " << players[a]->getName() << " take Bet: " << BotBet[0] << ".\n";
-                            
-                            bank.setCurrentBet(BotBet[0]);
-                            
-                            players[a]->PlaceBid(BotBet[0]);
-                            
-                            bank.addPlayerMoney(BotBet[0]);
-                                
-                            repeatBetting = true;
-                            
-                            std::cout << "Remain Chips: " << players[a]->getChips() << ".\n";
-                            
-                            std::cout << "Current Bet: " << bank.getCurrentBet() << ".\n";
-                            
-                            std::cout << "Bank: " << bank.getPlayerMoney() << ".\n";
-                        }
-                        
-                        
-                        std::cout << "\n";
-                        
-                    } else {
-                        
-                        std::string act;
-                        
-                        if (Character) {
-                            if (!Allin) {
-                            
-                                act = contact.answerUserCheckString("Your answer (pass, call, allin, act): ");
-                                
-                                while (!(act == "pass" || act == "call" || act == "allin" || act == "act") || (act == "act" && ifActPlayerData[a])) {
-                              
-                                    if (!(act == "pass" || act == "call" || act == "allin" || act == "act")) {
-                                        std::cerr << "ERROR: Available actions: pass, call, allin, act.\n";
-                                    } if (act == "act" && ifActPlayerData[a]) {
-                                        std::cerr << "ERROR: Player can only use the ability once per round.\n";
-                                    }
-                                    
-                                    act = contact.answerUserCheckString("Your answer (pass, call, allin, act): ");
-                                }
-                            } else {
-                            
-                                act = contact.answerUserCheckString("Your answer (pass, allin, act): ");
-                                
-                                while (!(act == "allin" || act == "pass" || act == "act")  || (act == "act" && ifActPlayerData[a])){      
-                                    
-                                    act = contact.answerUserCheckString("Your answer (pass, allin, act): ");
-
-                                    if (!(act == "pass" || act == "allin" || act == "act")) {
-                                        std::cerr << "ERROR: Available actions: pass, allin, act.\n";
-                                    } if (act == "act" && ifActPlayerData[a]) {
-                                        std::cerr << "ERROR: Player can only use the ability once per round.\n";
-                                    }
-                                }
-                            }
-                        } else {
-                            if (!Allin) {
-                                
-                                act = contact.answerUserCheckString("Your answer (pass, call, allin): ");
-                                
-                                while (!(act == "pass" || act == "call" || act == "allin")){
-                                
-                                    std::cout << "Available actions: pass, call, allin.\n";
-                                    
-                                    act = contact.answerUserCheckString("Your answer (pass, call, allin): ");
-
-                                }
-                            } else {
-                            
-                                act = contact.answerUserCheckString("Your answer (pass, allin): ");
-                                
-                                while (!(act == "allin" || act == "pass")){
-                                
-                                    std::cout << "All in was made, bet all or pass.\n";
-                                    
-                                    act = contact.answerUserCheckString("Your answer (pass, allin): ");
-
-                                }
-                            }
-                        }
-                        
-                        if (act == "pass") {
-                        
-                            std::cout << "Player passed.\n";
-                            
-                            DataPass[a] = true;
-                            
-                        } else if (act == "call") {
-                            
-                            int PlayerBet = contact.answerUserCheckInt("Your bet (write 0 if you wishn`t make a chip): ");
-                            
-                            // Check answer player
-                            while (PlayerBet < bank.getCurrentBet()) { // add 0
-                                   
-                                if (PlayerBet == 0) {
-                                    break;
-                                }
-                                    
-                                std::cerr << "ERROR: Write valid bet!\n";
-                                
-                                PlayerBet = contact.answerUserCheckInt("Your bet (write 0 if you wishn`t make a chip): ");
-                            }
-                                
-                            
-                            // If it's the first game, then everyone places a bet, not raises it
-                            if (PlayerBet != 0 && raund != 1) {
-                            
-                                PlayerBet -= bank.getCurrentBet();
-                                
-                            }
-                            
-                            if (PlayerBet == 0) {
-                                
-                                std::cout << "Player " << players[a]->getName() << " agrees with the current bet.\n";
-                                     
-                            } else if (PlayerBet > players[a]->getChips()) {
-                                
-                                act = "allin";
-                                    
-                            } else {
-                                    
-                                bank.setCurrentBet(PlayerBet);
-                                    
-                                bank.addPlayerMoney(PlayerBet);
-                                
-                                players[a]->PlaceBid(PlayerBet);
-                                    
-                                repeatBetting = true;
-                                
-                            }
-                            
-                            std::cout << "Remain Chips: " << players[a]->getChips() << ".\n";
-                            
-                            std::cout << "Current Bet: " << bank.getCurrentBet() << ".\n";
-                            
-                            std::cout << "Bank: " << bank.getPlayerMoney() << ".\n";
-                            
-                        } 
-                        if (act == "allin") {
-                        
-                            std::cout << "Player bets everything. All in.\n";
-                            Allin = true;
-                            
-                            if (bank.getCurrentBet() < players[a]->getChips()) {
-                            
-                                bank.setCurrentBet(players[a]->getChips());
-                                
-                                bank.addPlayerMoney(players[a]->getChips());
-                                
-                                players[a]->PlaceBid(players[a]->getChips());
-                                
-                            }
-                            
-                        } else if (act == "act") {
-                            
-                            std::cout << "The player uses the character's ability.\n";
-                            
-                            players[a]->CharacterActions(getPlayer(), getAllCardsForTable(), getDealler().getDeck(), getBank(), a);
-                            
-                            ifActPlayerData[a] = true;
-                            
-                            a--;
-                            
-                        }
-                        std::cout << "\n";
-                    }
-                }
+                gamemode[0]->GameModePathGame(DataPass, ifActPlayerData, Allin, repeatBettingForBot, repeatBetting, raund);
                 
                 if (repeatBetting) {
                     repeatBettingForBot = true;

@@ -16,6 +16,16 @@
 #define PATHGAME_H
 
 
+// -------------------------
+class GameMode {
+public:
+
+    virtual void setupForGameMode();
+    
+    virtual void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, bool& repeatBettingForBot, bool& repeatBetting, int& raund);
+};
+
+
 // -------------------
 class Game {
 private:
@@ -25,7 +35,7 @@ private:
     
     ContactWithPlayer contact; // Add obj for contact with player
     Bank bank;
-    std::vector<std::unique_ptr<Game>> gamemode;
+    std::vector<std::unique_ptr<GameMode>> gamemode;
     
     bool Character; // Exist character
     int CountGame; // Count game
@@ -51,14 +61,12 @@ public:
     
     Dealler getDealler(); // Get all dealer data
     
-    int getCharacter(); // Add Character varriable
-    
     std::vector<Card>& getAllCardsForTable(); // Returns all cards on the table
     
     Bank& getBank();
     
-    virtual void setupForGameMode(Game& game);
-    
+    bool getCharacter();
+
     // Game path
     void resetGame(); // Reset game in case player wants to continue playing
     
