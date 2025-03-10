@@ -6,9 +6,9 @@
 
 #include "baseGameRule.h"
 #include "pathGame.h"
+#include "gameMode.h"
 #include "bots.h"
 #include "characters.h"
-#include "gameMode.h"
 
 
 // -------------
