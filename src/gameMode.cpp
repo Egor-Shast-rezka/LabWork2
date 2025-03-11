@@ -70,7 +70,7 @@ void AllBots::setupForGameMode() {
     std::cout << "Names for bots has been set\n";
     
 }
-
+            
 void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, bool& repeatBettingForBot, bool& repeatBetting, int& raund) {
     
     for (std::size_t a = 0; a < game.getPlayer().size(); a++) {
@@ -83,19 +83,13 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
 
             std::vector<int> BotBet = game.getPlayer()[a]->BotActions(game.getPlayer()[a], game.getAllCardsForTable(), game.getDealler().getDeck(), game.getBank().getCurrentBet(), Allin, repeatBettingForBot);
 
-            // If it's the first game, then everyone places a bet, not raises it
-            if (raund != 1 && BotBet[0] != 0) {
-                BotBet[0] -= game.getBank().getCurrentBet();
-            }
-
             // If the bot agrees with the bet
             if (BotBet[0] == 0) {
 
                 std::cout << "Bot " << a + 1 << ": " << game.getPlayer()[a]->getName() << " agrees with the current bet.\n";
 
-                // If the bot goes all-in
-            }
-            else if (BotBet[2] == 1) {
+            } 
+            else if (BotBet[2] == 1) { // If the bot goes all-in
 
                 std::cout << "Bot " << a + 1 << ": " << game.getPlayer()[a]->getName() << " get All in!" << "\n";
 
@@ -108,17 +102,15 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
                     game.getBank().addPlayerMoney(BotBet[0]);
                 }
 
-                // If the bot passes
             }
-            else if (BotBet[1] == 1) {
+            else if (BotBet[1] == 1) { // If the bot passes
 
                 std::cout << "Bot " << a + 1 << ": " << game.getPlayer()[a]->getName() << " pass." << "\n";
 
                 ifActPlayerData[a] = true;
 
-                // If the bot makes a bet
             }
-            else {
+            else { // If the bot makes a bet
 
                 std::cout << "Bot " << a + 1 << ": " << game.getPlayer()[a]->getName() << " take Bet: " << BotBet[0] << ".\n";
 
@@ -143,66 +135,18 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
         }
         else {
 
-            std::string act;
-
-            if (game.getCharacter()) {
-                if (!Allin) {
-
-                    act = contact.answerUserCheckString("Your answer (pass, call, allin, act): ");
-
-                    while (!(act == "pass" || act == "call" || act == "allin" || act == "act") || (act == "act" && ifActPlayerData[a])) {
-
-                        if (!(act == "pass" || act == "call" || act == "allin" || act == "act")) {
-                            std::cerr << "ERROR: Available actions: pass, call, allin, act.\n";
-                        } if (act == "act" && ifActPlayerData[a]) {
-                            std::cerr << "ERROR: Player can only use the ability once per round.\n";
-                        }
-
-                        act = contact.answerUserCheckString("Your answer (pass, call, allin, act): ");
-                    }
-                } else {
-
-                    act = contact.answerUserCheckString("Your answer (pass, allin, act): ");
-
-                    while (!(act == "allin" || act == "pass" || act == "act") || (act == "act" && ifActPlayerData[a])) {
-
-                        act = contact.answerUserCheckString("Your answer (pass, allin, act): ");
-
-                        if (!(act == "pass" || act == "allin" || act == "act")) {
-                            std::cerr << "ERROR: Available actions: pass, allin, act.\n";
-                        } if (act == "act" && ifActPlayerData[a]) {
-                            std::cerr << "ERROR: Player can only use the ability once per round.\n";
-                        }
-                    }
-                }
-            }
-            else {
-                if (!Allin) {
-
-                    act = contact.answerUserCheckString("Your answer (pass, call, allin): ");
-
-                    while (!(act == "pass" || act == "call" || act == "allin")) {
-
-                        std::cout << "Available actions: pass, call, allin.\n";
-
-                        act = contact.answerUserCheckString("Your answer (pass, call, allin): ");
-
-                    }
-                }
-                else {
-
-                    act = contact.answerUserCheckString("Your answer (pass, allin): ");
-
-                    while (!(act == "allin" || act == "pass")) {
-
-                        std::cout << "All in was made, bet all or pass.\n";
-
-                        act = contact.answerUserCheckString("Your answer (pass, allin): ");
-
-                    }
-                }
-            }
-
+            std::string act = game.getValidAction(
+            
+                game.getCharacter() ? 
+                    (Allin ? std::vector<std::string>{"pass", "allin", "act"} : std::vector<std::string>{"pass", "call", "allin", "act"}) :
+                    (Allin ? std::vector<std::string>{"pass", "allin"} : std::vector<std::string>{"pass", "call", "allin"}),
+                    
+                game.getCharacter() ? 
+                    (Allin ? "Your answer (pass, allin, act): " : "Your answer (pass, call, allin, act): ") :
+                    (Allin ? "Your answer (pass, allin): " : "Your answer (pass, call, allin): "),
+                    
+                ifActPlayerData, a);
+            
             if (act == "pass") {
 
                 std::cout << "Player passed.\n";

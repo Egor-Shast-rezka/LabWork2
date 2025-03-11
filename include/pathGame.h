@@ -74,6 +74,8 @@ public:
     
     void setMode(); // Set mode, character, count chips ...
     
+    std::string getValidAction(std::vector<std::string> actions, std::string prompt, std::vector<bool> ifActPlayerData, int index);
+    
     int startGame(); // Start all game
     
 };

@@ -210,6 +210,40 @@ void Game::setChipsAllPlayer(int count) {
     }
 }
 
+std::string Game::getValidAction(std::vector<std::string> actions, std::string prompt, std::vector<bool> ifActPlayerData, int index) {
+            
+    std::string action;
+                
+    while (true) {
+                
+        action = contact.answerUserCheckString(prompt);
+                    
+        if (std::find(actions.begin(), actions.end(), action) != actions.end()) {
+                    
+            if (action == "act" && ifActPlayerData[index]) {
+                        
+                std::cerr << "ERROR: Player can only use the ability once per round.\n";
+                            
+            } else {
+                        
+                return action;
+                            
+            }
+        } else {
+                    
+            std::cerr << "ERROR: Available actions: ";
+                        
+            for (const auto& act : actions) {
+                        
+                std::cerr << act << " ";
+                            
+            }
+                        
+            std::cerr << "\n";
+        }
+    }
+}
+
 // Main function to start the game
 int Game::startGame() {
     
