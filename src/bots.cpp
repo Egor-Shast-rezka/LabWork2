@@ -37,7 +37,7 @@ std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std:
         return action;
     }
     
-    std::uniform_int_distribution<> chanceAllin(1, 40);
+    std::uniform_int_distribution<> chanceAllin(1, 20);
     if (chanceAllin(gen) == 1 || Allin) {
         action[0] = chips;
         action[1] = 0;
@@ -74,7 +74,7 @@ std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std:
     }
 
 
-    action[0] = currentBet;
+    action[0] = 0;
     action[1] = 0;
     action[2] = 0;
     return action;
