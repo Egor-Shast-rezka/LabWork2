@@ -12,6 +12,9 @@
 #include <chrono>
 #include <thread>
 
+#include <cstdlib>
+#include <fstream>
+
 #ifndef PATHGAME_H
 #define PATHGAME_H
 
@@ -22,7 +25,29 @@ public:
 
     virtual void setupForGameMode();
     
-    virtual void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, bool& repeatBettingForBot, bool& repeatBetting, int& raund);
+    virtual void OutputInfoPlayers();
+    
+    virtual void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund);
+};
+
+
+// -------------------
+class Timer {
+private:
+
+    bool exist;
+    int seconds;
+    
+public:
+    
+    void SetExist(bool ex);
+    
+    void setSecondForTimer(int second);
+    
+    bool IsExist();
+    
+    void TimerStart();
+    
 };
 
 
@@ -35,6 +60,7 @@ private:
     
     ContactWithPlayer contact; // Add obj for contact with player
     Bank bank;
+    Timer timer;
     std::vector<std::unique_ptr<GameMode>> gamemode;
     
     bool Character; // Exist character
@@ -90,16 +116,6 @@ public:
     
     // Get Rule on Display
     void getRuleOnDisplay(ContactWithPlayer& contact);
-    
-};
-
-
-// -------------------
-class Timer : public Game {
-public:
-    
-    // Set Timer
-    bool setTimerForGame(int seconds);
     
 };
 

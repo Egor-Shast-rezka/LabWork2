@@ -13,15 +13,67 @@
 
 // -------------------------
 void GameMode::setupForGameMode() {
-
     std::cout << "";
-    
+}
+
+void GameMode::OutputInfoPlayers() {
+    std::cout << "";
 }
     
-void GameMode::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, bool& repeatBettingForBot, bool& repeatBetting, int& raund) {
-
+void GameMode::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund) {
     std::cout << "";
+}
+
+
+// -------------------
+void Timer::SetExist(bool ex) {
     
+    exist = ex;
+}
+
+void Timer::setSecondForTimer(int second) {
+    
+    seconds = second;
+    SetExist(true);
+}
+    
+bool Timer::IsExist() {
+    
+    return exist;
+}
+    
+void Timer::TimerStart() { 
+
+    // Variable for tracking time
+    auto start = std::chrono::steady_clock::now();
+    
+    system("rm /tmp/timerData");
+    system("mkfifo /tmp/timerData");
+    
+    system("gnome-terminal -- bash -c \"g++ -o bin/start_timer TimerData/main_timer.cpp && ./bin/start_timer bash\"");
+    
+    // Loop until the specified number of seconds have passed
+    while (true) {
+        auto now = std::chrono::steady_clock::now();
+        std::chrono::duration<double> elapsed = now - start;
+
+        // If the specified amount of time has passed, exit the loop
+        if (elapsed.count() >= seconds + 1) {
+            system("echo \"Timer finished!\" > /tmp/timerData");
+            break;
+        }
+
+        // Pause for 1 second so that the timer does not load the processor
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        // Print the remaining time
+        std::string command = "echo \"Time left: " + std::to_string(seconds - static_cast<int>(elapsed.count())) + " seconds\" > /tmp/timerData";
+
+        system(command.c_str());
+        
+    }
+    std::cout << "--\nTimer finised, game over.\n";
+    exit(0);
 }
 
 
@@ -155,7 +207,133 @@ bool Game::checkContinueGame() {
     return act == "y";
 }
 
+void Game::setChipsAllPlayer(int count) {
+    for (auto& player : players) {
+        player->setChips(count);
+    }
+}
+
+std::string Game::getValidAction(std::vector<std::string> actions, std::string prompt, std::vector<bool> ifActPlayerData, int index) {
+            
+    std::string action;
+                
+    while (true) {
+                
+        action = contact.answerUserCheckString(prompt);
+                    
+        if (std::find(actions.begin(), actions.end(), action) != actions.end()) {
+                    
+            if (action == "act" && ifActPlayerData[index]) {
+                        
+                std::cerr << "ERROR: Player can only use the ability once per round.\n";
+                            
+            } else {
+                        
+                return action;
+                            
+            }
+        } else {
+                    
+            std::cerr << "ERROR: Available actions: ";
+                        
+            for (const auto& act : actions) {
+                        
+                std::cerr << act << " ";
+                            
+            }
+                        
+            std::cerr << "\n";
+        }
+    }
+}
+
+// Main function to start the game
+int Game::startGame() {
+    
+    // Path game
+    do {
+        bool Allin = false; // True if somebody make an Allin
+        dealler.shuffleDeck(); // The dealer shuffles the deck
+        
+        // Create vector for allin and pass
+        std::vector<bool> DataPass(players.size(), false);
+        
+        // Array for storing player character actions 
+        std::vector<bool> ifActPlayerData(players.size(), false);
+        
+        // Distribute cards to the players
+        for (auto& player : players) {
+            dealler.dealCards(2, *player);
+        }
+
+        // Output information about players
+        gamemode[0]->OutputInfoPlayers();
+
+        // Array with number
+        std::vector<std::string> Numbers = { "First", "Second", "Third" };
+
+        for (int raund = 1; raund <= 3; raund++) {
+            Card card = dealler.getOneCard(); // Get card from deck
+            cards.push_back(card);
+
+            std::cout << "\n> " << Numbers[raund - 1] << " card: ";
+            card.display();
+            
+            gamemode[0]->GameModePathGame(DataPass, ifActPlayerData, Allin, raund);
+            
+        }
+
+        std::vector<Player> player_refs;
+        for (const auto& player : players) {
+            player_refs.push_back(*player);
+        }
+        
+        std::vector<int> answer = dealler.SearchWinner(player_refs, cards, DataPass);
+        
+        for (std::size_t count = 0; count < answer.size(); count++) {
+        
+            if (answer[count] == 123456) {
+                std::cout << "All players make a pass!\n";
+            } else if (answer[count] == -2) {
+                std::cout << "Player: " << count + 1<< " - " << players[count]->getName() << " make a pass!\n";
+            } else if (answer[count] == -3) {
+                std::cout << "Player: " << count + 1 << " - " << players[count]->getName() << " fool!\n";
+            } else {
+                std::cout << "Player: " << count + 1 << " - " << players[count]->getName() << " win!\n";
+                players[count]->setChips(players[count]->getChips() + bank.getPlayerMoney());
+            }
+
+        }
+
+        resetGame();
+
+    } while (checkContinueGame());
+
+    std::cout << "Game over!\n";
+    return 0;
+}
+
+
 void Game::setMode(){
+    
+    std::cout << "> To open rules, write 'rule'.\n";
+    
+    // Set Timer
+    std::string setTimer = contact.answerUserCheckString("> Do you want to play with Timer? (y/n): ");
+    while (!(setTimer == "y" || setTimer == "n")){
+    
+        std::cerr << "ERROR: Write 'y' or 'n'!\n";
+        
+        setTimer = contact.answerUserCheckString("> Do you want to play with Timer? (y/n): ");
+
+    }
+    
+    if (setTimer == "y") {
+        
+        int second = contact.answerUserCheckInt("> Write the game time (at second): ");
+        timer.setSecondForTimer(second);
+        
+    }
     
     // Set Character for Player
     std::string setCharacter = contact.answerUserCheckString("> Do you want to play with character? (y/n): ");
@@ -202,137 +380,17 @@ void Game::setMode(){
     
     std::cout << "Chips has been set.\nGame mode has been set.\n\n========Start Play========\n";
     
-}
-
-void Game::setChipsAllPlayer(int count) {
-    for (auto& player : players) {
-        player->setChips(count);
+    // Set Gmae
+    if (timer.IsExist()) {
+        
+        std::thread timerThread(&Timer::TimerStart, &timer);
+        
+        startGame();
+        
+    } else {
+    
+        startGame();
     }
-}
-
-std::string Game::getValidAction(std::vector<std::string> actions, std::string prompt, std::vector<bool> ifActPlayerData, int index) {
-            
-    std::string action;
-                
-    while (true) {
-                
-        action = contact.answerUserCheckString(prompt);
-                    
-        if (std::find(actions.begin(), actions.end(), action) != actions.end()) {
-                    
-            if (action == "act" && ifActPlayerData[index]) {
-                        
-                std::cerr << "ERROR: Player can only use the ability once per round.\n";
-                            
-            } else {
-                        
-                return action;
-                            
-            }
-        } else {
-                    
-            std::cerr << "ERROR: Available actions: ";
-                        
-            for (const auto& act : actions) {
-                        
-                std::cerr << act << " ";
-                            
-            }
-                        
-            std::cerr << "\n";
-        }
-    }
-}
-
-// Main function to start the game
-int Game::startGame() {
-    
-    std::cout << "> To enter settings or open rules, write 'rule' and 'setting' respectively.\n";
-    
-    setMode();
-    
-    // Path game
-    do {
-        bool Allin = false;
-        dealler.shuffleDeck(); // The dealer shuffles the deck
-        
-        // Create vector for allin and pass
-        std::vector<bool> DataPass(players.size(), false);
-        
-        // Array for storing player character actions 
-        std::vector<bool> ifActPlayerData(players.size(), false);
-        
-        // Distribute cards to the players
-        for (auto& player : players) {
-            dealler.dealCards(2, *player);
-        }
-
-        // Output information about players
-        for (auto& player : players) {
-            player->getNameOnDisplay();
-            player->getChipsOnDisplay();
-            if (!player->isBot()) {
-                player->getCardsOnDisplay();
-            }
-            std::cout << "\n";
-        }
-
-        // Array with number
-        std::vector<std::string> Numbers = { "First", "Second", "Third" };
-
-        for (int raund = 1; raund <= 3; raund++) {
-            Card card = dealler.getOneCard(); // Get card from deck
-            cards.push_back(card);
-
-            std::cout << "\n> " << Numbers[raund - 1] << " card: ";
-            card.display();
-            
-            // 1 index - for the game, 2 - for the bot 
-            bool repeatBetting = true;
-            bool repeatBettingForBot = false;
-            
-            // Player and Bot actions
-            while(repeatBetting) {
-            
-                repeatBetting = false;
-                
-                gamemode[0]->GameModePathGame(DataPass, ifActPlayerData, Allin, repeatBettingForBot, repeatBetting, raund);
-                
-                if (repeatBetting) {
-                    repeatBettingForBot = true;
-                }
-                
-            }
-        }
-
-        std::vector<Player> player_refs;
-        for (const auto& player : players) {
-            player_refs.push_back(*player);
-        }
-        
-        std::vector<int> answer = dealler.SearchWinner(player_refs, cards, DataPass);
-        
-        for (std::size_t count = 0; count < answer.size(); count++) {
-        
-            if (answer[count] == 123456) {
-                std::cout << "All players make a pass!\n";
-            } else if (answer[count] == -2) {
-                std::cout << "Player: " << count + 1<< " - " << players[count]->getName() << " make a pass!\n";
-            } else if (answer[count] == -3) {
-                std::cout << "Player: " << count + 1 << " - " << players[count]->getName() << " fool!\n";
-            } else {
-                std::cout << "Player: " << count + 1 << " - " << players[count]->getName() << " win!\n";
-                players[count]->setChips(players[count]->getChips() + bank.getPlayerMoney());
-            }
-
-        }
-
-        resetGame();
-
-    } while (checkContinueGame());
-
-    std::cout << "Game over!\n";
-    return 0;
 }
 
 
@@ -374,35 +432,6 @@ void Rule::getRuleOnDisplay(ContactWithPlayer& contact) {
     } while (resetGetRule(contact));
     
     std::cout << "=============Exit Game Rule===========\n\n";
-}
-
-
-// -------------------  
-bool Timer::setTimerForGame(int seconds) { 
-
-    // Variable for tracking time
-    auto start = std::chrono::steady_clock::now();
-
-    // Loop until the specified number of seconds have passed
-    while (true) {
-        auto now = std::chrono::steady_clock::now();
-        std::chrono::duration<double> elapsed = now - start;
-
-        // If the specified amount of time has passed, exit the loop
-        if (elapsed.count() >= seconds + 1) {
-            std::cout << "Timer finished!\n";
-            return true;
-        }
-
-        // Pause for 1 second so that the timer does not load the processor
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-
-        // Print the remaining time
-        if ((seconds - static_cast<int>(elapsed.count())) % 5 == 0 || seconds - static_cast<int>(elapsed.count()) < 5) {
-            std::cout << "Time left: " << seconds - static_cast<int>(elapsed.count()) << " seconds\n";
-        }
-        
-    }
 }
 
 

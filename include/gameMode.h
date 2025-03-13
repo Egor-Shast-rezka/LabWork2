@@ -28,7 +28,9 @@ public:
     
     void setupForGameMode() override;
     
-    void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, bool& repeatBettingForBot, bool& repeatBetting, int& raund) override;
+    void OutputInfoPlayers() override;
+    
+    void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund) override;
 };
 
 
@@ -45,7 +47,9 @@ public:
     
     void setupForGameMode() override;
     
-    void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, bool& repeatBettingForBot, bool& repeatBetting, int& raund) override;
+    void OutputInfoPlayers() override;
+    
+    void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund) override;
 };
 
 

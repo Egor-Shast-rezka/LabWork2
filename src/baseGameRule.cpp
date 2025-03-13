@@ -409,7 +409,7 @@ std::vector<int> Dealler::PowerHand(std::vector<Card> allCardsPlayer) {
 
     // Search for lucky hands
 
-    // Flash presence (search through fours)
+    // Flash presence (search through five)
     int seekFlash = 0;
 
     // The presence of these card combinations
