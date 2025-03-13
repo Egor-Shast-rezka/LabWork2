@@ -1,7 +1,21 @@
 /*
     Egor Shastin st129457@student.spbu.ru
     
+    This code represents a simulation of a card game, incorporating various classes and methods that handle the game logic. Here's a brief overview:
+
+    > ContactWithPlayer: Contains methods for interacting with the player, ensuring valid input (either integers or strings) and handling player responses, including providing game rules.
+    > Card: Represents a playing card, storing information about its number and suit. It includes methods for displaying the card and getting its properties.
+    > Deck: Represents a deck of cards, supporting operations like shuffling, dealing cards, and checking the deck's status. It also handles the addition of cards back into the deck.
+    > Hand: Represents a player's hand of cards, with methods to add, remove, and display the cards.
+    > Bank: Manages the betting system, tracking the current bet and the bets placed by each player.
+    > Player: Represents a player, including their name, chips, and hand of cards. Methods are provided for placing bets, displaying player info, and managing cards.
+    > Dealler (Dealer): Handles the card dealing process, shuffling the deck, and determining the winner by evaluating the players' hands based on various poker combinations.
+    > Hand Evaluation: Methods like PowerHand and search_max_number evaluate the strength of a player's hand by analyzing their cards and returning the hand's ranking.
+    
+    Overall, this code simulates a card game where players can bet, receive cards, and interact with the game, with a dealer determining the winner based on the hands' strengths.
+
 */
+
 
 #include "baseGameRule.h"
 #include "pathGame.h"
@@ -10,7 +24,8 @@
 #include "characters.h"
 
 
-// ---------------------------
+// ===========ContactWithPlayer=============
+
 // Method to check if it is a number or not
 bool ContactWithPlayer::isNumber(std::string answer) {
     for (char c : answer) {
@@ -96,7 +111,8 @@ std::string ContactWithPlayer::answerUserCheckString(std::string value) {
 }
 
 
-// ---------------------------
+// ===========Card=============
+
 Card::Card(int num, int val): number(num), suit(val){}
 Card::~Card() {}
 
@@ -121,7 +137,8 @@ void Card::display() const { // Show Card on screen
 }
 
 
-// -----------------------------
+// ===========Deck=============
+
 Deck::Deck() { // Generate all cards
     for (int suit = 1; suit <= 4; suit++) {
         for (int num = 2; num <= 14; num++) { 
@@ -175,7 +192,8 @@ int Deck::getCountCards() { // Get count cards
     return static_cast<int>(cards.size());
 }
     
-// -----------------------------
+// ===========Hand=============
+
 Hand::Hand() {};
 Hand::~Hand() {};
 
@@ -212,7 +230,8 @@ void Hand::delLastCard() { // Remove last card
 }
 
 
-// -------------------
+// ===========Bank=============
+
 Bank::Bank() {}
 Bank::~Bank() {}
 
@@ -220,9 +239,11 @@ Bank::~Bank() {}
 void Bank::setCurrentBet(int value) {
     CurrentBet = value;
 }
+
+void Bank::setCountBetEachPlayer(int value) {
     
-void Bank::setPlayerMoney(int value) {
-    PlayerMoney = value;
+    std::vector<int> result(value, 0);
+    CountBetEachPlayer = result;
 }
     
 // Get for Bank
@@ -231,16 +252,30 @@ int Bank::getCurrentBet() const {
 }
     
 int Bank::getPlayerMoney() const {
-    return PlayerMoney;
+    
+    int result = 0;
+    for(int elem : CountBetEachPlayer) {
+        result += elem;
+    }
+    return result;
+}
+
+int Bank::getCountBetEachPlayer(int index) const {
+    return CountBetEachPlayer[index];
 }
 
 // Add for Bank    
-void Bank::addPlayerMoney(int value) {
-    PlayerMoney += value;
+void Bank::addCurrentBet(int value) {
+    CurrentBet += value;
+}
+
+void Bank::addCountBetEachPlayer(int value, int index) {
+    CountBetEachPlayer[index] += value;
 }
 
 
-// -------------------------
+// ===========Player=============
+
 Player::Player(std::string name) : Name(name) {}
 Player::~Player() {}
 
@@ -305,13 +340,9 @@ bool Player::isBot() { // Check to player is bot
     return false;
 }
 
-std::vector<int> Player::BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Deck& deck, int currentBet, bool Allin, bool ifReboot){ // Bot Actions if player its bot 
+std::vector<int> Player::BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int raund, bool ifReboot){ // Bot Actions if player its bot 
     
-    std::vector<int> action(3, 0);
-    
-    action[0] = 0;
-    action[1] = 0;
-    action[2] = 0;
+    std::vector<int> action(5, 0);
     
     return action;
 }
@@ -327,7 +358,8 @@ void Player::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std
 }
 
 
-//----------------------
+// ===========Dealler=============
+
 Dealler::Dealler() {}
 Dealler::~Dealler() {}
 

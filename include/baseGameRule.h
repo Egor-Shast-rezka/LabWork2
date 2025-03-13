@@ -1,7 +1,20 @@
 /*
     Egor Shastin st129457@student.spbu.ru
     
+    This code defines a set of classes that manage the mechanics of a card game, focusing on players, cards, bets, and the dealer.
+
+    > ContactWithPlayer: Utility class to handle various input validation, such as checking if a string is an integer or string.
+    > Card: Represents a single playing card, including its number and suit. It provides methods to display the card and manipulate its attributes.
+    > Deck: Represents the deck of cards, allowing actions like shuffling, dealing cards, and adding/removing cards from the deck.
+    > Hand: Represents the player's hand, storing cards and offering methods to manage the hand, such as adding, removing, and displaying cards.
+    > Bank: Handles the current bet and the chips placed by each player during the game. It also provides methods to manipulate and access bet-related data.
+    > Player: Represents a player, including their name, chips, and hand of cards. It provides various methods for setting and displaying the player's attributes, placing bets, and interacting with the game. It also has virtual methods to handle bot or character-specific actions.
+    > Dealler: Represents the dealer, managing the deck and dealing cards to players. It also includes methods for shuffling the deck, creating a new deck, and determining the winner based on hand power.
+    
+Each class is structured to manage specific parts of the game, from player interactions to the handling of game resources like cards and bets.
+
 */
+
 
 #include <iostream>
 #include <vector>
@@ -15,7 +28,8 @@
 #define BASEGAMERULE_H
 
 
-// ----------------------
+// ===========ContactWithPlayer=============
+
 class ContactWithPlayer {
 public:
     bool isNumber(std::string answer); // Check is number or no
@@ -27,7 +41,8 @@ public:
     std::string answerUserCheckString(std::string value); // Check is string or no
 };
 
-// ----------------------
+// ===========Card=============
+
 class Card {
 private:
     int number; // Number card (11 - Valet, 12 - Dama, 13 - Korol, 14 - Tus)
@@ -50,7 +65,8 @@ public:
 };
 
 
-// --------------------------
+// ===========Deck=============
+
 class Deck {
 private:
     std::vector<Card> cards; // All cards in deck ( 52 cards )
@@ -75,7 +91,8 @@ public:
 };
 
 
-// --------------------------
+// ===========Hand=============
+
 class Hand {
 private:
     std::vector<Card> cards; // All cards in hand ( 2 cards )
@@ -97,11 +114,12 @@ public:
 };
 
 
-// -------------------
+// ===========Bank=============
+
 class Bank {
 private:
     int CurrentBet; // Current rate
-    int PlayerMoney; // Money that players bet
+    std::vector<int> CountBetEachPlayer; // The number of chips each player placed during the round
     
 public:
 
@@ -109,22 +127,29 @@ public:
     ~Bank();
     
     // Set for Bank
-    void setCurrentBet(int value);
+    void setCurrentBet(int value); // Set current bet
     
-    void setPlayerMoney(int value);
+    void setCountBetEachPlayer(int value); // Set for CountBetEachPlayer
     
     // Get for Bank
-    int getCurrentBet() const;
+    int getCurrentBet() const; // Get current bet
     
-    int getPlayerMoney() const;
+    int getPlayerMoney() const; // Get summ for CountBetEachPlayer
+    
+    int getCountBetEachPlayer(int index) const; // Get for CountBetEachPlayer
     
     // Add for Bank
-    void addPlayerMoney(int value);
+    void addCurrentBet(int value); // Add current bet
+    
+    void addCountBetEachPlayer(int value, int index); // Add for CountBetEachPlayer
     
 };
 
 
-// ----------------------
+// ===========Player=============
+// Forward declaration of Dealler class
+class Dealler;
+
 class Player {
 private:
     std::string Name; // Name for player
@@ -162,7 +187,7 @@ public:
     
     virtual bool isBot(); // Check is Bot or no
 
-    virtual std::vector<int> BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Deck& deck, int currentBet, bool Allin, bool ifReboot); // Action if Player it is Bot
+    virtual std::vector<int> BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int raund, bool ifReboot); // Action if Player it is Bot
     
     virtual bool isCharacter(); // Check is Character or no
     
@@ -171,7 +196,8 @@ public:
 };
 
 
-// ---------------------
+// ===========Dealler=============
+
 class Dealler {
 private:
     Deck deck; // Dealer's deck

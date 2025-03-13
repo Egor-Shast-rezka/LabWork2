@@ -1,7 +1,19 @@
 /*
     Egor Shastin st129457@student.spbu.ru
-    This file defines the behavior of all characters.
+    
+    This code defines several specialized player classes for a card game, each implementing different character actions. Each class inherits from a base Player class and overrides the CharacterActions method to define unique abilities.
+
+    > AllSeeingPlayer: This player can inspect the cards of other players.
+    > CheaterPlayer: Allows a player to replace one of their cards with a new one from the deck.
+    > EngagedDeckPlayer: This player can see the last card in the deck.
+    > DeallersFrendPlayer: Allows a player to manipulate the cards on the table by replacing the last card with a new one from the deck.
+    > PhotographicMemoryPlayer: This player can remember and display the remaining cards in the deck.
+    > BettingManipulatorPlayer: Allows a player to steal chips from another player.
+    
+    Each class contains a CharacterActions method where the unique abilities of the respective player are implemented. These abilities include manipulating cards, checking the deck, or stealing chips from other players. The classes make use of various game elements like Card, Deck, Bank, and Player to perform their actions.
+    
 */
+
 
 #include "baseGameRule.h"
 #include "pathGame.h"
@@ -10,7 +22,8 @@
 #include "characters.h"
 
 
-// -----------------
+// ===========AllSeeingPlayer=============
+
 AllSeeingPlayer::AllSeeingPlayer(std::string name) : Player(name) {}
 
 // Check if it's a character or not
@@ -48,7 +61,8 @@ void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& pla
 }
 
 
-// -----------------
+// ===========CheaterPlayer=============
+
 CheaterPlayer::CheaterPlayer(std::string name) : Player(name) {}
 
 // Check if it's a character or not
@@ -99,7 +113,8 @@ void CheaterPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& playe
 }
 
 
-// -------------------------
+// ===========EngagedDeckPlayer=============
+
 EngagedDeckPlayer::EngagedDeckPlayer(std::string name) : Player(name) {}
 
 // Check if it's a character or not
@@ -114,7 +129,8 @@ void EngagedDeckPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& p
 }
 
 
-// -------------------------
+// ===========DeallersFrendPlayer=============
+
 DeallersFrendPlayer::DeallersFrendPlayer(std::string name) : Player(name) {}
 
 // Check if it's a character or not
@@ -141,7 +157,8 @@ void DeallersFrendPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>&
 }
 
 
-// -------------------------
+// ===========PhotographicMemoryPlayer=============
+
 PhotographicMemoryPlayer::PhotographicMemoryPlayer(std::string name) : Player(name) {}
 
 // Check if it's a character or not
@@ -186,7 +203,8 @@ void PhotographicMemoryPlayer::CharacterActions(std::vector<std::unique_ptr<Play
 }
 
 
-// -------------------------
+// ===========BettingManipulatorPlayer=============
+
 BettingManipulatorPlayer::BettingManipulatorPlayer(std::string name) : Player(name) {}
     
 bool BettingManipulatorPlayer::isCharacter() {
@@ -196,19 +214,30 @@ bool BettingManipulatorPlayer::isCharacter() {
 // Main method for CheaterPlayer
 void BettingManipulatorPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
     
-    // Steal money from Bank
-    int actionPlayer = contact.answerUserCheckInt("&& How manu do you want to steal: ");
+    // Chose player
+    int actionPlayer1 = contact.answerUserCheckInt("&& Which player do you want to steal from: ");
     
-    while (actionPlayer > bank.getPlayerMoney()) {
+    while (actionPlayer1 > static_cast<int>(players.size())) {
         
-        std::cerr << "ERROR: You want to steal too much!\n";
+        std::cerr << "ERROR: Such a player does not exist!\n";
         
-        actionPlayer = contact.answerUserCheckInt("&& How manu do you want to steal: ");
+        actionPlayer1 = contact.answerUserCheckInt("&& Which player do you want to steal from: ");
         
     }
     
-    bank.setPlayerMoney(bank.getPlayerMoney() - actionPlayer);
+    // Steal money from Player
+    int actionPlayer2 = contact.answerUserCheckInt("&& How manu do you want to steal: ");
     
-    players[indexPlayer]->setChips(players[indexPlayer]->getChips() + actionPlayer);
+    while (actionPlayer2 > players[actionPlayer1]->getChips()) {
+        
+        std::cerr << "ERROR: You want to steal too much!\n";
+        
+        actionPlayer2 = contact.answerUserCheckInt("&& How manu do you want to steal: ");
+        
+    }
+    
+    players[actionPlayer1]->PlaceBid(actionPlayer2);
+    
+    players[indexPlayer]->setChips(players[indexPlayer]->getChips() + actionPlayer2);
         
 }

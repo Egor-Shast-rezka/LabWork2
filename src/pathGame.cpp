@@ -1,6 +1,8 @@
 /*
     Egor Shastin st129457@student.spbu.ru
     
+    This code defines the structure of a card game, incorporating multiple components such as game modes, timers, players, bots, and characters. The game can be customized with timers and various player types, including special characters with unique abilities. The game logic involves dealing cards, making moves, and determining winners.
+    
 */
 
 
@@ -11,7 +13,8 @@
 #include "characters.h"
 
 
-// -------------------------
+// ===========GameMode=============
+
 void GameMode::setupForGameMode() {
     std::cout << "";
 }
@@ -25,7 +28,8 @@ void GameMode::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& 
 }
 
 
-// -------------------
+// ===========Timer=============
+
 void Timer::SetExist(bool ex) {
     
     exist = ex;
@@ -77,7 +81,8 @@ void Timer::TimerStart() {
 }
 
 
-// -----------------
+// ===========Game=============
+
 Game::Game() {}
 Game::~Game() {}
 
@@ -95,7 +100,7 @@ void Game::setDealler() { // Creating a dealer.
     dealler = diller;
 }
 
-Dealler Game::getDealler() {
+Dealler& Game::getDealler() {
     return dealler;
 }
 
@@ -183,13 +188,13 @@ void Game::resetGame() {
     
     cards.clear();
     bank.setCurrentBet(0);
-    bank.setPlayerMoney(0);
+    bank.setCountBetEachPlayer(static_cast<int>(getPlayer().size()));
     
+    // Remove all player's cards
     for (auto& player : players) {
         player->delAllCards();
     }
     
-    std::cout << "\n";
 }
 
 bool Game::checkContinueGame() {
@@ -265,7 +270,7 @@ int Game::startGame() {
         for (auto& player : players) {
             dealler.dealCards(2, *player);
         }
-
+        
         // Output information about players
         gamemode[0]->OutputInfoPlayers();
 
@@ -378,6 +383,10 @@ void Game::setMode(){
     
     setChipsAllPlayer(answerPlayer);
     
+    bank.setCountBetEachPlayer(static_cast<int>(getPlayer().size()));
+    
+    bank.setCurrentBet(0);
+    
     std::cout << "Chips has been set.\nGame mode has been set.\n\n========Start Play========\n";
     
     // Set Gmae
@@ -394,7 +403,8 @@ void Game::setMode(){
 }
 
 
-// -------------------
+// ===========Rule=============
+
 bool Rule::resetGetRule(ContactWithPlayer& contact) {
     std::string answer = contact.answerUserCheckString("> Do you want to know any other rules?(y, n)");
     while (!(answer == "y" || answer == "n")) {
@@ -406,29 +416,66 @@ bool Rule::resetGetRule(ContactWithPlayer& contact) {
 }
 
 void Rule::getRuleOnDisplay(ContactWithPlayer& contact) {
+
     std::cout << "\n\n===============Game Rule===============\n";
+    
     do {
-        int act = contact.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-Mode Rule, 6-...): ");
-        while (!(act == 1 || act == 2 || act == 3 || act == 4 || act == 5 || act == 6)) {
-            std::cout << "ERROR: Choise integer in range 1 - 6\n";
+    
+        int act = contact.answerUserCheckInt("> Select the rules you want to know (1-Game Rule, 2-Player Rule, 3-Character Rule, 4-Bot Rule, 5-Mode Rule, 6-Timer Rule): ");
         
-            act = contact.answerUserCheckInt("> Select the rules you want to know (1-Bot rule, 2-Player rule, 3-Characters rule, 4-Game Rule, 5-Mode Rule, 6-...): ");
+        while (!(act == 1 || act == 2 || act == 3 || act == 4 || act == 5 || act == 6)) {
+            std::cout << "ERROR: Please choose an integer in the range 1 - 6\n";
+            act = contact.answerUserCheckInt("> Select the rules you want to know (1-Game Rule, 2-Player Rule, 3-Character Rule, 4-Bot Rule, 5-Mode Rule, 6-Timer Rule): ");
         }
     
         if (act == 1) {
-            std::cout << "\n\n===============Bot Rule===============\nThere are 2 types of bots: simple, normal. The maximum number of bots is 23 (excluding the player and with standard rules of the game with 2 cards for the player and 3 cards on the table). \n1) A simple bot acts completely randomly, does not pass, and only goes all-in if the player does so.\n2) A normal bot calculates the chance of winning based on the cards in hand and the remaining cards in the deck, can pass and go all-in.\n3) Bots cannot be assigned characters, or have their difficulty changed during the game.\n";
-        } if (act == 2) {
-            std::cout << "\n\n==============Player Rule=============\n1) In the all bots game mode there is one player who can be one of 6 characters. He can call, allin, act (if it is a character) and pass.\n2) In the one-on-one game mode you can add up to 24 players, each can be given one of 6 characters. They can call, allin, act (if it is a character) and pass.\n";
-        } if (act == 3) {
-            std::cout << "\n\n===========Characters Rule============\n1) AllSeeingPlayer - Player who can look at any one card of any player.\n2) CheaterPlayer - Player who can replace one of his cards with the first card from the deck, his old card is sent back to the deck in a random place.\n3) EngagedDeckPlayer - Player who can look at the top card of the deck.\n4) DeallersFrendPlayer - Player who can replace the last card put on the table.\n5) PhotographicMemoryPlayer - Player who can look at the remaining cards in the deck.\n6) BettingManipulatorPlayer - Player who can change the current bet.\n";
-        } if (act == 4) {
-            std::cout << "\n\n==============Game Rule===============\n";
-        } if (act == 5) {
-            std::cout << "\n\n==============Mode Rule===============\n";
-        } if (act == 6) {
-            std::cout << "\n\n===============No Rule================\n";
+
+            std::cout << "1) The game is a card game where players can bet, raise, fold, and go all-in based on their hand.\n";
+            std::cout << "2) Players can choose between multiple game modes, including All Bots and One-on-One mode.\n";
+            std::cout << "3) The game includes both human players and bots, with various actions available depending on the game mode.\n";
+            std::cout << "4) Players can interact with each other and the game through various characters with unique abilities.\n";
         }
-        
+        else if (act == 2) {
+
+            std::cout << "1) In the All Bots game mode, there is one player who can be one of six characters. The player can perform the following actions:\n";
+            std::cout << "   - Call: Set new bid.\n";
+            std::cout << "   - Raise: Add to current bid.\n";
+            std::cout << "   - All-In: Bet all of their remaining chips.\n";
+            std::cout << "   - Act: Perform an action if the player is a character (based on their special abilities).\n";
+            std::cout << "   - Pass: Decline to act and move on to the next round.\n";
+            std::cout << "2) In the One-on-One game mode, you can have up to 24 players. Each player can be assigned one of the six available characters.\n";
+            std::cout << "   Players in this mode also have the ability to call, raise, all-in, act (if a character), and pass.\n";
+        }
+        else if (act == 3) {
+
+            std::cout << "1) AllSeeingPlayer: This player can inspect the cards of other players.\n";
+            std::cout << "2) CheaterPlayer: Allows a player to replace one of their cards with a new one from the deck.\n";
+            std::cout << "3) EngagedDeckPlayer: his player can see the last card in the deck.\n";
+            std::cout << "4) DeallersFrendPlayer: Allows a player to manipulate the cards on the table by replacing the last card with a new one from the deck.\n";
+            std::cout << "5) PhotographicMemoryPlayer: This player can remember and display the remaining cards in the deck.\n";
+            std::cout << "6) BettingManipulatorPlayer: Allows a player to steal chips from another player.\n";
+        }
+        else if (act == 4) {
+ 
+            std::cout << "There are 2 types of bots in the game:\n";
+            std::cout << "1) Easy Bot: Acts completely randomly. They do not fold and will only go all-in if the player does so.\n";
+            std::cout << "2) Normal Bot: Calculates the chances of winning based on their hand, the cards on the table, and the remaining cards in the deck. This bot can fold and go all-in if necessary.\n";
+            std::cout << "3) The maximum number of bots allowed is 23 (excluding the human player), with the standard setup of 2 cards for the player and 3 cards on the table.\n";
+            std::cout << "4) Bots cannot be assigned characters, and their difficulty cannot be changed during gameplay.\n";
+        }
+        else if (act == 5) {
+
+            std::cout << "1) All Bots Mode: In this mode, all players are bots (less to 23), except for one player who can choose one of the 6 characters. The bot players act based on predefined behaviors (easy or normal). \n";
+            std::cout << "2) One-on-One Mode: This mode allows you to add up to 24 players. Each player can be given one of the 6 characters and can take part in the game accordingly.\n";
+            std::cout << "3) Game Progression: In both modes, players take turns making bets, raising, calling, folding, and going all-in. The game continues until there is a winner or players decide to stop.\n";
+        }
+        else if (act == 6) {
+
+            std::cout << "1) Timer Settings: Each player has a timer for their actions. The timer duration can be set before the game starts.\n";
+            std::cout << "2) If the timer runs out, the game over.\n";
+            std::cout << "3) You can enable or disable the timer depending on the game mode and player preferences.\n";
+        }
+
     } while (resetGetRule(contact));
     
     std::cout << "=============Exit Game Rule===========\n\n";
