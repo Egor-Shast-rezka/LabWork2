@@ -70,6 +70,6 @@ $(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJDIR)/*.o $(BINDIR)/Poker $(BINDIR)/test_base $(BINDIR)/test_bot $(BINDIR)/test_game $(BINDIR)/test_char $(BINDIR)/test_mode
+	rm -rf $(OBJDIR)/*.o $(BINDIR)/Poker $(BINDIR)/test_base $(BINDIR)/test_bot $(BINDIR)/test_game $(BINDIR)/test_char $(BINDIR)/test_mode $(BINDIR)/start_timer
 
 .PHONY: all clean test_base test_bot test_game test_char test_mode
