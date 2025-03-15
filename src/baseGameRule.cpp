@@ -340,7 +340,7 @@ bool Player::isBot() { // Check to player is bot
     return false;
 }
 
-std::vector<int> Player::BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int raund, bool ifReboot){ // Bot Actions if player its bot 
+std::vector<int> Player::BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int raund, bool ifReboot){ // Ation bots: choose raise, call, allin, pass
     
     std::vector<int> action(5, 0);
     

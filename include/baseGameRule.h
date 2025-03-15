@@ -187,7 +187,7 @@ public:
     
     virtual bool isBot(); // Check is Bot or no
 
-    virtual std::vector<int> BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int raund, bool ifReboot); // Action if Player it is Bot
+    virtual std::vector<int> BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int raund, bool ifReboot); // Ation bots: choose raise, call, allin, pass // Action if Player it is Bot
     
     virtual bool isCharacter(); // Check is Character or no
     
