@@ -19,8 +19,14 @@ TEST_OBJS = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TEST_SRCS))
 
 GTEST_LIBS = -lgtest -lgtest_main -pthread
 
-all: $(TARGET)
+all: $(OBJDIR) $(BINDIR) $(TARGET)
 
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+
+$(BINDIR):
+	@mkdir -p $(BINDIR)
+ 
 $(TARGET): $(OBJS)
 	@mkdir -p $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
@@ -70,6 +76,6 @@ $(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJDIR)/*.o $(BINDIR)/Poker $(BINDIR)/test_base $(BINDIR)/test_bot $(BINDIR)/test_game $(BINDIR)/test_char $(BINDIR)/test_mode
+	rm -rf $(OBJDIR) $(BINDIR)
 
 .PHONY: all clean test_base test_bot test_game test_char test_mode
