@@ -35,44 +35,39 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-test_base: $(OBJDIR)/gtestBaseGameRule.o $(OBJS_NO_MAIN)
-	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_base $(OBJDIR)/gtestBaseGameRule.o $(OBJS_NO_MAIN) $(GTEST_LIBS)
+test_base: $(OBJDIR)/gtestBaseGameRule.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
+	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_base $^ $(GTEST_LIBS)
 	$(BINDIR)/test_base
 
-test_bot: $(OBJDIR)/gtestBot.o $(OBJS_NO_MAIN)
-	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_bot $(OBJDIR)/gtestBot.o $(OBJS_NO_MAIN) $(GTEST_LIBS)
+test_bot: $(OBJDIR)/gtestBot.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
+	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_bot $^ $(GTEST_LIBS)
 	$(BINDIR)/test_bot
 
-test_game: $(OBJDIR)/gtestPathGame.o $(OBJS_NO_MAIN)
-	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_game $(OBJDIR)/gtestPathGame.o $(OBJS_NO_MAIN) $(GTEST_LIBS)
+test_game: $(OBJDIR)/gtestPathGame.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
+	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_game $^ $(GTEST_LIBS)
 	$(BINDIR)/test_game
 
-test_char: $(OBJDIR)/gtestCharacters.o $(OBJS_NO_MAIN)
-	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_char $(OBJDIR)/gtestCharacters.o $(OBJS_NO_MAIN) $(GTEST_LIBS)
+test_char: $(OBJDIR)/gtestCharacters.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
+	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_char $^ $(GTEST_LIBS)
 	$(BINDIR)/test_char
 
-test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN)
-	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_mode $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) $(GTEST_LIBS)
+test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
+	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_mode $^ $(GTEST_LIBS)
 	$(BINDIR)/test_mode
 
-$(OBJDIR)/gtestBaseGameRule.o: $(TESTDIR)/gtestBaseGameRule.cpp
+$(OBJDIR)/gtestBaseGameRule.o: $(TESTDIR)/gtestBaseGameRule.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(OBJDIR)/gtestBot.o: $(TESTDIR)/gtestBot.cpp
+$(OBJDIR)/gtestBot.o: $(TESTDIR)/gtestBot.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(OBJDIR)/gtestPathGame.o: $(TESTDIR)/gtestPathGame.cpp
+$(OBJDIR)/gtestPathGame.o: $(TESTDIR)/gtestPathGame.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(OBJDIR)/gtestCharacters.o: $(TESTDIR)/gtestCharacters.cpp
+$(OBJDIR)/gtestCharacters.o: $(TESTDIR)/gtestCharacters.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 	
-$(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp
+$(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
