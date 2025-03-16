@@ -123,7 +123,7 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
                 std::vector<int> BotBet = game.getPlayer()[a]->BotActions(game.getPlayer()[a], game.getAllCardsForTable(), game.getDealler(), game.getBank().getCurrentBet(), Allin, raund, repeatBettingForBot);
 
                 // If the bot agrees with the bet
-                if (BotBet[0] == 1 || BotBet[3] == 0 || BotBet[4] == game.getBank().getCurrentBet()) {
+                if (BotBet[0] == 1) {
 
                     std::cout << "Bot " << a + 1 << ": \"" << game.getPlayer()[a]->getName() << "\" agrees with the current bet.\n";
                     
@@ -136,7 +136,7 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
 
                     std::cout << "Bot " << a + 1 << ": \"" << game.getPlayer()[a]->getName() << "\" pass." << "\n";
 
-                    ifActPlayerData[a] = true;
+                    DataPass[a] = true;
 
                 }
                 else if (BotBet[2] == 1) { // If the bot goes all-in
@@ -289,7 +289,10 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
                     if (PlayerBet == 0) {
 
                         std::cout << "Player " << a + 1 << ": \"" << game.getPlayer()[a]->getName() << "\" agrees with the current bet.\n";
+                        
+                        game.getPlayer()[a]->PlaceBid(game.getBank().getCurrentBet() - game.getBank().getCountBetEachPlayer(a));
 
+                        game.getBank().addCountBetEachPlayer(game.getBank().getCurrentBet() - game.getBank().getCountBetEachPlayer(a), a);
                     } 
                     else {
                     
@@ -485,6 +488,10 @@ void OneOnOne::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& 
                 if (PlayerBet == 0) {
 
                     std::cout << "Player " << a + 1 << ": \"" << game.getPlayer()[a]->getName() << "\" agrees with the current bet.\n";
+                    
+                    game.getPlayer()[a]->PlaceBid(game.getBank().getCurrentBet() - game.getBank().getCountBetEachPlayer(a));
+
+                    game.getBank().addCountBetEachPlayer(game.getBank().getCurrentBet() - game.getBank().getCountBetEachPlayer(a), a);
 
                 } 
                 else {
