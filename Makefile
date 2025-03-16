@@ -79,4 +79,5 @@ $(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp | $(OBJDIR)
 clean:
 	rm -rf $(OBJDIR) $(BINDIR) $(TIMERPATH) $(TIMER)
 
+
 .PHONY: all clean test_base test_bot test_game test_char test_mode

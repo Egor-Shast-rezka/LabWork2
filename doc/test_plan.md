@@ -1,11 +1,11 @@
-#System Test Plan: Poker.
+# System Test Plan: Poker.
 
-##Test Framework
+## Test Framework
 
-###Description:
+### Description:
 The baseGameRule module contains classes for managing the game: players, cards, decks, and game actions. It contains methods for working with cards, validating user input, and performing game mechanics such as shuffling cards, playing, and counting results.
 
-###Test Types:
+### Test Types:
 1) Unit Testing
 2) Functional Testing
 3) Error and Exception Testing
@@ -13,15 +13,15 @@ The baseGameRule module contains classes for managing the game: players, cards, 
 5) Load Testing
 6) Edge Case Testing
 
-###Test Methods:
+### Test Methods:
 1) Automated testing using Google Test to check class methods and their correctness under different conditions.
 
 2) Integration testing:
 Checking interactions between objects.
 
-##gtestВaseGameRule:
+## gtestВaseGameRule:
 
-###Test scenarios:
+### Test scenarios:
 1) Unit testing of methods:
 Testing the classes ContactWithPlayer, Card, Deck, Hand, Player, Bank, Dealler for correct execution of basic operations.
 Testing the methods for processing user input (answerUserCheckInt, answerUserCheckString) for correctness.
@@ -48,9 +48,9 @@ Dealing the maximum and minimum number of cards.
 Inputting edge values (zero bets, negative values, etc.).
 Checking the operation of methods with empty decks and hands
 
-##gtestBots:
+## gtestBots:
 
-###Test scenarios:
+### Test scenarios:
 1) Unit testing
 Check that the isBot() method works correctly for AIPlayer_easy and AIPlayer_normal.
 Check that the BotActions() method returns the correct result for AIPlayer_easy in different game situations (bets, cards on the table, number of chips).
@@ -73,9 +73,9 @@ Simulate a large number of bots performing actions simultaneously and check the 
 Test the bot's behavior at minimum and maximum bets (0 chips and the maximum amount of chips).
 Test how the bot behaves if it has 0 chips or too few to continue the game.
 
-##gtestCharacter:
+## gtestCharacter:
 
-###Test scenarios:
+### Test scenarios:
 1) Unit testing
 Test the correctness of the isCharacter() method for all characters.
 Test the correctness of the result of the CharacterActions() method for each character type under basic game conditions.
@@ -98,9 +98,9 @@ Simulate several simultaneous character actions with the bank, cards and the dec
 Test the behavior of characters with the minimum and maximum number of cards in the deck.
 Check the correctness of the methods when the player or the bank has 0 chips.
 
-##gtestGameMode:
+## gtestGameMode:
 
-###Test scenarios:
+### Test scenarios:
 
 1) Unit Testing
 Testing the setAllBots() method: Ensure that the correct number of bots are added to the game at different difficulty levels.
@@ -124,9 +124,9 @@ Simulating the game with the maximum number of bots: Check that all methods work
 6) Testing edge cases
 Adding the minimum and maximum number of bots: Make sure that everything works correctly when adding 0, 1 and 23 bots to the game.
 
-##gtestPathGame:
+## gtestPathGame:
 
-###Test scenarios:
+### Test scenarios:
 
 1) Unit testing
 Testing the setPlayer() method: Make sure that the method correctly adds players to the game.

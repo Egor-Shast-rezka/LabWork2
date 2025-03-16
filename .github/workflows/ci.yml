@@ -4,9 +4,22 @@ on:
   push:
     branches:
       - main
+      - master1
+      - master2
+      - master3
+      - master4
+      - addTestsInProject
+      - addGraphicalInterface
   pull_request:
     branches:
       - main
+      - master1
+      - master2
+      - master3
+      - master4
+      - addTestsInProject
+      - addGraphicalInterface
+
 
 jobs:
   test:
