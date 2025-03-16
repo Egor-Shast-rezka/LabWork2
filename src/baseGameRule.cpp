@@ -136,6 +136,15 @@ void Card::display() const { // Show Card on screen
     std::cout << "Number: " << number << ", Suit: " << suit << ".\n";
 }
 
+bool Card::operator<(const Card& other) const {
+
+    // Сначала сравниваем по номиналу, затем по масти
+    if (number != other.number) {
+        return number < other.number;
+    }
+    return suit < other.suit;
+}
+
 
 // ===========Deck=============
 

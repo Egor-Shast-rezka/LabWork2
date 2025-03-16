@@ -127,18 +127,16 @@ int AIPlayer_normal::calculateOuts(std::vector<Card>& hand, std::vector<Card>& c
     int handStrength = dealler.PowerHand(CurrentCards)[0];
 
     std::vector<Card> remainingCards = dealler.getDeck().getAllCards();
-
+    
+    std::sort(remainingCards.begin(), remainingCards.end());
+    
     // Check how many cards can improve the current hand strength
     for (const auto& card : remainingCards) {
 
         std::vector<Card> possibleHand = hand;
         possibleHand.push_back(card);
 
-        std::vector<Card> CurrentCardsInPossibleHand = possibleHand;
-
-        CurrentCardsInPossibleHand.insert(CurrentCardsInPossibleHand.end(), cardsOnTable.begin(), cardsOnTable.end());
-
-        int newHandStrength = dealler.PowerHand(CurrentCardsInPossibleHand)[0];
+        int newHandStrength = dealler.PowerHand(possibleHand)[0];
 
         if (newHandStrength > handStrength) {
             outs++; // Count cards that improve the hand
@@ -178,8 +176,16 @@ float AIPlayer_normal::calculateWinningProbability(std::vector<Card> hand, std::
     return winProbability;
 }
 
-// Determines the bot's actions based on its hand, available chips, and game state
+/*
+    Returns an array of 5 numbers: 
+    1 - 0 or 1 - the bot agrees with the current bet or not, 
+    2 - 0 or 1 - the bot passes or not, 
+    3 - 0 or 1 - goes all-in or not, 
+    4 - the bot raises the current bet by some number of coins, (raise)
+    5 - the bot changes the bet (call)
+*/   
 std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int round, bool ifReboot) {
+
     int playerChips = player->getChips();
     std::vector<Card> playerHand = player->getAllCards();
     int remainingChips = playerChips - currentBet;
@@ -188,50 +194,64 @@ std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, st
     if (Allin || playerChips <= currentBet) {
         return {0, 0, 1, 0, 0};  // Agree with current bet and go all-in
     }
+    if (ifReboot == true) {
+        return {1, 0, 0, 0, 0};
+    }
 
     // Calculate the probability of winning based on the bot's hand
     float winProbability = calculateWinningProbability(playerHand, cardsOnTable, dealler);
 
     int agreeWithBet = 0;
-    int fold = 0;
+    int pass = 0;
     int allIn = 0;
     int raiseAmount = 0;
     int callAmount = 0;
 
     // Decision-making logic based on winning probability
     if (winProbability < 0.2f) {
-        fold = 1;  // Fold if the win probability is too low
+    
+        pass = 1;  // Fold if the win probability is too low
+        
     } else if (winProbability >= 0.2f && winProbability < 0.5f) {
         // If the win probability is moderate
         if (round == 1) {
-            callAmount = currentBet;  // In the first round, the bot calls
+
+            if (currentBet + remainingChips * 0.1 >= remainingChips) {
+            
+                agreeWithBet = 1;
+                
+            } else {
+            
+                callAmount = currentBet + remainingChips * 0.1;  // In the first round, the bot calls
+                
+            }
         } else {
-            raiseAmount = currentBet + remainingChips * 0.1;  // In later rounds, the bot raises a small amount
+        
+            raiseAmount = remainingChips * 0.2;  // In later rounds, the bot raises a small amount
         }
     } else if (winProbability >= 0.5f && winProbability < 0.8f) {
         // If the win probability is good
         if (round == 1) {
-            callAmount = currentBet;  // In the first round, the bot calls
+        
+            if (currentBet + remainingChips * 0.2 >= remainingChips) {
+            
+                agreeWithBet = 1;
+                
+            } else {
+            
+                callAmount = currentBet + remainingChips * 0.2;  // In the first round, the bot calls
+                
+            }
         } else {
-            raiseAmount = currentBet + remainingChips * 0.3;  // In later rounds, the bot raises a larger amount
+        
+            raiseAmount = remainingChips * 0.4;  // In later rounds, the bot raises a larger amount
         }
     } else {
         // If the win probability is very high
         allIn = 1;
-        raiseAmount = playerChips;  // The bot goes all-in
-    }
 
-    // If the win probability is over 50% and the bot isn't going all-in, there's a 20% chance of all-in
-    if (winProbability >= 0.5f && allIn == 0 && (rand() % 5 == 0)) {
-        allIn = 1;
-        raiseAmount = playerChips;
     }
-
-    // Return the bot's actions:
-    // 1 - agree with current bet
-    // 2 - fold
-    // 3 - all-in
-    // 4 - raise
-    // 5 - call
-    return {agreeWithBet, fold, allIn, raiseAmount, callAmount};
+    
+    std::cout << "\nWinProbability: " << winProbability << ".\n";
+    return {agreeWithBet, pass, allIn, raiseAmount, callAmount};
 }

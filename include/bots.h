@@ -36,6 +36,8 @@ public:
 
     bool isBot() override;// Does a timer exist
     
+    void findOutsRecursive(const std::vector<Card>& hand, const std::vector<Card>& remainingCards, Dealler& dealler, int handStrength, int maxDepth, int& outs, int currentDepth, int startIndex);
+    
     int calculateOuts(std::vector<Card>& hand, std::vector<Card>& cardsOnTable, Dealler& dealler); // Calculates the number of outs
     
     float calculateWinningProbability(std::vector<Card> hand, std::vector<Card> cardsOnTable, Dealler& dealler); // Calculate winning probability

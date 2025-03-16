@@ -62,6 +62,8 @@ public:
     int getSuit() const; // Get Suit
 
     void display() const; // Show Card on screen
+    
+    bool operator<(const Card& other) const;
 };
 
 
