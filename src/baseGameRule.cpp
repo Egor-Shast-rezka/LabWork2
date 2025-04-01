@@ -285,7 +285,12 @@ int Bank::getPlayerMoney() const {
 
 // Method to get the bet amount placed by a specific player, identified by index.
 int Bank::getCountBetEachPlayer(int index) const {
-    return CountBetEachPlayer[index];
+    
+    if (static_cast<int>(CountBetEachPlayer.size()) < index || index < 0) {
+        throw std::out_of_range("No such player!"); 
+    } else {
+        return CountBetEachPlayer[index];
+    }
 }
 
 // Method to add a specified value to the current total bet in the bank.
@@ -295,7 +300,14 @@ void Bank::addCurrentBet(int value) {
 
 // Method to add a specified value to the bet of an individual player, identified by index.
 void Bank::addCountBetEachPlayer(int value, int index) {
-    CountBetEachPlayer[index] += value;
+    
+    if (static_cast<int>(CountBetEachPlayer.size()) < index || index < 0) {
+        throw std::out_of_range("No such player!"); 
+    } else if (value < 0) {
+        throw std::invalid_argument("Invalid argument!");
+    } else {
+        CountBetEachPlayer[index] += value;
+    }
 }
 
 

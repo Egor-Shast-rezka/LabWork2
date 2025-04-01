@@ -13,21 +13,6 @@
 #include "characters.h"
 
 
-// ===========GameMode=============
-
-void GameMode::setupForGameMode() {
-    std::cout << "";
-}
-
-void GameMode::OutputInfoPlayers() {
-    std::cout << "";
-}
-    
-void GameMode::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund) {
-    std::cout << "";
-}
-
-
 // ===========Timer=============
 
 void Timer::SetExist(bool ex) {
