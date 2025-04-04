@@ -14,7 +14,7 @@ TARGET = $(BINDIR)/Poker
 
 SRCS = $(wildcard $(SRCDIR)/*.cpp)
 OBJS_NO_TIMER = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter-out $(SRCDIR)/main_timer.cpp, $(SRCS)))
-OBJS_NO_MAIN = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter-out $(SRCDIR)/main.cpp, $(SRCS)))
+OBJS_NO_MAIN = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter-out $(SRCDIR)/main.cpp  $(SRCDIR)/main_timer.cpp, $(SRCS)))
 
 TEST_SRCS = $(wildcard $(TESTDIR)/*.cpp)
 TEST_OBJS = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TEST_SRCS))
