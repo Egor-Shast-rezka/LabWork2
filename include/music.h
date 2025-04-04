@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <cmath>
-#include <rtaudio/RtAudio.h>
+#include <RtAudio.h>
 #include <random>
 #include <thread>
 #include <chrono>
