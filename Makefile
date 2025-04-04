@@ -13,7 +13,7 @@ TIMERPATH = /tmp/timerData
 TARGET = $(BINDIR)/Poker
 
 SRCS = $(wildcard $(SRCDIR)/*.cpp)
-OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
+OBJS_NO_TIMER = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter-out $(SRCDIR)/main_timer.cpp, $(SRCS)))
 OBJS_NO_MAIN = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter-out $(SRCDIR)/main.cpp, $(SRCS)))
 
 TEST_SRCS = $(wildcard $(TESTDIR)/*.cpp)
@@ -33,7 +33,7 @@ $(TIMER):
 	@mkdir -p $(TIMER)
 	@mkfifo $(TIMERPATH)
  
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS_NO_TIMER)
 	@mkdir -p $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
@@ -61,6 +61,8 @@ test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_mode $^ $(GTEST_LIBS)
 	$(BINDIR)/test_mode
 
+all_test: test_mode test_char test_game test_bot test_base
+	
 $(OBJDIR)/gtestBaseGameRule.o: $(TESTDIR)/gtestBaseGameRule.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -80,4 +82,4 @@ clean:
 	rm -rf $(OBJDIR) $(BINDIR) $(TIMERPATH) $(TIMER)
 
 
-.PHONY: all clean test_base test_bot test_game test_char test_mode
+.PHONY: all clean test_base test_bot test_game test_char test_mode all_test
