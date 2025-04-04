@@ -1,5 +1,6 @@
 CXX = g++
-CXXFLAGS = -Werror -Wpedantic -Wall -std=c++17 -Iinclude
+CXXFLAGS = -Werror -Wpedantic -Wall -std=c++17 -Iinclude -Ilibs/rtaudio/include
+LDFLAGS = -Llibs/rtaudio/build -lrtaudio
 
 SRCDIR = src
 INCDIR = include
@@ -35,7 +36,7 @@ $(TIMER):
  
 $(TARGET): $(OBJS)
 	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(OBJDIR)
@@ -61,6 +62,11 @@ test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_mode $^ $(GTEST_LIBS)
 	$(BINDIR)/test_mode
 
+install_libs:
+	@sudo mkdir -p /usr/local/lib
+	@sudo cp -P libs/rtaudio/build/librtaudio.so* /usr/local/lib/
+	@sudo ldconfig
+	
 $(OBJDIR)/gtestBaseGameRule.o: $(TESTDIR)/gtestBaseGameRule.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -80,4 +86,4 @@ clean:
 	rm -rf $(OBJDIR) $(BINDIR) $(TIMERPATH) $(TIMER)
 
 
-.PHONY: all clean test_base test_bot test_game test_char test_mode
+.PHONY: all clean test_base test_bot test_game test_char test_mode install_libs
