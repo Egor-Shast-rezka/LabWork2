@@ -67,7 +67,7 @@ TEST(AIPlayer_easyTest, BotActionsAllInCondition) {
     cardsOnTable.push_back(Card(2, 2));
     Dealler dealler;
     int currentBet = 50;
-    bool Allin = true;  // Force all-in condition
+    bool Allin = true;   // Force all-in condition
     int round = 1;
     bool ifReboot = false;
 
