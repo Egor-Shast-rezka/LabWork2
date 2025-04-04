@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install g++ cmake libgtest-dev
 
+      - name: Clone RtAudio
+        run: git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio
+
       - name: Build and run tests
         run: |
           make all_test
@@ -46,6 +49,9 @@ jobs:
 
       - name: Install dependencies
         run: sudo apt-get install g++ cmake libgtest-dev
+
+      - name: Clone RtAudio
+        run: git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio
 
       - name: Build project
         run: make
