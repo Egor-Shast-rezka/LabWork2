@@ -34,6 +34,7 @@ jobs:
 
       - name: Build and run tests
         run: |
+          export LD_LIBRARY_PATH=libs/rtaudio/build:$LD_LIBRARY_PATH
           make all_test
           make clean
 
@@ -54,4 +55,7 @@ jobs:
         run: git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio
 
       - name: Build project
-        run: make
+        run: |
+          export LD_LIBRARY_PATH=libs/rtaudio/build:$LD_LIBRARY_PATH
+          make
+          make clean
