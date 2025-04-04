@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Werror -Wpedantic -Wall -std=c++17 -Iinclude -Ilibs/rtaudio/include
+CXXFLAGS = -Werror -Wpedantic -Wall -std=c++17 -Iinclude -Ilibs/rtaudio -Ilibs/rtaudio/include
 LDFLAGS = -Llibs/rtaudio/build -lrtaudio
 
 SRCDIR = src
