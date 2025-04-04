@@ -54,7 +54,7 @@ void Timer::TimerStart() {
     system("rm /tmp/timerData");
     system("mkfifo /tmp/timerData");
     
-    system("gnome-terminal -- bash -c \"g++ -o bin/start_timer TimerData/main_timer.cpp && ./bin/start_timer bash\"");
+    system("gnome-terminal -- bash -c \"g++ -o bin/start_timer src/main_timer.cpp && ./bin/start_timer bash\"");
     
     // Loop until the specified number of seconds have passed
     while (true) {
