@@ -93,7 +93,7 @@ TEST(AllBotsTest, InteractionWithGame) {
     EXPECT_GT(game.getPlayer().size(), 0);  // Ensure that players are added to the game
 }
 
-// ===== 4) Performance Testing
+// ===== 3) Performance Testing
 
 // Testing the performance of the setupForGameMode method in AllBots
 TEST(AllBotsTest, SetupForGameModePerformance) {
@@ -132,7 +132,7 @@ TEST(AllBotsTest, GameModePathGamePerformance) {
     EXPECT_LT(duration, 200);  // Ensure the method completes in less than 200 ms
 }
 
-// ===== 5) Load Testing
+// ===== 4) Load Testing
 
 // Testing the setupForGameMode method with a large number of players
 TEST(AllBotsTest, SetupForGameModeLoadTest) {
@@ -151,7 +151,7 @@ TEST(AllBotsTest, SetupForGameModeLoadTest) {
     std::cin.rdbuf(originalCin);
 }
 
-// ===== 6) Edge Case Testing
+// ===== 5) Edge Case Testing
 
 // Testing the GameModePathGame method with all players passing
 TEST(AllBotsTest, GameModePathGameEdgeCaseAllPass) {
@@ -253,7 +253,7 @@ TEST(OneOnOneTest, GameModePathGameInvalidInput) {
     std::cin.rdbuf(originalCin);
 }
 
-// ===== 4) Performance Testing
+// ===== 3) Performance Testing
 
 // Testing the performance of the setupForGameMode method in OneOnOne
 TEST(OneOnOneTest, SetupForGameModePerformance) {
@@ -299,7 +299,7 @@ TEST(OneOnOneTest, GameModePathGamePerformance) {
     EXPECT_LT(duration, 200);  // Ensure the method completes in less than 200 ms
 }
 
-// ===== 5) Load Testing
+// ===== 4) Load Testing
 
 // Testing the setupForGameMode method with a large number of players
 TEST(OneOnOneTest, SetupForGameModeLoadTest) {
@@ -318,7 +318,7 @@ TEST(OneOnOneTest, SetupForGameModeLoadTest) {
     std::cin.rdbuf(originalCin);
 }
 
-// ===== 6) Edge Case Testing
+// ===== 5) Edge Case Testing
 
 
 // Testing the GameModePathGame method with all players passing

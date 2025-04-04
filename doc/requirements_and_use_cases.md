@@ -3,7 +3,7 @@
 ## 1) General requirements:
 The system must support multiplayer gameplay, where players can interact with virtual opponents (bots) or with each other, depending on the selected game mode.
 Each game match must involve at least one player.
-Support for both a text and graphic interface for user interaction and automatic execution of actions by bots.
+Support for a text and music for user interaction and automatic execution of actions by bots.
 All game actions must be performed sequentially in turn, ensuring fairness of the move for each participant.
 
 ## 2) Player requirements:

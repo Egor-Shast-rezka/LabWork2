@@ -38,7 +38,7 @@ TEST(PathGameTest, SetupForGameModeValidInput) {
     EXPECT_NO_THROW(gameMode.setupForGameMode());  // Ensure the method works with valid input
 }
 
-// ===== 4) Performance Testing
+// ===== 3) Performance Testing
 
 // Testing the performance of the GameModePathGame method
 TEST(PathGameTest, GameModePathGamePerformance) {
@@ -56,7 +56,7 @@ TEST(PathGameTest, GameModePathGamePerformance) {
     EXPECT_LT(duration, 100);  // Ensure the method completes in less than 100 ms
 }
 
-// ===== 5) Load Testing
+// ===== 4) Load Testing
 
 // Testing the GameModePathGame method with a large number of players
 TEST(PathGameTest, GameModePathGameLoadTest) {
