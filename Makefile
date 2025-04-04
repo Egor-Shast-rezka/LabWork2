@@ -78,7 +78,7 @@ test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
 	$(BINDIR)/test_mode
 
 
-all_test: test_mode test_char test_game test_bot test_base
+all_test: rtaudio test_mode test_char test_game test_bot test_base
 
 # =========== GTest Object Compilation ===========
 
