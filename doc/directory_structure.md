@@ -6,6 +6,7 @@
 |   |-- characters.cpp                  # Implementation of character-specific player actions.
 |   |-- gameMode.cpp                    # Game mode logic and functionality.
 |   |-- pathGame.cpp                    # Code to manage the progression of the game.
+|   |-- music.cpp                       # Code for music.
 |   |-- main.cpp                        # Entry point of the application.
 |
 |-- /include
@@ -14,6 +15,7 @@
 |   |-- characters.h                    # Header file for characters and their abilities.
 |   |-- gameMode.h                      # Header file for game modes.
 |   |-- pathGame.h                      # Header file for game progression.
+|   |-- music.h                         # Header file for game music.
 |
 |-- /doc
 |   |-- directory_structure.md          # Documentation about the project's directory structure.

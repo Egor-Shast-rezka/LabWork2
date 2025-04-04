@@ -33,11 +33,15 @@ bool AIPlayer_easy::isBot() {
     5 - the bot changes the bet (call)
 */
 std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int raund, bool ifReboot) {
-
+    
     int chips = player->getChips();
 
     std::vector<int> action(5, 0);
-
+    
+    if (currentBet < 0 || raund < 0) {
+        throw std::invalid_argument("Invalid argument!");
+    }
+    
     std::random_device rd;
     std::mt19937 gen(rd());
 
@@ -51,7 +55,7 @@ std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std:
 
     // Random chance for bot to go all-in, or if all-in condition is met
     std::uniform_int_distribution<> chanceAllin(1, 20);
-    if (chanceAllin(gen) == 1 || Allin) {
+    if (chanceAllin(gen) == 1 || Allin || chips == 0) {
 
         action[2] = 1; // Goes all-in
         return action;
@@ -184,8 +188,12 @@ float AIPlayer_normal::calculateWinningProbability(std::vector<Card> hand, std::
     4 - the bot raises the current bet by some number of coins, (raise)
     5 - the bot changes the bet (call)
 */   
-std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int round, bool ifReboot) {
-
+std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, std::vector<Card> cardsOnTable, Dealler& dealler, int currentBet, bool Allin, int raund, bool ifReboot) {
+    
+    if (currentBet < 0 || (raund < 0 || raund > 6)) {
+        throw std::invalid_argument("Invalid argument!");
+    }
+    
     int playerChips = player->getChips();
     std::vector<Card> playerHand = player->getAllCards();
     int remainingChips = playerChips - currentBet;
@@ -214,7 +222,7 @@ std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, st
         
     } else if (winProbability >= 0.2f && winProbability < 0.5f) {
         // If the win probability is moderate
-        if (round == 1) {
+        if (raund == 1) {
 
             if (currentBet + remainingChips * 0.1 >= remainingChips) {
             
@@ -231,7 +239,7 @@ std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, st
         }
     } else if (winProbability >= 0.5f && winProbability < 0.8f) {
         // If the win probability is good
-        if (round == 1) {
+        if (raund == 1) {
         
             if (currentBet + remainingChips * 0.2 >= remainingChips) {
             

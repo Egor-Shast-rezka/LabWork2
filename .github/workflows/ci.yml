@@ -9,7 +9,7 @@ on:
       - master3
       - master4
       - addTestsInProject
-      - addGraphicalInterface
+      - addMusicInProject
   pull_request:
     branches:
       - main
@@ -17,8 +17,8 @@ on:
       - master2
       - master3
       - master4
+      - addMusicInProject
       - addTestsInProject
-      - addGraphicalInterface
 
 
 jobs:

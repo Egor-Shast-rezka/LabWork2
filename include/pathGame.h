@@ -27,19 +27,6 @@ Timer: A class that manages a timer for the game. It allows for creating a timer
 #define PATHGAME_H
 
 
-// ===========GameMode=============
-
-class GameMode {
-public:
-
-    virtual void setupForGameMode(); // Set game mode
-    
-    virtual void OutputInfoPlayers(); // Display information about players
-    
-    virtual void GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund); // Game progress with selected mode
-};
-
-
 // ===========Timer=============
 
 class Timer {
@@ -62,6 +49,7 @@ public:
 
 
 // ===========Game=============
+class GameMode;
 
 class Game {
 private:
