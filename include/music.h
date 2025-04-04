@@ -102,11 +102,11 @@ private:
     SoundGenerator* generator;
     double time;
 
-    static int audioCallback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
-
 public:
 
     AudioEngine();
+    
+     static int audioCallback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
 
     void setGenerator(SoundGenerator* gen);
 
@@ -150,12 +150,16 @@ private:
 public:
 
     InfiniteMelodyPlayer(AudioEngine& eng, RandomMelodyGenerator& melodyGen);
-
+    
     // Set available generators
     void setGenerators(const std::vector<SoundGenerator*>& genList);
 
     // Add predefined music parts (sequences of notes) for playback
     void setMelodyParts(const std::vector<std::vector<double>>& parts);
+    
+    void setAudioEngine(const AudioEngine engine);
+    
+    void setRandomMelodyGenerator(const RandomMelodyGenerator melodyGenerator);
 
     // Infinite random melody with randomly chosen sound generators
     void startInfinite_Lite();

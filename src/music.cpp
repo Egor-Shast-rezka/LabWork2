@@ -30,25 +30,25 @@ double SoundGenerator::getFrequency() const {
 
 
 // ========== SineWaveGenerator ==========
-double SineWaveGenerator::generateSample(double time) const override {
+double SineWaveGenerator::generateSample(double time) const {
     return amplitude * sin(2.0 * M_PI * frequency * time);
 }
 
 
 // ========== SquareWaveGenerator ==========
-double SquareWaveGenerator::generateSample(double time) const override {
+double SquareWaveGenerator::generateSample(double time) const {
     return (sin(2.0 * M_PI * frequency * time) >= 0) ? amplitude : -amplitude;
 }
 
 
 // ========== SawWaveGenerator ==========
-double SawWaveGenerator::generateSample(double time) const override {
+double SawWaveGenerator::generateSample(double time) const {
     return 2.0 * amplitude * (time * frequency - floor(time * frequency + 0.5));
 }
 
 
 // ========== TriangleWaveGenerator ==========
-double TriangleWaveGenerator::generateSample(double time) const override {
+double TriangleWaveGenerator::generateSample(double time) const {
     double period = 1.0 / frequency; // Period of the wave
     double normalizedTime = fmod(time, period); // Normalize the time
 
@@ -60,13 +60,21 @@ double TriangleWaveGenerator::generateSample(double time) const override {
 // ========== NoiseGenerator ==========
 NoiseGenerator::NoiseGenerator() : rng(std::random_device{}()), dist(-1.0, 1.0) {}
     
-double NoiseGenerator::generateSample(double) const override {
+double NoiseGenerator::generateSample(double) const {
     return amplitude * dist(rng);
 }
 
 
 // ========== AudioEngine ==========
-static int AudioEngine::audioCallback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData) {
+AudioEngine::AudioEngine() : generator(nullptr), time(0.0) {
+    
+    if (rtAudio.getDeviceCount() < 1) {
+        
+        throw std::runtime_error("No audio devices found!");
+    }
+}
+
+int AudioEngine::audioCallback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData) {
     
     AudioEngine *engine = static_cast<AudioEngine*>(userData);
     float *buffer = static_cast<float*>(outputBuffer);
@@ -85,14 +93,6 @@ static int AudioEngine::audioCallback(void *outputBuffer, void *inputBuffer, uns
     }
 
     return 0;
-}
-
-AudioEngine::AudioEngine() : generator(nullptr), time(0.0) {
-    
-    if (rtAudio.getDeviceCount() < 1) {
-        
-        throw std::runtime_error("No audio devices found!");
-    }
 }
 
 void AudioEngine::setGenerator(SoundGenerator* gen) {
