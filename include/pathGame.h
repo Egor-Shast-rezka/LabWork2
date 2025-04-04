@@ -50,6 +50,7 @@ public:
 
 // ===========Game=============
 class GameMode;
+class InfiniteMelodyPlayer;
 
 class Game {
 private:
@@ -60,6 +61,7 @@ private:
     ContactWithPlayer contact; // Add obj for contact with player
     Bank bank; // Bank with players money and current game for game
     Timer timer; // Timer with player
+    InfiniteMelodyPlayer* melody; // Music for game
     std::vector<std::unique_ptr<GameMode>> gamemode;
     
     bool Character; // Exist character

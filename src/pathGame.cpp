@@ -11,6 +11,7 @@
 #include "gameMode.h"
 #include "bots.h"
 #include "characters.h"
+#include "music.h"
 
 
 // ===========Timer=============
@@ -304,9 +305,51 @@ int Game::startGame() {
 }
 
 
-void Game::setMode(){
-    
+void Game::setMode() {
     std::cout << "> To open rules, write 'rule'.\n";
+
+    // Set Music
+    std::string setMusic = contact.answerUserCheckString("> Do you want to play with Music? (y/n): ");
+    while (!(setMusic == "y" || setMusic == "n")) {
+    
+        std::cerr << "ERROR: Write 'y' or 'n'!\n";
+        setMusic = contact.answerUserCheckString("> Do you want to play with Music? (y/n): ");
+    }
+
+    if (setMusic == "y") {
+        int type = contact.answerUserCheckInt("> Write the music type (random note - 1, random parts - 2, grasshopper - 3): ");
+
+        while (!(type >= 1 && type <= 3)) {
+        
+            std::cerr << "ERROR: Write 1 or 2 or 3!\n";
+            type = contact.answerUserCheckInt("> Write the music type (random note - 1, random parts - 2, grasshopper - 3): ");
+        }
+
+        switch (type) {
+            case 1:
+            
+                melody->startInfinite_Lite();
+                break;
+                
+            case 2: {
+            
+                // Melody parts (same as in main)
+                std::vector<std::vector<double>> parts = {
+                    {440.0, 493.88, 523.25},
+                    {523.25, 587.33, 659.25},
+                    {698.46, 739.99, 783.99},
+                    {880.00, 987.77, 1046.50}
+                };
+                melody->setMelodyParts(parts);
+                melody->startInfinite_Part();
+                break;
+            }
+            case 3:
+            
+                melody->startInfinite_Melody_1();
+                break;
+        }
+    }
     
     // Set Timer
     std::string setTimer = contact.answerUserCheckString("> Do you want to play with Timer? (y/n): ");
