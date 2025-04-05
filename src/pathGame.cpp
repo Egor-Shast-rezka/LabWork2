@@ -308,48 +308,66 @@ int Game::startGame() {
 void Game::setMode() {
     std::cout << "> To open rules, write 'rule'.\n";
 
-    // Set Music
     std::string setMusic = contact.answerUserCheckString("> Do you want to play with Music? (y/n): ");
     while (!(setMusic == "y" || setMusic == "n")) {
-    
         std::cerr << "ERROR: Write 'y' or 'n'!\n";
         setMusic = contact.answerUserCheckString("> Do you want to play with Music? (y/n): ");
     }
 
     if (setMusic == "y") {
-        int type = contact.answerUserCheckInt("> Write the music type (random note - 1, random parts - 2, grasshopper - 3): ");
+        int type = contact.answerUserCheckInt("> Write the music type (1-random note, 2-random parts, 3-grasshopper): ");
 
         while (!(type >= 1 && type <= 3)) {
-        
             std::cerr << "ERROR: Write 1 or 2 or 3!\n";
-            type = contact.answerUserCheckInt("> Write the music type (random note - 1, random parts - 2, grasshopper - 3): ");
+            type = contact.answerUserCheckInt("> Write the music type (1-random note, 2-random parts, 3-grasshopper): ");
         }
 
-        switch (type) {
-            case 1:
+        // Create Generator and engine
+        auto melodyGenerator = std::make_unique<RandomMelodyGenerator>();
+        auto engine = std::make_unique<AudioEngine>();
+
+        melody = std::make_unique<InfiniteMelodyPlayer>(*engine, *melodyGenerator);
+
+        this->engine = std::move(engine);
+        this->melodyGenerator = std::move(melodyGenerator);
+
+        // Generations sound
+        std::vector<std::unique_ptr<SoundGenerator>> generators;
+        generators.push_back(std::make_unique<SquareWaveGenerator>());
+        generators.push_back(std::make_unique<TriangleWaveGenerator>());
+        generators.push_back(std::make_unique<SawWaveGenerator>());
+        generators.push_back(std::make_unique<NoiseGenerator>());
+
+        melody->setGenerators(std::move(generators));
+
+        std::thread([this, type]() {
+            switch (type) {
             
-                melody->startInfinite_Lite();
-                break;
+                case 1:
                 
-            case 2: {
-            
-                // Melody parts (same as in main)
-                std::vector<std::vector<double>> parts = {
-                    {440.0, 493.88, 523.25},
-                    {523.25, 587.33, 659.25},
-                    {698.46, 739.99, 783.99},
-                    {880.00, 987.77, 1046.50}
-                };
-                melody->setMelodyParts(parts);
-                melody->startInfinite_Part();
-                break;
+                    melody->startInfinite_Lite();
+                    break;
+                    
+                case 2: {
+                
+                    std::vector<std::vector<double>> parts = {
+                        {440.0, 493.88, 523.25},
+                        {523.25, 587.33, 659.25},
+                        {698.46, 739.99, 783.99},
+                        {880.00, 987.77, 1046.50}
+                    };
+                    melody->setMelodyParts(parts);
+                    melody->startInfinite_Part();
+                    break;
+                }
+                case 3:
+                
+                    melody->startInfinite_Melody_1();
+                    break;
             }
-            case 3:
-            
-                melody->startInfinite_Melody_1();
-                break;
-        }
+        }).detach();
     }
+
     
     // Set Timer
     std::string setTimer = contact.answerUserCheckString("> Do you want to play with Timer? (y/n): ");
@@ -417,7 +435,7 @@ void Game::setMode() {
     
     std::cout << "Chips has been set.\nGame mode has been set.\n\n========Start Play========\n";
     
-    // Set Gmae
+    // Set Game
     if (timer.IsExist()) {
         
         std::thread timerThread(&Timer::TimerStart, &timer);

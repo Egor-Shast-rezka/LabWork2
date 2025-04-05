@@ -49,8 +49,11 @@ public:
 
 
 // ===========Game=============
+
 class GameMode;
 class InfiniteMelodyPlayer;
+class AudioEngine;
+class RandomMelodyGenerator;
 
 class Game {
 private:
@@ -61,8 +64,11 @@ private:
     ContactWithPlayer contact; // Add obj for contact with player
     Bank bank; // Bank with players money and current game for game
     Timer timer; // Timer with player
-    InfiniteMelodyPlayer* melody; // Music for game
     std::vector<std::unique_ptr<GameMode>> gamemode;
+
+    std::unique_ptr<InfiniteMelodyPlayer> melody; // Music for game
+    std::unique_ptr<AudioEngine> engine; // Engine for music
+    std::unique_ptr<RandomMelodyGenerator> melodyGenerator; // Generator for music
     
     bool Character; // Exist character
     int CountGame; // Count game
