@@ -1,11 +1,13 @@
 /*
     Egor Shastin st129457@student.spbu.ru
     
+    Header file containing classes and interfaces for generating and playing melodies.
 */
 
 
 #include <iostream>
 #include <cmath>
+#include <memory>
 #include <RtAudio.h>
 #include <random>
 #include <thread>
@@ -38,15 +40,6 @@ public:
     double getFrequency() const;
     
     virtual double generateSample(double time) const = 0;
-};
-
-
-// ========== SineWaveGenerator ==========
-// Derived class for sine wave generation
-class SineWaveGenerator : public SoundGenerator {
-public:
-
-    double generateSample(double time) const override;
 };
 
 
@@ -110,8 +103,9 @@ public:
 
     void setGenerator(SoundGenerator* gen);
 
-    void start(double duration);
+    void start();
 };
+
 
 // ========== RandomMelodyGenerator ==========
 // Random Melody Generator
@@ -144,7 +138,7 @@ private:
 
     AudioEngine& engine;
     RandomMelodyGenerator& melodyGenerator;
-    std::vector<SoundGenerator*> generators;
+    std::vector<std::unique_ptr<SoundGenerator>> generators;
     std::vector<std::vector<double>> melodyParts; // Store melody parts
 
 public:
@@ -152,7 +146,7 @@ public:
     InfiniteMelodyPlayer(AudioEngine& eng, RandomMelodyGenerator& melodyGen);
     
     // Set available generators
-    void setGenerators(const std::vector<SoundGenerator*>& genList);
+    void setGenerators(std::vector<std::unique_ptr<SoundGenerator>> genList);
 
     // Add predefined music parts (sequences of notes) for playback
     void setMelodyParts(const std::vector<std::vector<double>>& parts);
@@ -170,5 +164,6 @@ public:
     // Infinite playback of "In the grass sat the grasshopper" melody
     void startInfinite_Melody_1();
 };
+
 
 #endif

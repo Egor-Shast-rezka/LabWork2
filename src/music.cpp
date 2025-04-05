@@ -1,6 +1,7 @@
 /*
     Egor Shastin st129457@student.spbu.ru
     
+    Implementation of classes from music.h: audio stream management, random note generation,
 */
 
 
@@ -26,12 +27,6 @@ double SoundGenerator::getAmplitude() const {
 double SoundGenerator::getFrequency() const {
 
     return frequency;
-}
-
-
-// ========== SineWaveGenerator ==========
-double SineWaveGenerator::generateSample(double time) const {
-    return amplitude * sin(2.0 * M_PI * frequency * time);
 }
 
 
@@ -89,7 +84,7 @@ int AudioEngine::audioCallback(void *outputBuffer, void *inputBuffer, unsigned i
     for (unsigned int i = 0; i < nBufferFrames; i++) {
         
         buffer[i] = engine->generator->generateSample(engine->time);
-        engine->time += 1.0 / 44100.0;  // Increment time based on sample rate (44100 Hz)
+        engine->time += 1.0 / 44100.0; // Increment time based on sample rate (44100 Hz)
     }
 
     return 0;
@@ -100,33 +95,24 @@ void AudioEngine::setGenerator(SoundGenerator* gen) {
     generator = gen;
 }
 
-void AudioEngine::start(double duration) {
-    
+void AudioEngine::start() {
     if (!generator) {
-        
         throw std::runtime_error("No sound generator set!");
     }
+
+    if (rtAudio.isStreamOpen()) return;
 
     RtAudio::StreamParameters parameters;
     parameters.deviceId = rtAudio.getDefaultOutputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
-    unsigned int bufferFrames = 2048;
+    unsigned int bufferFrames = 256;
 
     try {
-        
         rtAudio.openStream(&parameters, nullptr, RTAUDIO_FLOAT32, 44100, &bufferFrames, &audioCallback, this);
         rtAudio.startStream();
-            
-        // Run for the specified duration
-        std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(duration * 1000)));
-
-        rtAudio.stopStream();
-        rtAudio.closeStream();
-    }
-    catch (...) {
-        
-        std::cerr << "Unknown error in RtAudio!" << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown error in RtAudio.\n";
     }
 }
 
@@ -157,7 +143,7 @@ double RandomMelodyGenerator::getNextFrequency() {
     
     if (scale.empty()) {
         
-        return 440.0; // Default to A4 if no scale is set
+        return 440.0;
     }
     return scale[distribution(rng)];
 }
@@ -167,9 +153,9 @@ double RandomMelodyGenerator::getNextFrequency() {
 InfiniteMelodyPlayer::InfiniteMelodyPlayer(AudioEngine& eng, RandomMelodyGenerator& melodyGen) : engine(eng), melodyGenerator(melodyGen) {}
 
 // Set available generators (Lite version)
-void InfiniteMelodyPlayer::setGenerators(const std::vector<SoundGenerator*>& genList) {
-    
-    generators = genList;
+void InfiniteMelodyPlayer::setGenerators(std::vector<std::unique_ptr<SoundGenerator>> genList) {
+
+    generators = std::move(genList);
 }
 
 // Add predefined music parts (sequences of notes) for playback
@@ -178,17 +164,29 @@ void InfiniteMelodyPlayer::setMelodyParts(const std::vector<std::vector<double>>
     melodyParts = parts;
 }
 
-// Infinite random melody with randomly chosen sound generators (Lite version)
+// Infinite random melody with randomly chosen sound generators
 void InfiniteMelodyPlayer::startInfinite_Lite() {
     
     while (true) {
-        
-        SoundGenerator* currentGenerator = generators[std::rand() % generators.size()];
+
+        if (generators.empty()) {
+            std::cerr << "ERROR: Generator list is empty!\n";
+            return;
+        }
+
+        SoundGenerator* currentGenerator = generators[std::rand() % generators.size()].get();
+
         engine.setGenerator(currentGenerator);
+        
+        engine.start();
+
         double frequency = melodyGenerator.getNextFrequency();
+
         currentGenerator->setFrequency(frequency);
-        engine.start(0.05);  // Play each note for 0.05 seconds
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));  // Wait for the note to finish
+        
+        double duration = 0.05;
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(int(duration * 1000 * 0.9)));
     }
 }
 
@@ -203,13 +201,16 @@ void InfiniteMelodyPlayer::startInfinite_Part() {
         std::vector<double> part = melodyParts[partIndex];
 
         for (double frequency : part) {
-            
+        
             // Select a random generator for each note
-            SoundGenerator* currentGenerator = generators[std::rand() % generators.size()];
+            SoundGenerator* currentGenerator = generators[std::rand() % generators.size()].get();
             engine.setGenerator(currentGenerator);
+            engine.start();
             currentGenerator->setFrequency(frequency);
-            engine.start(0.1); // Play each note for 0.2 seconds
-            std::this_thread::sleep_for(std::chrono::milliseconds(250)); // Wait for the note to finish
+            
+            double duration = 0.1;
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(int(duration * 1000 * 0.9)));
         }
 
         // Cycle through the parts (there are 4 parts)
@@ -221,22 +222,41 @@ void InfiniteMelodyPlayer::startInfinite_Part() {
 void InfiniteMelodyPlayer::startInfinite_Melody_1() {
 
     // "In the grass sat the grasshopper" melody
-    std::vector<double> melody = {
-    293.66, 330.00, 349.23, 349.23, 330.00, 293.66, 330.00, 349.23, 349.23, 330.00, 293.66, // "In the grass"
+    std::vector<double> melody = { 
+        293.66, 330.00, 349.23, 349.23, 330.00, 293.66, 330.00, 349.23, 349.23, 330.00, 293.66, // "In the grass"
         440.00, 493.88, 523.25, 523.25, 493.88, 440.00, 493.88, 523.25, 523.25, 493.88, 440.00, // "sat the grasshopper"
-        466.16, 440.00, 466.16, 440.00, 466.16, 440.00, 466.16, 440.00
+        466.16, 440.00, 466.16, 440.00, 466.16, 440.00, 466.16, 440.00,                         // hopping motif
+        392.00, 440.00, 392.00, 349.23, 392.00, 440.00,                                         // "Just like a cucumber"
+        349.23, 329.63, 293.66, 329.63, 349.23, 293.66                                          // "He was green."
+    };
+
+    std::vector<double> durations = {
+        0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.8,  // "In the grass"
+        0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.8,  // "sat the grasshopper"
+        0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.8,                 // hopping motif
+        0.4, 0.4, 0.4, 0.4, 0.4, 0.8,                           // "Just like a cucumber"
+        0.4, 0.4, 0.4, 0.4, 0.4, 0.8                            // "He was green."
     };
 
     while (true) {
-        
-        for (double frequency : melody) {
-            
+        for (size_t i = 0; i < melody.size(); ++i) {
+
             // Select a random generator for each note
-            SoundGenerator* currentGenerator = generators[std::rand() % generators.size()];
+            SoundGenerator* currentGenerator = generators[1].get();
             engine.setGenerator(currentGenerator);
-            currentGenerator->setFrequency(frequency);
-            engine.start(0.3);  // Play each note for 0.3 seconds
-            std::this_thread::sleep_for(std::chrono::milliseconds(350));  // Wait for the note to finish
+            engine.start();
+            currentGenerator->setFrequency(melody[i]);
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(durations[i] * 1000) + 50));
         }
     }
 }
+
+
+
+
+
+
+
+
+
