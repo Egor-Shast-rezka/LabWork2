@@ -106,7 +106,7 @@ void AudioEngine::start() {
     parameters.deviceId = rtAudio.getDefaultOutputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
-    unsigned int bufferFrames = 256;
+    unsigned int bufferFrames = 512;
 
     try {
         rtAudio.openStream(&parameters, nullptr, RTAUDIO_FLOAT32, 44100, &bufferFrames, &audioCallback, this);
