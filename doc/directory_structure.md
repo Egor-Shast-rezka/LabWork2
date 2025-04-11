@@ -22,6 +22,7 @@
 |   |-- test_plan.md                    # The testing plan for the project.
 |   |-- UML_diagramma_class.drawio      # UML class diagram.
 |   |-- UML_diagramma_component.drawio  # UML component diagram.
+|   |-- test_report.xml                 # Test report
 |
 |-- /tests
 |   |-- gtestBaseGameRule.cpp           # Google Test file for testing base game rule functionality.
@@ -29,6 +30,7 @@
 |   |-- gtestCharacters.cpp             # Google Test file for testing character actions.
 |   |-- gtestGameMode.cpp               # Google Test file for testing game mode functionality.
 |   |-- gtestPathGame.cpp               # Google Test file for testing the game progression.
+|   |-- gtestMain.cpp                   # This file contains main function
 |
 |-- /TimerData
 |   |-- main_timer.cpp                  # Code related to timer functionality.
