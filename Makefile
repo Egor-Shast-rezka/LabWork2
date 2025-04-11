@@ -21,6 +21,9 @@ TEST_OBJS = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TEST_SRCS))
 
 GTEST_LIBS = -lgtest -lgtest_main -pthread
 
+
+# =========== Main Build Targets ===========
+
 all: $(OBJDIR) $(BINDIR) $(TIMER) $(TARGET)
 
 $(OBJDIR):
@@ -40,6 +43,9 @@ $(TARGET): $(OBJS_NO_TIMER)
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+
+# =========== Google Test Targets ===========
 
 test_base: $(OBJDIR)/gtestBaseGameRule.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_base $^ $(GTEST_LIBS)
@@ -62,7 +68,10 @@ test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
 	$(BINDIR)/test_mode
 
 test: test_mode test_char test_game test_bot test_base
-	
+
+
+# =========== GTest Object Compilation ===========
+
 $(OBJDIR)/gtestBaseGameRule.o: $(TESTDIR)/gtestBaseGameRule.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -78,8 +87,14 @@ $(OBJDIR)/gtestCharacters.o: $(TESTDIR)/gtestCharacters.cpp | $(OBJDIR)
 $(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+
+
+# =========== Clean ===========
+
 clean:
 	rm -rf $(OBJDIR) $(BINDIR) $(TIMERPATH) $(TIMER)
 
+
+# =========== PHONY ===========
 
 .PHONY: all clean test_base test_bot test_game test_char test_mode test
