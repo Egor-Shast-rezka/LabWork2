@@ -31,11 +31,7 @@ jobs:
 
       - name: Build and run tests
         run: |
-          make test_base
-          make test_bot
-          make test_game
-          make test_char
-          make test_mode
+          make test
           make clean
 
   build:
