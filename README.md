@@ -38,14 +38,6 @@ To run tests locally, you can use the following commands:
 
 ```sh
 make test          # Runs tests for all code
-
-
-# Choicing test
-make test_base    # Runs tests for base game components
-make test_bot     # Runs tests for bot behavior
-make test_game    # Runs full integration tests for the game logic
-make test_char    # Runs tests for all 6 characters
-make test_mode    # Runs tests for game mode
 ```
 
 ## Doxygen
