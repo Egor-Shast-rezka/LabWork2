@@ -61,7 +61,7 @@ test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_mode $^ $(GTEST_LIBS)
 	$(BINDIR)/test_mode
 
-all_test: test_mode test_char test_game test_bot test_base
+test: test_mode test_char test_game test_bot test_base
 	
 $(OBJDIR)/gtestBaseGameRule.o: $(TESTDIR)/gtestBaseGameRule.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -82,4 +82,4 @@ clean:
 	rm -rf $(OBJDIR) $(BINDIR) $(TIMERPATH) $(TIMER)
 
 
-.PHONY: all clean test_base test_bot test_game test_char test_mode all_test
+.PHONY: all clean test_base test_bot test_game test_char test_mode test
