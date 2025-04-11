@@ -13,21 +13,6 @@
 #include "characters.h"
 
 
-// ===========GameMode=============
-
-void GameMode::setupForGameMode() {
-    std::cout << "";
-}
-
-void GameMode::OutputInfoPlayers() {
-    std::cout << "";
-}
-    
-void GameMode::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund) {
-    std::cout << "";
-}
-
-
 // ===========Timer=============
 
 void Timer::SetExist(bool ex) {
@@ -79,7 +64,6 @@ void Timer::TimerStart() {
     std::cout << "--\nTimer finised, game over.\n";
     exit(0);
 }
-
 
 // ===========Game=============
 
@@ -319,8 +303,7 @@ int Game::startGame() {
 }
 
 
-void Game::setMode(){
-    
+void Game::setMode() {
     std::cout << "> To open rules, write 'rule'.\n";
     
     // Set Timer
@@ -389,7 +372,7 @@ void Game::setMode(){
     
     std::cout << "Chips has been set.\nGame mode has been set.\n\n========Start Play========\n";
     
-    // Set Gmae
+    // Set Game
     if (timer.IsExist()) {
         
         std::thread timerThread(&Timer::TimerStart, &timer);

@@ -15,6 +15,21 @@
 #include "characters.h"
 
 
+// ===========GameMode=============
+
+void GameMode::setupForGameMode() {
+    std::cout << "";
+}
+
+void GameMode::OutputInfoPlayers() {
+    std::cout << "";
+}
+    
+void GameMode::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund) {
+    std::cout << "";
+}
+
+
 // ===========AllBots=============
 
 AllBots::AllBots(Game& game) : game(game) {}
@@ -94,6 +109,10 @@ void AllBots::OutputInfoPlayers() {
 }
 
 void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund) {
+    
+    if (raund < 0) {
+        throw std::invalid_argument("Invalid argument!");
+    }
     
     bool repeatBetting = true;
     bool repeatBettingForBot = false;
@@ -370,6 +389,11 @@ void OneOnOne::OutputInfoPlayers() {
 }
 
 void OneOnOne::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& ifActPlayerData, bool& Allin, int& raund) {
+    
+    if (raund < 0) {
+        throw std::invalid_argument("Invalid argument!");
+    }
+    
     bool repeatBetting = true;
             
     // Player and Bot actions

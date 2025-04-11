@@ -37,7 +37,7 @@ void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& pla
     // Getting data from the player
     int player = contact.answerUserCheckInt("> Which player does the action apply to?: ");
     
-    while (player < 0 || player > static_cast<int>(players.size())) {
+    while (player < 1 || player > static_cast<int>(players.size())) {
         
         std::cerr << "ERROR: Players count: " << static_cast<int>(players.size()) << ". Please enter a valid players number!\n";
         
@@ -46,7 +46,7 @@ void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& pla
     
     int card = contact.answerUserCheckInt("> Which card does the action apply to?: ");
     
-    while (card < 0 || card > players[player-1]->getCountCards()) {
+    while (card < 1 || card > players[player-1]->getCountCards()) {
         
         std::cerr << "ERROR: Cards count: " << players[player-1]->getCountCards() << ". Please enter a valid card number!\n";
         
