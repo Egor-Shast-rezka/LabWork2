@@ -68,10 +68,3 @@ TEST(PathGameTest, GameModePathGameLoadTest) {
 
     EXPECT_NO_THROW(gameMode.GameModePathGame(DataPass, ifActPlayerData, Allin, raund));  // Ensure the method handles a large number of players
 }
-
-
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

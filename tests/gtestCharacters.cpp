@@ -72,11 +72,3 @@ TEST(DeallersFrendPlayerTest, IsCharacter) {
     DeallersFrendPlayer player("DeallersFrendPlayer");
     EXPECT_TRUE(player.isCharacter());  // Ensure the method returns true for a character
 }
-
-
-
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -245,11 +245,3 @@ TEST(AIPlayer_normalTest, BotActionsEdgeCaseZeroChips) {
     std::vector<int> actions = bot.BotActions(player, cardsOnTable, dealler, currentBet, Allin, round, ifReboot);
     EXPECT_EQ(actions[2], 1);  // Ensure the bot goes all-in when chips are zero
 }
-
-
-
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
