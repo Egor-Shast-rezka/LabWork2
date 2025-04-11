@@ -7,27 +7,36 @@ OBJDIR = obj
 BINDIR = bin
 TESTDIR = tests
 DOCDIR = doc
+TIMER = tmp
+TIMERPATH = /tmp/timerData
 
 TARGET = $(BINDIR)/Poker
 
 SRCS = $(wildcard $(SRCDIR)/*.cpp)
-OBJS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRCS))
-OBJS_NO_MAIN = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter-out $(SRCDIR)/main.cpp, $(SRCS)))
+OBJS_NO_TIMER = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter-out $(SRCDIR)/main_timer.cpp, $(SRCS)))
+OBJS_NO_MAIN = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter-out $(SRCDIR)/main.cpp  $(SRCDIR)/main_timer.cpp, $(SRCS)))
 
 TEST_SRCS = $(wildcard $(TESTDIR)/*.cpp)
 TEST_OBJS = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TEST_SRCS))
 
 GTEST_LIBS = -lgtest -lgtest_main -pthread
 
-all: $(OBJDIR) $(BINDIR) $(TARGET)
+
+# =========== Main Build Targets ===========
+
+all: $(OBJDIR) $(BINDIR) $(TIMER) $(TARGET)
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
 $(BINDIR):
 	@mkdir -p $(BINDIR)
+
+$(TIMER):
+	@mkdir -p $(TIMER)
+	@mkfifo $(TIMERPATH)
  
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS_NO_TIMER)
 	@mkdir -p $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
@@ -35,26 +44,25 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-test_base: $(OBJDIR)/gtestBaseGameRule.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_base $^ $(GTEST_LIBS)
-	$(BINDIR)/test_base
 
-test_bot: $(OBJDIR)/gtestBot.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_bot $^ $(GTEST_LIBS)
-	$(BINDIR)/test_bot
+# =========== Google Test Targets ===========
 
-test_game: $(OBJDIR)/gtestPathGame.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_game $^ $(GTEST_LIBS)
-	$(BINDIR)/test_game
+test: $(OBJDIR)/gtestBaseGameRule.o \
+      $(OBJDIR)/gtestBot.o \
+      $(OBJDIR)/gtestPathGame.o \
+      $(OBJDIR)/gtestCharacters.o \
+      $(OBJDIR)/gtestGameMode.o \
+      $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
+	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test $^ $(GTEST_LIBS)
+	$(BINDIR)/test
+	$(BINDIR)/test --gtest_output=xml:$(DOCDIR)/test_report.xml
 
-test_char: $(OBJDIR)/gtestCharacters.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_char $^ $(GTEST_LIBS)
-	$(BINDIR)/test_char
 
-test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_mode $^ $(GTEST_LIBS)
-	$(BINDIR)/test_mode
+# =========== GTest Object Compilation ===========
 
+$(OBJDIR)/gtestMain.o: $(TESTDIR)/gtestMain.cpp | $(OBJDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+ 
 $(OBJDIR)/gtestBaseGameRule.o: $(TESTDIR)/gtestBaseGameRule.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -69,8 +77,14 @@ $(OBJDIR)/gtestCharacters.o: $(TESTDIR)/gtestCharacters.cpp | $(OBJDIR)
 	
 $(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+	
+
+# =========== Clean ===========
 
 clean:
-	rm -rf $(OBJDIR) $(BINDIR)
+	rm -rf $(OBJDIR) $(BINDIR) $(TIMERPATH) $(TIMER)
 
-.PHONY: all clean test_base test_bot test_game test_char test_mode
+
+# =========== PHONY ===========
+
+.PHONY: all clean test

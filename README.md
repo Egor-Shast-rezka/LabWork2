@@ -37,9 +37,7 @@ This project uses GitHub Actions for automated builds and testing. All tests are
 To run tests locally, you can use the following commands:
 
 ```sh
-make test_base    # Runs tests for base game components
-make test_bot     # Runs tests for bot behavior
-make test_game    # Runs full integration tests for the game logic
+make test          # Runs tests for all code
 ```
 
 ## Doxygen

@@ -3,22 +3,18 @@ name: Start test and build
 on:
   push:
     branches:
-      - main
-      - master1
-      - master2
-      - master3
-      - master4
+      - addMusicInProject
       - addTestsInProject
-      - addGraphicalInterface
+      - addPokerCore_CreateMainCode
+      - MainBranchForAllProject
+      - TestBranch_Not_Use_In_Main_Programm
   pull_request:
     branches:
-      - main
-      - master1
-      - master2
-      - master3
-      - master4
+      - addMusicInProject
       - addTestsInProject
-      - addGraphicalInterface
+      - addPokerCore_CreateMainCode
+      - MainBranchForAllProject
+      - TestBranch_Not_Use_In_Main_Programm
 
 
 jobs:
@@ -35,11 +31,7 @@ jobs:
 
       - name: Build and run tests
         run: |
-          make test_base
-          make test_bot
-          make test_game
-          make test_char
-          make test_mode
+          make test
           make clean
 
   build:
