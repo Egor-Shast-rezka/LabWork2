@@ -47,31 +47,22 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 
 # =========== Google Test Targets ===========
 
-test_base: $(OBJDIR)/gtestBaseGameRule.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_base $^ $(GTEST_LIBS)
-	$(BINDIR)/test_base
-
-test_bot: $(OBJDIR)/gtestBot.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_bot $^ $(GTEST_LIBS)
-	$(BINDIR)/test_bot
-
-test_game: $(OBJDIR)/gtestPathGame.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_game $^ $(GTEST_LIBS)
-	$(BINDIR)/test_game
-
-test_char: $(OBJDIR)/gtestCharacters.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_char $^ $(GTEST_LIBS)
-	$(BINDIR)/test_char
-
-test_mode: $(OBJDIR)/gtestGameMode.o $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test_mode $^ $(GTEST_LIBS)
-	$(BINDIR)/test_mode
-
-test: test_mode test_char test_game test_bot test_base
+test: $(OBJDIR)/gtestBaseGameRule.o \
+      $(OBJDIR)/gtestBot.o \
+      $(OBJDIR)/gtestPathGame.o \
+      $(OBJDIR)/gtestCharacters.o \
+      $(OBJDIR)/gtestGameMode.o \
+      $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
+	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test $^ $(GTEST_LIBS)
+	$(BINDIR)/test
+	$(BINDIR)/test --gtest_output=xml:$(DOCDIR)/test_report.xml
 
 
 # =========== GTest Object Compilation ===========
 
+$(OBJDIR)/gtestMain.o: $(TESTDIR)/gtestMain.cpp | $(OBJDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+ 
 $(OBJDIR)/gtestBaseGameRule.o: $(TESTDIR)/gtestBaseGameRule.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -86,8 +77,7 @@ $(OBJDIR)/gtestCharacters.o: $(TESTDIR)/gtestCharacters.cpp | $(OBJDIR)
 	
 $(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-
+	
 
 # =========== Clean ===========
 
@@ -97,4 +87,4 @@ clean:
 
 # =========== PHONY ===========
 
-.PHONY: all clean test_base test_bot test_game test_char test_mode test
+.PHONY: all clean test
