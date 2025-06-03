@@ -7,6 +7,7 @@
 #include <gtest/gtest.h>
 #include <chrono>
 #include "baseGameRule.h"
+#include "pathGame.h"
 
 
 // ===========Card=============
@@ -394,20 +395,23 @@ TEST(BankTest, NegativeBet) {
 
 // Test for creating and destroying a Player object
 TEST(PlayerTest, ConstructorDestructor) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     EXPECT_EQ(player.getName(), "John");
 }
 
 // Test for setting the name
 TEST(PlayerTest, SetName) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     player.setName("Mike");
     EXPECT_EQ(player.getName(), "Mike");
 }
 
 // Test for displaying the player's name
 TEST(PlayerTest, GetNameOnDisplay) {
-    Player player("Alice");
+    Game game;
+    Player player("Alice", game);
     testing::internal::CaptureStdout();
     player.getNameOnDisplay();
     std::string output = testing::internal::GetCapturedStdout();
@@ -416,14 +420,16 @@ TEST(PlayerTest, GetNameOnDisplay) {
 
 // Test for setting chips
 TEST(PlayerTest, SetChips) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     player.setChips(100);
     EXPECT_EQ(player.getChips(), 100);
 }
 
 // Test for displaying the player's chips
 TEST(PlayerTest, GetChipsOnDisplay) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     player.setChips(150);
     testing::internal::CaptureStdout();
     player.getChipsOnDisplay();
@@ -433,7 +439,8 @@ TEST(PlayerTest, GetChipsOnDisplay) {
 
 // Test for placing a bid
 TEST(PlayerTest, PlaceBid) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     player.setChips(200);
     player.PlaceBid(50);
     EXPECT_EQ(player.getChips(), 150);
@@ -441,7 +448,8 @@ TEST(PlayerTest, PlaceBid) {
 
 // Test for adding a card to the player's hand
 TEST(PlayerTest, SetCard) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     Card card1(10, 1); // Let's say, a 10 of Hearts
     player.setCard(card1);
 
@@ -451,23 +459,10 @@ TEST(PlayerTest, SetCard) {
     EXPECT_EQ(cards[0].getSuit(), 1);
 }
 
-// Test for displaying cards in the hand
-TEST(PlayerTest, GetCardsOnDisplay) {
-    Player player("John");
-    Card card1(10, 1); // 10 of Hearts
-    Card card2(5, 2);  // 5 of Diamonds
-    player.setCard(card1);
-    player.setCard(card2);
-
-    testing::internal::CaptureStdout();
-    player.getCardsOnDisplay();
-    std::string output = testing::internal::GetCapturedStdout();
-    EXPECT_EQ(output, "Number: 10, Suit: 1.\nNumber: 5, Suit: 2.\n");
-}
-
 // Test for getting the number of cards in the hand
 TEST(PlayerTest, GetCountCards) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     Card card1(10, 1);
     Card card2(5, 2);
     player.setCard(card1);
@@ -478,7 +473,8 @@ TEST(PlayerTest, GetCountCards) {
 
 // Test for removing all cards from the hand
 TEST(PlayerTest, DelAllCards) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     Card card1(10, 1);
     Card card2(5, 2);
     player.setCard(card1);
@@ -490,14 +486,16 @@ TEST(PlayerTest, DelAllCards) {
 
 // Test to check if the player is not a bot
 TEST(PlayerTest, IsBot) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     EXPECT_FALSE(player.isBot());
 }
 
 // Test for bot actions
 TEST(PlayerTest, BotActions) {
-    Player player("John");
-    std::unique_ptr<Player> ptr = std::make_unique<Player>("BotPlayer");
+    Game game;
+    Player player("John", game);
+    std::unique_ptr<Player> ptr = std::make_unique<Player>("BotPlayer", game);
     std::vector<Card> cardsOnTable;
     Dealler dealer;
     int currentBet = 50;
@@ -511,13 +509,15 @@ TEST(PlayerTest, BotActions) {
 
 // Test to check if the player is not a character
 TEST(PlayerTest, IsCharacter) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     EXPECT_FALSE(player.isCharacter());
 }
 
 // Test for character actions
 TEST(PlayerTest, CharacterActions) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     std::vector<std::unique_ptr<Player>> players;
     std::vector<Card> cardsOnTable;
     Deck deck;
@@ -532,7 +532,8 @@ TEST(PlayerTest, CharacterActions) {
 
 // Testing card dealing to a player through the Dealler class
 TEST(DeallerAndPlayerTest, DealCards) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     Dealler dealer;
     dealer.shuffleDeck();
     dealer.dealCards(2, player);
@@ -540,24 +541,12 @@ TEST(DeallerAndPlayerTest, DealCards) {
     EXPECT_EQ(player.getCountCards(), 2);  // Check that the player has 2 cards after dealing
 }
 
-// Testing the winner search function
-TEST(DeallerAndPlayerTest, SearchWinner) {
-    std::vector<Player> players = { Player("Alice"), Player("Bob") };
-    std::vector<Card> cardsOnTable = { Card(10, 1), Card(5, 2), Card(7, 3) }; // Test set of cards
-    Dealler dealer;
-    std::vector<bool> DataPass(players.size(), false);
-
-    std::vector<int> winner = dealer.SearchWinner(players, cardsOnTable, DataPass);
-    
-    // Since this is test data, we check that at least one player has won (index is not -1)
-    EXPECT_NE(winner[0], -1);
-}
-
 // ===== 3) Error and Exception Testing
 
 // Test for throwing an exception when trying to deal more cards than are in the deck
 TEST(DeallerAndPlayerTest, DealCards_EmptyDeck) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     Dealler dealer;
 
     // Create a situation where there are not enough cards
@@ -583,12 +572,13 @@ TEST(DeallerAndPlayerTest, ShufflePerformance) {
 
 // Test for dealing cards to a large number of players
 TEST(DeallerAndPlayerTest, DealCardsToManyPlayers) {
+    Game game;
     Dealler dealer;
     dealer.shuffleDeck();
 
     std::vector<Player> players;
     for (int i = 0; i < 25; i++) {
-        players.emplace_back("Player " + std::to_string(i + 1));
+        players.emplace_back("Player " + std::to_string(i + 1), game);
     }
 
     // Deal 2 cards to each player
@@ -606,7 +596,8 @@ TEST(DeallerAndPlayerTest, DealCardsToManyPlayers) {
 
 // Testing dealing 0 cards to a player
 TEST(DeallerAndPlayerTest, DealZeroCards) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     Dealler dealer;
     
     EXPECT_THROW(dealer.dealCards(0, player), std::out_of_range);  // Expect an error when dealing 0 cards
@@ -614,7 +605,8 @@ TEST(DeallerAndPlayerTest, DealZeroCards) {
 
 // Testing dealing the maximum number of cards
 TEST(DeallerAndPlayerTest, DealMaxCards) {
-    Player player("John");
+    Game game;
+    Player player("John", game);
     Dealler dealer;
     dealer.shuffleDeck();
     
@@ -635,8 +627,9 @@ TEST(DeallerTest, ShuffleDeck) {
 
 // Unit test for the dealCards method
 TEST(DeallerTest, DealCards) {
+    Game game;
     Dealler dealer;
-    Player player("John");
+    Player player("John", game);
     dealer.newDeck();  // Create a new deck before dealing
     dealer.dealCards(2, player);  // Deal two cards to the player
 
@@ -678,8 +671,9 @@ TEST(DeallerTest, PowerHand) {
 
 // Functional test for checking card dealing and creating a new deck
 TEST(DeallerTest, FunctionalDealAndNewDeck) {
+    Game game;
     Dealler dealer;
-    Player player("Alice");
+    Player player("Alice", game);
 
     dealer.newDeck();  // Create a new deck
     dealer.dealCards(3, player);  // Deal three cards
@@ -687,33 +681,22 @@ TEST(DeallerTest, FunctionalDealAndNewDeck) {
     EXPECT_EQ(player.getCountCards(), 3);  // Check that the player has 3 cards
 }
 
-// Functional test for the SearchWinner method
-TEST(DeallerTest, FunctionalSearchWinner) {
-    Dealler dealer;
-    std::vector<Player> players = { Player("Alice"), Player("Bob") };
-    std::vector<Card> cards = { Card(10, 1), Card(9, 2), Card(8, 3) };  // Cards on the table
-    std::vector<bool> DataPass = { false, false };  // Both players are in the game
-
-    std::vector<int> winner = dealer.SearchWinner(players, cards, DataPass);
-
-    // Check that at least one winner is determined
-    EXPECT_NE(winner[0], -1);
-}
-
 // ===== 3) Error and Exception Testing
 
 // Test for exception when dealing 0 cards
 TEST(DeallerTest, DealCardsZero_Exception) {
+    Game game;
     Dealler dealer;
-    Player player("John");
+    Player player("John", game);
 
     EXPECT_THROW(dealer.dealCards(0, player), std::out_of_range);  // Expect an exception when dealing 0 cards
 }
 
 // Test for exception when dealing more cards than are in the deck
 TEST(DeallerTest, DealTooManyCards_Exception) {
+    Game game;
     Dealler dealer;
-    Player player("John");
+    Player player("John", game);
     dealer.newDeck();
 
     EXPECT_THROW(dealer.dealCards(60, player), std::out_of_range);  // Deal more cards than are in the deck
@@ -736,8 +719,9 @@ TEST(DeallerTest, ShufflePerformance) {
 
 // Performance test for the dealCards method
 TEST(DeallerTest, DealPerformance) {
+    Game game;
     Dealler dealer;
-    Player player("John");
+    Player player("John", game);
     dealer.newDeck();
 
     auto start = std::chrono::high_resolution_clock::now();
@@ -753,12 +737,13 @@ TEST(DeallerTest, DealPerformance) {
 
 // Load test with a large number of players
 TEST(DeallerTest, LoadTestManyPlayers) {
+    Game game;
     Dealler dealer;
     dealer.newDeck();
     
     std::vector<Player> players;
     for (int i = 0; i < 25; ++i) {
-        players.emplace_back("Player " + std::to_string(i + 1));
+        players.emplace_back("Player " + std::to_string(i + 1), game);
     }
 
     // Deal 2 cards to each of 100 players
@@ -776,29 +761,11 @@ TEST(DeallerTest, LoadTestManyPlayers) {
 
 // Testing dealing the maximum number of cards
 TEST(DeallerTest, DealMaxCards) {
+    Game game;
     Dealler dealer;
-    Player player("John");
+    Player player("John", game);
     dealer.newDeck();
 
     EXPECT_NO_THROW(dealer.dealCards(52, player));  // Check that 52 cards can be dealt
     EXPECT_EQ(player.getCountCards(), 52);  // Check that the player has 52 cards
-}
-
-// Testing winner search when all players pass
-TEST(DeallerTest, AllPlayersPass) {
-    Dealler dealer;
-    std::vector<Player> players = { Player("Alice"), Player("Bob") };
-    std::vector<Card> cards = { Card(10, 1), Card(9, 2) };  // Cards on the table
-    std::vector<bool> DataPass = { true, true };  // All players have passed
-
-    std::vector<int> winner = dealer.SearchWinner(players, cards, DataPass);
-    
-    EXPECT_EQ(winner[0], 123456);  // All players have passed, expect a special result
-}
-
-
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }

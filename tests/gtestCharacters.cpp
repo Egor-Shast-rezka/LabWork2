@@ -15,13 +15,15 @@
 
 // Testing the constructor of AllSeeingPlayer
 TEST(AllSeeingPlayerTest, Constructor) {
-    AllSeeingPlayer player("AllSeeingPlayer");
+    Game game; // Added Game object
+    AllSeeingPlayer player("AllSeeingPlayer", game); // Pass game object
     EXPECT_EQ(player.getName(), "AllSeeingPlayer");  // Ensure the name is set correctly
 }
 
 // Testing the isCharacter method of AllSeeingPlayer
 TEST(AllSeeingPlayerTest, IsCharacter) {
-    AllSeeingPlayer player("AllSeeingPlayer");
+    Game game; // Added Game object
+    AllSeeingPlayer player("AllSeeingPlayer", game); // Pass game object
     EXPECT_TRUE(player.isCharacter());  // Ensure the method returns true for a character
 }
 
@@ -31,13 +33,15 @@ TEST(AllSeeingPlayerTest, IsCharacter) {
 
 // Testing the constructor of CheaterPlayer
 TEST(CheaterPlayerTest, Constructor) {
-    CheaterPlayer player("CheaterPlayer");
+    Game game; // Added Game object
+    CheaterPlayer player("CheaterPlayer", game); // Pass game object
     EXPECT_EQ(player.getName(), "CheaterPlayer");  // Ensure the name is set correctly
 }
 
 // Testing the isCharacter method of CheaterPlayer
 TEST(CheaterPlayerTest, IsCharacter) {
-    CheaterPlayer player("CheaterPlayer");
+    Game game; // Added Game object
+    CheaterPlayer player("CheaterPlayer", game); // Pass game object
     EXPECT_TRUE(player.isCharacter());  // Ensure the method returns true for a character
 }
 
@@ -47,13 +51,15 @@ TEST(CheaterPlayerTest, IsCharacter) {
 
 // Testing the constructor of EngagedDeckPlayer
 TEST(EngagedDeckPlayerTest, Constructor) {
-    EngagedDeckPlayer player("EngagedDeckPlayer");
+    Game game; // Added Game object
+    EngagedDeckPlayer player("EngagedDeckPlayer", game); // Pass game object
     EXPECT_EQ(player.getName(), "EngagedDeckPlayer");  // Ensure the name is set correctly
 }
 
 // Testing the isCharacter method of EngagedDeckPlayer
 TEST(EngagedDeckPlayerTest, IsCharacter) {
-    EngagedDeckPlayer player("EngagedDeckPlayer");
+    Game game; // Added Game object
+    EngagedDeckPlayer player("EngagedDeckPlayer", game); // Pass game object
     EXPECT_TRUE(player.isCharacter());  // Ensure the method returns true for a character
 }
 
@@ -63,20 +69,14 @@ TEST(EngagedDeckPlayerTest, IsCharacter) {
 
 // Testing the constructor of DeallersFrendPlayer
 TEST(DeallersFrendPlayerTest, Constructor) {
-    DeallersFrendPlayer player("DeallersFrendPlayer");
+    Game game; // Added Game object
+    DeallersFrendPlayer player("DeallersFrendPlayer", game); // Pass game object
     EXPECT_EQ(player.getName(), "DeallersFrendPlayer");  // Ensure the name is set correctly
 }
 
 // Testing the isCharacter method of DeallersFrendPlayer
 TEST(DeallersFrendPlayerTest, IsCharacter) {
-    DeallersFrendPlayer player("DeallersFrendPlayer");
+    Game game; // Added Game object
+    DeallersFrendPlayer player("DeallersFrendPlayer", game); // Pass game object
     EXPECT_TRUE(player.isCharacter());  // Ensure the method returns true for a character
-}
-
-
-
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }

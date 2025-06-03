@@ -204,19 +204,33 @@ TEST(OneOnOneTest, OutputInfoPlayers) {
 // Testing the GameModePathGame method of OneOnOne
 TEST(OneOnOneTest, GameModePathGame) {
     Game game;
+    game.setPlayer("Alice");
+    game.setPlayer("Bob");
     OneOnOne oneOnOne(game);
+
+    std::stringstream combinedInput;
+    combinedInput << "1\nqwe\npass\npass\n"; 
+    
+    std::streambuf* originalCin = std::cin.rdbuf();
+    std::cin.rdbuf(combinedInput.rdbuf());
+
+    oneOnOne.setupForGameMode();
+
     std::vector<bool> DataPass = {false, false};
     std::vector<bool> ifActPlayerData = {false, false};
     bool Allin = false;
     int raund = 1;
 
-    std::istringstream input("1\nqwe\n");
-    std::streambuf* originalCin = std::cin.rdbuf(input.rdbuf());
-    
-    EXPECT_NO_THROW(oneOnOne.GameModePathGame(DataPass, ifActPlayerData, Allin, raund));  // Ensure the method does not throw exceptions
-    
+    // Проверка что метод не упадёт
+    EXPECT_NO_THROW({
+        oneOnOne.GameModePathGame(DataPass, ifActPlayerData, Allin, raund);
+    });
+
+    // Восстанавливаем оригинальный std::cin
     std::cin.rdbuf(originalCin);
 }
+
+
 
 // ===== 2) Functional Testing
 
@@ -278,26 +292,29 @@ TEST(OneOnOneTest, SetupForGameModePerformance) {
 // Testing the performance of the GameModePathGame method in OneOnOne
 TEST(OneOnOneTest, GameModePathGamePerformance) {
     Game game;
+    game.setPlayer("Player1");
+    game.setPlayer("Player2");
+    
     OneOnOne oneOnOne(game);
     std::vector<bool> DataPass = {false, false};
     std::vector<bool> ifActPlayerData = {false, false};
     bool Allin = false;
     int raund = 1;
 
-    auto start = std::chrono::high_resolution_clock::now();
-    
-    std::istringstream input("1\nqwe\n");
+    // Используем быстрые корректные действия
+    std::istringstream input("pass\npass\n");
     std::streambuf* originalCin = std::cin.rdbuf(input.rdbuf());
-    
+
+    auto start = std::chrono::high_resolution_clock::now();
     oneOnOne.GameModePathGame(DataPass, ifActPlayerData, Allin, raund);
-    
-    std::cin.rdbuf(originalCin);
-    
     auto end = std::chrono::high_resolution_clock::now();
 
+    std::cin.rdbuf(originalCin);
+
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    EXPECT_LT(duration, 200);  // Ensure the method completes in less than 200 ms
+    EXPECT_LT(duration, 200);
 }
+
 
 // ===== 4) Load Testing
 
@@ -324,17 +341,19 @@ TEST(OneOnOneTest, SetupForGameModeLoadTest) {
 // Testing the GameModePathGame method with all players passing
 TEST(OneOnOneTest, GameModePathGameEdgeCaseAllPass) {
     Game game;
+    game.setPlayer("Player1");
+    game.setPlayer("Player2");
+    
     OneOnOne oneOnOne(game);
     std::vector<bool> DataPass = {true, true};
     std::vector<bool> ifActPlayerData = {false, false};
     bool Allin = false;
     int raund = 1;
     
-    std::istringstream input("1\nqwe\n");
+    std::istringstream input("");
     std::streambuf* originalCin = std::cin.rdbuf(input.rdbuf());
     
-    EXPECT_NO_THROW(oneOnOne.GameModePathGame(DataPass, ifActPlayerData, Allin, raund));  // Ensure the method handles all players passing
-    
+    EXPECT_NO_THROW(oneOnOne.GameModePathGame(DataPass, ifActPlayerData, Allin, raund));
     std::cin.rdbuf(originalCin);
 }
 
@@ -353,11 +372,4 @@ TEST(OneOnOneTest, SetupForGameModeEdgeCaseMaxPlayers) {
     EXPECT_NO_THROW(oneOnOne.setupForGameMode());
     
     std::cin.rdbuf(originalCin);
-}
-
-
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }
