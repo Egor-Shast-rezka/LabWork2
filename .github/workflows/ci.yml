@@ -31,6 +31,9 @@ jobs:
       - name: Clone RtAudio
         run: git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio
         
+      - name: Export LD_LIBRARY_PATH
+        run: export LD_LIBRARY_PATH=libs/rtaudio/build:$LD_LIBRARY_PATH
+        
       - name: Build and run tests
         run: |
           make test

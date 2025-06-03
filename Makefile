@@ -54,8 +54,7 @@ rtaudio:
 	mkdir -p libs/rtaudio/build
 	cd libs/rtaudio/build && cmake -D RTAUDIO_API_ALSA=ON .. && make -j
 	cd libs/rtaudio/build && \
-	if [ -f librtaudio.so.* ]; then \
-        ln -sf $$(ls librtaudio.so.* | grep -E '\.so\.[0-9]+$$' | head -n1) librtaudio.so; \
+	if ls librtaudio.so.* > /dev/null 2>&1; then ln -sf $$(ls librtaudio.so.* | grep -E '\.so\.[0-9]+$$' | head -n1) librtaudio.so; \
 	fi
 
 
