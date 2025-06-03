@@ -25,7 +25,7 @@ GTEST_LIBS = -lgtest -lgtest_main -pthread
 
 # =========== Main Build Targets ===========
 
-all: $(OBJDIR) $(BINDIR) $(TIMER) $(TARGET)
+all: rtaudio $(OBJDIR) $(BINDIR) $(TIMER) $(TARGET) 
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
@@ -46,9 +46,16 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 
+# =========== Build RtAudio ===========
+
+rtaudio:
+	@mkdir -p libs/rtaudio/build
+	cd libs/rtaudio/build && cmake .. && make
+
+
 # =========== Google Test Targets ===========
 
-test: $(OBJDIR)/gtestBaseGameRule.o \
+test: rtaudio $(OBJDIR)/gtestBaseGameRule.o \
       $(OBJDIR)/gtestBot.o \
       $(OBJDIR)/gtestPathGame.o \
       $(OBJDIR)/gtestCharacters.o \
