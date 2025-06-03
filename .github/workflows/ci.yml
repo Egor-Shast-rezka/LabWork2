@@ -9,17 +9,16 @@ on:Add commentMore actions
 
 jobs:
   test:
-    name: Run C++ tests
+    name: Run C++ testsMore actions
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-        
       - name: Install dependencies
-        run: sudo apt-get install g++ cmake libgtest-dev libasound2-dev
-        
+        run: sudo apt-get install g++ cmake libgtest-dev
+
       - name: Build and run tests
         run: |
           make test_base
@@ -30,14 +29,17 @@ jobs:
           make clean
 
   build:
-@@ -53,7 +48,13 @@ jobs:
+    name: build all project
+    runs-on: ubuntu-latest
+
+    needs: test
+
+    steps:
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get install g++ cmake libgtest-dev libasound2-dev
+        run: sudo apt-get install g++ cmake libgtest-dev
 
       - name: Build project
         run: make
-        run: |
-          make
-          make clean
