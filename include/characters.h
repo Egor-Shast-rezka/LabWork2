@@ -30,12 +30,9 @@
 // ===========AllSeeingPlayer=============
 
 class AllSeeingPlayer : public Player {
-private:
-    ContactWithPlayer contact; // Connection connection with character
-    
 public:
     
-    AllSeeingPlayer(std::string name); // Create Characters
+    AllSeeingPlayer(std::string name, Game& game); // Create Characters
     
     bool isCharacter() override; // Check it is characters or not
     
@@ -46,12 +43,9 @@ public:
 // ===========CheaterPlayer=============
 
 class CheaterPlayer : public Player {
-private:
-    ContactWithPlayer contact; // Connection connection with character
-    
 public:
     
-    CheaterPlayer(std::string name); // Create Characters
+    CheaterPlayer(std::string name, Game& game); // Create Characters
     
     bool isCharacter() override; // Check it is characters or not
     
@@ -62,12 +56,9 @@ public:
 // ===========EngagedDeckPlayer=============
 
 class EngagedDeckPlayer : public Player {
-private:
-    ContactWithPlayer contact; // Connection connection with character
-    
 public:
     
-    EngagedDeckPlayer(std::string name); // Create Characters
+    EngagedDeckPlayer(std::string name, Game& game); // Create Characters
     
     bool isCharacter() override; // Check it is characters or not
     
@@ -77,13 +68,10 @@ public:
 
 // ===========DeallersFrendPlayer=============
 
-class DeallersFrendPlayer : public Player {
-private:
-    ContactWithPlayer contact; // Connection connection with character
-    
+class DeallersFrendPlayer : public Player { 
 public:
     
-    DeallersFrendPlayer(std::string name); // Create Characters
+    DeallersFrendPlayer(std::string name, Game& game); // Create Characters
     
     bool isCharacter() override; // Check it is characters or not
     
@@ -94,12 +82,9 @@ public:
 // ===========PhotographicMemoryPlayer=============
 
 class PhotographicMemoryPlayer : public Player {
-private:
-    ContactWithPlayer contact; // Connection connection with character
-    
 public:
     
-    PhotographicMemoryPlayer(std::string name); // Create Characters
+    PhotographicMemoryPlayer(std::string name, Game& game); // Create Characters
     
     bool isCharacter() override; // Check it is characters or not
     
@@ -112,12 +97,9 @@ public:
 // ===========BettingManipulatorPlayer=============
 
 class BettingManipulatorPlayer : public Player {
-private:
-    ContactWithPlayer contact; // Connection connection with character
-    
 public:
     
-    BettingManipulatorPlayer(std::string name); // Create Characters
+    BettingManipulatorPlayer(std::string name, Game& game); // Create Characters
     
     bool isCharacter() override; // Check it is characters or not
     
@@ -126,3 +108,6 @@ public:
 
 
 #endif
+
+
+

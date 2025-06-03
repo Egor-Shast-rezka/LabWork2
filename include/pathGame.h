@@ -17,25 +17,29 @@ Timer: A class that manages a timer for the game. It allows for creating a timer
 #include <vector>
 #include <memory>
 #include <cstring>
+#include <map>
 
 // For timer
 #include <chrono>
 #include <thread>
 #include <cstdlib>
+#include <atomic>
 
 #ifndef PATHGAME_H
 #define PATHGAME_H
 
 
 // ===========Timer=============
-
+class Game;
 class Timer {
 private:
-
+    Game& game;
     bool exist; // Does a timer exist
     int seconds; // Time for timer
     
 public:
+    
+    Timer(Game& game);
     
     void SetExist(bool ex); // Create a timer
     
@@ -63,12 +67,13 @@ private:
     
     ContactWithPlayer contact; // Add obj for contact with player
     Bank bank; // Bank with players money and current game for game
-    Timer timer; // Timer with player
+    std::unique_ptr<Timer> timer; // Timer with player
     std::vector<std::unique_ptr<GameMode>> gamemode;
 
     std::unique_ptr<InfiniteMelodyPlayer> melody; // Music for game
     std::unique_ptr<AudioEngine> engine; // Engine for music
     std::unique_ptr<RandomMelodyGenerator> melodyGenerator; // Generator for music
+    std::thread musicThread;
     
     bool Character; // Exist character
     int CountGame; // Count game
@@ -77,6 +82,8 @@ public:
 
     Game();
     ~Game();
+    
+    std::atomic<bool> timeIsUp{false};
     
     // Set all data for Game
     void setPlayer(std::string name);  // Creating players

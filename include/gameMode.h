@@ -37,8 +37,8 @@ public:
 
 class AllBots : public GameMode {
 public:
-    ContactWithPlayer contact;
     Game& game;
+    ContactWithPlayer contact;
     
 public:
     
@@ -58,8 +58,8 @@ public:
 // ===========OneOnOne=============
 class OneOnOne : public GameMode {
 public:
-    ContactWithPlayer contact;
     Game& game;
+    ContactWithPlayer contact;
     
 public:
 

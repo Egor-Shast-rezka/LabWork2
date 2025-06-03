@@ -29,9 +29,14 @@ Each class is structured to manage specific parts of the game, from player inter
 
 
 // ===========ContactWithPlayer=============
-
+class Game;
 class ContactWithPlayer {
+private:
+    Game& game;
+    
 public:
+    ContactWithPlayer(Game& g);
+    
     bool isNumber(std::string answer); // Check is number or no
     
     int stringToInt(const std::string& str); // Convert string to integer
@@ -158,9 +163,12 @@ private:
     int Chips; // Count money (chips, deb)
     Hand hand; // Player's hand
 
+protected:
+    ContactWithPlayer contact;
+    
 public:
 
-    Player(std::string name);
+    Player(std::string name, Game& game);
     ~Player();
 
     void setName(std::string name);  // Set Name

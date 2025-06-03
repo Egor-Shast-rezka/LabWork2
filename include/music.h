@@ -19,32 +19,50 @@
 #define MUSIC_H
 
 
+// ========== Envelope ==========
+
+class Envelope {
+private:
+    double attack;
+    double decay;
+    double sustain;
+    double release;
+    double noteLength;
+
+public:
+    Envelope();
+    double getAmplitude(double t) const;
+    void setNoteLength(double length);
+};
+
+
 // ========== SoundGenerator ==========
-// Base class for sound generation
+
 class SoundGenerator {
 protected:
-    double amplitude; // Amplitude of the wave (0 to 1)
-    double frequency; // Frequency in Hz
+
+    Envelope envelope;
+    double noteStartTime;
+    double amplitude;
+    double frequency;
 
 public:
 
     SoundGenerator();
     virtual ~SoundGenerator();
     
+    void setNoteStart(double t);
+    void setNoteLength(double seconds);
     void setAmplitude(double amp);
-    
     void setFrequency(double freq);
-    
     double getAmplitude() const;
-    
     double getFrequency() const;
-    
     virtual double generateSample(double time) const = 0;
 };
 
 
 // ========== SquareWaveGenerator ==========
-// Square Wave Generator
+
 class SquareWaveGenerator : public SoundGenerator {
 public:
 
@@ -53,7 +71,7 @@ public:
 
 
 // ========== SawWaveGenerator ==========
-// Sawtooth Wave Generator
+
 class SawWaveGenerator : public SoundGenerator {
 public:
 
@@ -62,7 +80,7 @@ public:
 
 
 // ========== TriangleWaveGenerator ==========
-// Triangle Wave Generator
+
 class TriangleWaveGenerator : public SoundGenerator {
 public:
 
@@ -70,24 +88,17 @@ public:
 };
 
 
-// ========== NoiseGenerator ==========
-// Noise Generator
-class NoiseGenerator : public SoundGenerator {
-private:
+// ========== SineWaveGenerator ==========
 
-    mutable std::mt19937 rng;
-    mutable std::uniform_real_distribution<double> dist;
-
+class SineWaveGenerator : public SoundGenerator {
 public:
 
-    NoiseGenerator();
-    
-    double generateSample(double) const override;
+    double generateSample(double time) const override;
 };
 
 
 // ========== AudioEngine ==========
-// Audio Engine for playback
+
 class AudioEngine {
 private:
 
@@ -99,16 +110,24 @@ public:
 
     AudioEngine();
     
-     static int audioCallback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
+    double getTime() const;
+
+    static int audioCallback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
 
     void setGenerator(SoundGenerator* gen);
 
     void start();
+    
+    bool isStreamRunning() const;
+    
+    void stop();
+
+    void cleanup();
 };
 
 
 // ========== RandomMelodyGenerator ==========
-// Random Melody Generator
+
 class RandomMelodyGenerator {
 private:
 
@@ -132,7 +151,7 @@ public:
 
 
 // ========== InfiniteMelodyPlayer ========== 
-// Class to play infinite random melody, parts, or specific melody
+
 class InfiniteMelodyPlayer {
 private:
 
@@ -163,6 +182,8 @@ public:
 
     // Infinite playback of "In the grass sat the grasshopper" melody
     void startInfinite_Melody_1();
+    
+    void stop();
 };
 
 

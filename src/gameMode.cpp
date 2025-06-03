@@ -32,12 +32,16 @@ void GameMode::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& 
 
 // ===========AllBots=============
 
-AllBots::AllBots(Game& game) : game(game) {}
+AllBots::AllBots(Game& game) : game(game), contact(game) {}
 AllBots::~AllBots() {}
 
 
 void AllBots::setAllBots(int complexity, std::string value){
     
+    if (complexity != 1 && complexity != 2) {
+        throw std::invalid_argument("Invalid bot complexity!");
+    }
+
     int answerPlayer2 = contact.answerUserCheckInt(value);
     
     while (answerPlayer2 + static_cast<int>(game.getPlayer().size()) > 24) {
@@ -92,7 +96,7 @@ void AllBots::setupForGameMode() {
 }
 
 void AllBots::OutputInfoPlayers() {
-
+    
     for (auto& player : game.getPlayer()) {
     
         player->getNameOnDisplay();
@@ -103,7 +107,7 @@ void AllBots::OutputInfoPlayers() {
             player->getCardsOnDisplay();
             
         }
-        std::cout << "\n";
+        std::cout << "~~~~~~~~~~~~~~~~~~~~~\n\n";
     }
     
 }
@@ -143,15 +147,14 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
 
                 // If the bot agrees with the bet
                 if (BotBet[0] == 1) {
+                
+                    int toAdd = game.getBank().getCurrentBet() - game.getBank().getCountBetEachPlayer(a);
+                    if (toAdd < 0) toAdd = 0;
 
-                    std::cout << "Bot " << a + 1 << ": \"" << game.getPlayer()[a]->getName() << "\" agrees with the current bet.\n";
+                    game.getPlayer()[a]->PlaceBid(toAdd);
+                    game.getBank().addCountBetEachPlayer(toAdd, a);
                     
-                    game.getPlayer()[a]->PlaceBid(game.getBank().getCurrentBet() - game.getBank().getCountBetEachPlayer(a));
-                    
-                    game.getBank().addCountBetEachPlayer(game.getBank().getCurrentBet() - game.getBank().getCountBetEachPlayer(a), a);
-
-                } 
-                else if (BotBet[1] == 1) { // If the bot passes
+                } else if (BotBet[1] == 1) { // If the bot passes
 
                     std::cout << "Bot " << a + 1 << ": \"" << game.getPlayer()[a]->getName() << "\" pass." << "\n";
 
@@ -182,31 +185,39 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
                     repeatBetting = true;
                     
                 } else { // If the bot makes a call
-                    
-                    std::cout << "Bot " << a + 1 << ": \"" << game.getPlayer()[a]->getName() << "\" make a call: " << BotBet[4] << ".\n";
-
-                    game.getPlayer()[a]->PlaceBid(BotBet[4] - game.getBank().getCurrentBet());
-                    
-                    game.getBank().addCountBetEachPlayer(BotBet[4] - game.getBank().getCurrentBet(), a);
-                    
-                    game.getBank().setCurrentBet(BotBet[4]);
-
-                    repeatBetting = true;
-
-                }
                 
+                    int callValue = BotBet[4] - game.getBank().getCurrentBet();
+                    if (callValue < 0) callValue = 0;
+    
+                    std::cout << "Bot " << a + 1 << ": \"" << game.getPlayer()[a]->getName() << "\" make a call: " << BotBet[4] << ".\n";
+                    game.getPlayer()[a]->PlaceBid(callValue);
+                    game.getBank().addCountBetEachPlayer(callValue, a);
+                    game.getBank().setCurrentBet(BotBet[4]);
+                    repeatBetting = true;
+                }
+                std::cout << "~~~~~~~~~~~~~~~~~~~~~\n";
                 std::cout << "Remain chips: " << game.getPlayer()[a]->getChips() << ".\n";
 
                 std::cout << "Current Bet: " << game.getBank().getCurrentBet() << ".\n";
 
                 std::cout << "Bank: " << game.getBank().getPlayerMoney() << ".\n";
-
+                std::cout << "~~~~~~~~~~~~~~~~~~~~~\n\n";
                 std::cout << "\n";
 
             }
             else {
-            
+                std::cout << "~~~~~~~ INFO ~~~~~~~~\n";
+                std::cout << "-> Current bet: " << game.getBank().getCurrentBet() << ".\n";
+                std::cout << "-> Bank: " << game.getBank().getPlayerMoney() << ".\n";
+                std::cout << "-> Remaining chips: " << game.getPlayer()[a]->getChips() << ".\n";
+                std::cout << "~~~~~~~~~~~~~~~~~~~~~\n\n";
+                
                 // Get correct user answer: pass, call, allin or act
+                if (game.getPlayer()[a]->getChips() == 0) {
+                    std::cout << "Player passed.\n";
+                    DataPass[a] = true;
+                    continue;
+                } 
                 std::string act = game.getValidAction(
             
                     game.getCharacter() ? 
@@ -285,12 +296,13 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
 
                         repeatBetting = true;
                     }
-
+                    std::cout << "~~~~~~~~~~~~~~~~~~~~~\n";
                     std::cout << "Remain Chips: " << game.getPlayer()[a]->getChips() << ".\n";
 
                     std::cout << "Current Bet: " << game.getBank().getCurrentBet() << ".\n";
 
                     std::cout << "Bank: " << game.getBank().getPlayerMoney() << ".\n";
+                    std::cout << "~~~~~~~~~~~~~~~~~~~~~\n\n";
 
                 }
                 else if (act == "raise") { // If user make a raise
@@ -323,13 +335,14 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
 
                         repeatBetting = true;
                     }
-
+                    
+                    std::cout << "~~~~~~~~~~~~~~~~~~~~~\n";
                     std::cout << "Remain Chips: " << game.getPlayer()[a]->getChips() << ".\n";
 
                     std::cout << "Current Bet: " << game.getBank().getCurrentBet() << ".\n";
 
                     std::cout << "Bank: " << game.getBank().getPlayerMoney() << ".\n";
-
+                    std::cout << "~~~~~~~~~~~~~~~~~~~~~\n\n";
                 }
                 std::cout << "\n";
             }
@@ -345,7 +358,7 @@ void AllBots::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& i
 
 // ===========OneOnOne=============
 
-OneOnOne::OneOnOne(Game& game) : game(game) {}
+OneOnOne::OneOnOne(Game& game) : game(game), contact(game) {}
 OneOnOne::~OneOnOne() {}
 
 void OneOnOne::setupForGameMode() {
@@ -376,14 +389,19 @@ void OneOnOne::OutputInfoPlayers() {
         
         player->getNameOnDisplay();
         player->getChipsOnDisplay();
+        std::cout << "> Write Enter to show hards: ";
+        std::cin.get();
+        std::cin.get();
+        std::cout << "\033[F\033[K";
         player->getCardsOnDisplay(); 
         
         int playerAnswer = contact.answerUserCheckInt("> Write 1 to hide hards: ");
         
         if (playerAnswer == 1) {
             std::cout << "\033[F\033[K\033[F\033[K\033[F\033[K";
+        } else {
+            std::cout << "Now everyone will see your cards!\n";
         }
-
         std::cout << "\n";
     }
 }
@@ -394,6 +412,11 @@ void OneOnOne::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& 
         throw std::invalid_argument("Invalid argument!");
     }
     
+    const auto& players = game.getPlayer();
+    if (players.empty()) {
+        throw std::runtime_error("No players in the game!");
+    }
+
     bool repeatBetting = true;
             
     // Player and Bot actions
@@ -407,6 +430,12 @@ void OneOnOne::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& 
             if (DataPass[a]) continue;
 
             game.getPlayer()[a]->getNameOnDisplay();
+            
+            if (game.getPlayer()[a]->getChips() == 0) {
+                std::cout << "Player passed.\n";
+                DataPass[a] = true;
+                continue;
+            } 
             
             // Get correct user answer: pass, call, allin or act
             std::string act = game.getValidAction(
@@ -487,13 +516,14 @@ void OneOnOne::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& 
 
                     repeatBetting = true;
                 }
-
+                
+                std::cout << "~~~~~~~~~~~~~~~~~~~~~\n";
                 std::cout << "Remain Chips: " << game.getPlayer()[a]->getChips() << ".\n";
 
                 std::cout << "Current Bet: " << game.getBank().getCurrentBet() << ".\n";
 
                 std::cout << "Bank: " << game.getBank().getPlayerMoney() << ".\n";
-
+                std::cout << "~~~~~~~~~~~~~~~~~~~~~\n\n";
             }
             else if (act == "raise") { // If user make a raise
 
@@ -528,13 +558,13 @@ void OneOnOne::GameModePathGame(std::vector<bool>& DataPass, std::vector<bool>& 
 
                     repeatBetting = true;
                 }
+                std::cout << "~~~~~~~~~~~~~~~~~~~~~\n";
+                std::cout << "-> Remain Chips: " << game.getPlayer()[a]->getChips() << ".\n";
 
-                std::cout << "Remain Chips: " << game.getPlayer()[a]->getChips() << ".\n";
+                std::cout << "-> Current Bet: " << game.getBank().getCurrentBet() << ".\n";
 
-                std::cout << "Current Bet: " << game.getBank().getCurrentBet() << ".\n";
-
-                std::cout << "Bank: " << game.getBank().getPlayerMoney() << ".\n";
-
+                std::cout << "-> Bank: " << game.getBank().getPlayerMoney() << ".\n";
+                std::cout << "~~~~~~~~~~~~~~~~~~~~~\n\n";
             }
             std::cout << "\n";
             

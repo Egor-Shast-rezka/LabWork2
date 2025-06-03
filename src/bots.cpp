@@ -17,7 +17,7 @@
 
 // ===========AIPlayer_easy=============
 
-AIPlayer_easy::AIPlayer_easy(std::string name) : Player(name) {}
+AIPlayer_easy::AIPlayer_easy(std::string name, Game& game) : Player(name, game) {}
 
 // The bot is identified as a bot by returning true
 bool AIPlayer_easy::isBot() {
@@ -55,9 +55,15 @@ std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std:
 
     // Random chance for bot to go all-in, or if all-in condition is met
     std::uniform_int_distribution<> chanceAllin(1, 20);
-    if (chanceAllin(gen) == 1 || Allin || chips == 0) {
+    if (chanceAllin(gen) == 1 || Allin || chips <= 0) {
 
         action[2] = 1; // Goes all-in
+        return action;
+    }
+
+    // Protect against bets larger than available chips
+    if (currentBet > chips) {
+        action[1] = 1; // Pass
         return action;
     }
 
@@ -67,11 +73,18 @@ std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std:
     // Calculate weights for raising or calling, with decreasing likelihood as the bet increases
     for (int i = currentBet; i <= chips; i++) {
 
-        float weight = 1.0f / (i - currentBet + 1);
+        // Protect against division by zero
+        int diff = std::max(1, i - currentBet);
+        float weight = 1.0f / diff;
 
         weights.push_back(weight);
-
         sumWeights += weight;
+    }
+
+    // If no weights calculated, agree with current bet
+    if (weights.empty() || sumWeights <= 0.0001f) {
+        action[0] = 1;
+        return action;
     }
 
     std::vector<float> probabilities;
@@ -92,15 +105,7 @@ std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std:
     for (std::size_t i = 0; i < probabilities.size(); i++) {
 
         if (randomValue < probabilities[i]) {
-            if (raund == 1) {
-
-                action[4] = i + currentBet; // In the first round, the bot calls
-
-            } else {
-
-                action[3] = i; // In other rounds, the bot raises
-            }
-
+            action[3] = std::min(i, static_cast<size_t>(chips - currentBet)); // Ensure raise doesn't exceed chips
             return action;
         }
     }
@@ -111,7 +116,7 @@ std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std:
 
 // ===========AIPlayer_normal=============
 
-AIPlayer_normal::AIPlayer_normal(std::string name) : Player(name) {}
+AIPlayer_normal::AIPlayer_normal(std::string name, Game& game) : Player(name, game) {}
 
 // The bot is identified as a bot by returning true
 bool AIPlayer_normal::isBot() {
@@ -121,17 +126,40 @@ bool AIPlayer_normal::isBot() {
 // Calculates the number of outs (possible cards that can improve the bot's hand)
 int AIPlayer_normal::calculateOuts(std::vector<Card>& hand, std::vector<Card>& cardsOnTable, Dealler& dealler) {
 
+    if (hand.empty() || cardsOnTable.empty()) {
+        throw std::invalid_argument("Hand or cards on table are empty!");
+    }
+
     int outs = 0;
 
     std::vector<Card> CurrentCards = hand;
 
     // Combine the bot's hand with the cards on the table
     CurrentCards.insert(CurrentCards.end(), cardsOnTable.begin(), cardsOnTable.end());
-
-    int handStrength = dealler.PowerHand(CurrentCards)[0];
-
-    std::vector<Card> remainingCards = dealler.getDeck().getAllCards();
     
+    // Not enough cards for evaluation
+    if (CurrentCards.size() < 3) {
+        return 0;
+    }
+
+    int handStrength = 0;
+    try {
+        handStrength = dealler.PowerHand(CurrentCards)[0];
+    } catch (...) {
+        return 0; // Safe default on error
+    }
+
+    std::vector<Card> remainingCards;
+    try {
+        remainingCards = dealler.getDeck().getAllCards();
+    } catch (...) {
+        return 0; // Safe default on error
+    }
+    
+    if (remainingCards.empty()) {
+        return 0;
+    }
+
     std::sort(remainingCards.begin(), remainingCards.end());
     
     // Check how many cards can improve the current hand strength
@@ -140,14 +168,19 @@ int AIPlayer_normal::calculateOuts(std::vector<Card>& hand, std::vector<Card>& c
         std::vector<Card> possibleHand = hand;
         possibleHand.push_back(card);
 
-        int newHandStrength = dealler.PowerHand(possibleHand)[0];
+        int newHandStrength = 0;
+        try {
+            newHandStrength = dealler.PowerHand(possibleHand)[0];
+        } catch (...) {
+            continue; // Skip problematic card
+        }
 
         if (newHandStrength > handStrength) {
             outs++; // Count cards that improve the hand
         }
     }
 
-    return outs;
+    return std::min(outs, static_cast<int>(remainingCards.size()));
 }
 
 // Calculates the probability of winning based on the bot's current hand and cards on the table
@@ -157,10 +190,29 @@ float AIPlayer_normal::calculateWinningProbability(std::vector<Card> hand, std::
 
     // Combine the bot's hand with the cards on the table
     CurrentCards.insert(CurrentCards.end(), cardsOnTable.begin(), cardsOnTable.end());
+    
+    // Not enough cards for proper evaluation
+    if (CurrentCards.size() < 3) {
+        return 0.3f; // Base probability
+    }
 
-    int handStrength = dealler.PowerHand(CurrentCards)[0];
+    int handStrength = 0;
+    try {
+        handStrength = dealler.PowerHand(CurrentCards)[0];
+    } catch (...) {
+        return 0.3f; // Base probability on error
+    }
 
-    int remainingCards = static_cast<int>(dealler.getDeck().getAllCards().size());
+    int remainingCards = 0;
+    try {
+        remainingCards = static_cast<int>(dealler.getDeck().getAllCards().size());
+    } catch (...) {
+        remainingCards = 30; // Reasonable default
+    }
+
+    if (remainingCards <= 0) {
+        return 0.0f;
+    }
 
     float winProbability = 0.0f;
 
@@ -172,12 +224,13 @@ float AIPlayer_normal::calculateWinningProbability(std::vector<Card> hand, std::
     } else if (handStrength >= 5) {
         winProbability = 0.5f;  // Moderate hand
     } else {
-
+        if (CurrentCards.size() < 5) return 0.5f; // Default for small hands
         int outs = calculateOuts(hand, cardsOnTable, dealler);
-        winProbability = static_cast<float>(outs) / remainingCards;  // Calculate probability based on outs
+        winProbability = static_cast<float>(outs) / remainingCards;
     }
 
-    return winProbability;
+    // Ensure probability stays within valid range
+    return std::max(0.0f, std::min(1.0f, winProbability));
 }
 
 /*
@@ -193,9 +246,20 @@ std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, st
     if (currentBet < 0 || (raund < 0 || raund > 6)) {
         throw std::invalid_argument("Invalid argument!");
     }
+
+    // Correct negative bets
+    currentBet = std::max(0, currentBet);
     
     int playerChips = player->getChips();
+    
+    if (playerChips <= 0) return { 0, 1, 0, 0, 0 };
+    
     std::vector<Card> playerHand = player->getAllCards();
+
+    if (playerHand.empty()) {
+        throw std::invalid_argument("Player hand is empty!");
+    }
+
     int remainingChips = playerChips - currentBet;
 
     // If already all-in or not enough chips to continue betting
@@ -207,13 +271,19 @@ std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, st
     }
 
     // Calculate the probability of winning based on the bot's hand
-    float winProbability = calculateWinningProbability(playerHand, cardsOnTable, dealler);
+    float winProbability = 0.0f;
+    try {
+        winProbability = calculateWinningProbability(playerHand, cardsOnTable, dealler);
+    } catch (...) {
+        winProbability = 0.3f; // Default probability on error
+    }
 
     int agreeWithBet = 0;
     int pass = 0;
     int allIn = 0;
     int raiseAmount = 0;
     int callAmount = 0;
+
 
     // Decision-making logic based on winning probability
     if (winProbability < 0.2f) {
@@ -224,18 +294,16 @@ std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, st
         // If the win probability is moderate
         if (raund == 1) {
 
-            if (currentBet + remainingChips * 0.1 >= remainingChips) {
-            
-                agreeWithBet = 1;
-                
-            } else {
-            
-                callAmount = currentBet + remainingChips * 0.1;  // In the first round, the bot calls
-                
-            }
-        } else {
-        
-            raiseAmount = remainingChips * 0.2;  // In later rounds, the bot raises a small amount
+            int proposedCall = currentBet + static_cast<int>(remainingChips * 0.1);
+            callAmount = (proposedCall < currentBet) ? currentBet : proposedCall;
+            callAmount = std::min(callAmount, playerChips); // Ensure doesn't exceed chips
+
+        }
+        else {
+
+            raiseAmount = std::max(0, static_cast<int>(remainingChips * 0.2));
+            raiseAmount = std::min(raiseAmount, playerChips - currentBet); // Ensure doesn't exceed chips
+
         }
     } else if (winProbability >= 0.5f && winProbability < 0.8f) {
         // If the win probability is good
@@ -247,12 +315,14 @@ std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, st
                 
             } else {
             
-                callAmount = currentBet + remainingChips * 0.2;  // In the first round, the bot calls
+                callAmount = currentBet + static_cast<int>(remainingChips * 0.2);
+                callAmount = std::min(callAmount, playerChips); // Ensure doesn't exceed chips
                 
             }
         } else {
         
-            raiseAmount = remainingChips * 0.4;  // In later rounds, the bot raises a larger amount
+            raiseAmount = static_cast<int>(remainingChips * 0.4);
+            raiseAmount = std::min(raiseAmount, playerChips - currentBet); // Ensure doesn't exceed chips
         }
     } else {
         // If the win probability is very high
@@ -260,6 +330,9 @@ std::vector<int> AIPlayer_normal::BotActions(std::unique_ptr<Player>& player, st
 
     }
     
-    std::cout << "\nWinProbability: " << winProbability << ".\n";
+    // Ensure all values are non-negative
+    raiseAmount = std::max(0, raiseAmount);
+    callAmount = std::max(0, callAmount);
+    
     return {agreeWithBet, pass, allIn, raiseAmount, callAmount};
 }

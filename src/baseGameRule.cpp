@@ -26,6 +26,8 @@
 
 // ===========ContactWithPlayer=============
 
+ContactWithPlayer::ContactWithPlayer(Game& g) : game(g) {}
+
 // Method to check if the given string consists only of digits (0-9). 
 bool ContactWithPlayer::isNumber(std::string answer) {
     for (char c : answer) {
@@ -51,7 +53,9 @@ int ContactWithPlayer::answerUserCheckInt(std::string value) {
     std::string answer = "";
     
     while (true) {
-    
+        
+        if (game.timeIsUp) return -1;
+
         // Display the prompt and get user's input
         std::cout << value;
         std::cin >> answer;
@@ -83,6 +87,9 @@ std::string ContactWithPlayer::answerUserCheckString(std::string value) {
 
     std::string answer = "";
     while (true) {
+        
+        if (game.timeIsUp) return "-1";
+        
         // Display the prompt and get user's input
         std::cout << value;
         std::cin >> answer;
@@ -110,7 +117,14 @@ std::string ContactWithPlayer::answerUserCheckString(std::string value) {
 // ===========Card=============
 
 // Constructor to initialize a Card object with a number (rank) and suit.
-Card::Card(int num, int val): number(num), suit(val) {}
+Card::Card(int num, int val) : number(num), suit(val) {
+    if (num < 2 || num > 14) {
+        throw std::invalid_argument("Invalid card number!");
+    }
+    if (val < 1 || val > 4) {
+        throw std::invalid_argument("Invalid card suit!");
+    }
+}
 
 // Destructor for Card class, currently empty as no special cleanup is needed.
 Card::~Card() {}
@@ -136,8 +150,11 @@ int Card::getSuit() const {
 }
 
 // Method to display the card's number (rank) and suit in the console.
-void Card::display() const { 
-    std::cout << "Number: " << number << ", Suit: " << suit << ".\n";
+void Card::display() const {
+
+    std::string suits[5] = {"", "Diamonds", "Hearts", "Spades", "Clubs"};
+    std::vector<std::string> rankNames = {"","1","2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"};
+    std::cout << "Number: " << rankNames[number] << ", Suit: " << suits[suit] << "\n";
 }
 
 // Overload of the less-than operator (<) to compare two cards. First, it compares by card rank (number), and if they are equal, it compares by suit.
@@ -253,7 +270,7 @@ void Hand::delLastCard() {
 // ===========Bank=============
 
 // Constructor for Bank class, initializing the bank.
-Bank::Bank() {}
+Bank::Bank() : CurrentBet(0) {}
 
 // Destructor for Bank class, currently empty as no special cleanup is needed.
 Bank::~Bank() {}
@@ -301,20 +318,18 @@ void Bank::addCurrentBet(int value) {
 // Method to add a specified value to the bet of an individual player, identified by index.
 void Bank::addCountBetEachPlayer(int value, int index) {
     
-    if (static_cast<int>(CountBetEachPlayer.size()) < index || index < 0) {
-        throw std::out_of_range("No such player!"); 
-    } else if (value < 0) {
-        throw std::invalid_argument("Invalid argument!");
-    } else {
-        CountBetEachPlayer[index] += value;
-    }
+    if (value < 0) throw std::invalid_argument("Bet value cannot be negative!");
+
+    if (static_cast<int>(CountBetEachPlayer.size()) < index || index < 0) throw std::out_of_range("No such player!"); 
+    else if (value < 0) throw std::invalid_argument("Invalid argument!");
+    else CountBetEachPlayer[index] += value;
 }
 
 
 // ===========Player=============
 
 // Constructor for the Player class, which initializes the player with a given name.
-Player::Player(std::string name) : Name(name) {}
+Player::Player(std::string name, Game& game) : Name(name), contact(game) {}
 
 // Destructor for the Player class, currently empty as no special cleanup is required.
 Player::~Player() {}
@@ -355,7 +370,9 @@ int Player::getChips() const {
 
 // Method to subtract a specific number of chips from the player's total, representing placing a bid or bet.
 void Player::PlaceBid(int num) {
-    Chips -= num;
+    if (num < 0) num = 0;
+    else if (num > Chips) Chips = 0;
+    else Chips -= num;
 }
 
 // Method to add a card to the player's hand.
@@ -488,6 +505,10 @@ std::vector<std::vector<int>> Dealler::search_max_number(std::vector<std::vector
 
 std::vector<int> Dealler::PowerHand(std::vector<Card> allCardsPlayer) {
     
+    if (allCardsPlayer.size() < 5) {
+        throw std::invalid_argument("At least 5 cards are required to evaluate hand strength!");
+    }
+
     int CardsCount = static_cast<int>(allCardsPlayer.size());
     // Matching a set of cards with 5 numbers, where 1 is the number of cards of one rank, and the other 4 are all possible suits
     std::vector<int> result = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; 
@@ -618,15 +639,6 @@ std::vector<int> Dealler::SearchWinner(std::vector<Player>& players, std::vector
         return {123456};
     }
     
-    for (std::vector<int> vect : handPlayers) {
-        
-        std::cout << "Hand power: ";
-        for (auto& elem : vect) {
-            std::cout << elem << " ";
-        }
-        std::cout << "\n";
-    }
-    
     // Finding a winner, taking into account high cards and combinations
     int cnt = 0;
     while (cnt < CardsCount) {
@@ -650,7 +662,26 @@ std::vector<int> Dealler::SearchWinner(std::vector<Player>& players, std::vector
             answer.push_back(-3);
         }
     }
+    std::vector<std::string> rankNames = {"","1","2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"};
     
+    for (std::size_t i = 0; i < players.size(); ++i) {
+        if (DataPass[i]) {
+            std::cout << "Player " << i + 1 << " passed.\n";
+            continue;
+        }
+
+        std::vector<Card> allCards = players[i].getAllCards();
+        allCards.insert(allCards.end(), cards.begin(), cards.end());
+
+        std::vector<int> handPower = PowerHand(allCards);
+
+        std::cout << "Player " << i + 1 << " hand power: ";
+        for (int value : handPower) {
+            std::cout << rankNames[value] << " ";
+        }
+        std::cout << "\n";
+    }
+
     std::cout << "\n";
 
     return answer;

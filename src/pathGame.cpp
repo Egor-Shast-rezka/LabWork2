@@ -14,7 +14,210 @@
 #include "music.h"
 
 
+#include <iostream>
+#include <string>
+#include <vector>
+
+
+// =========== printAsciiArt =============
+
+void printAsciiArt(const std::string& text) {
+
+    std::vector<std::string> P = {
+        "#### ",
+        "#   #",
+        "#### ",
+        "#    ",
+        "#    "
+    };
+
+    std::vector<std::string> O = {
+        " ### ",
+        "#   #",
+        "#   #",
+        "#   #",
+        " ### "
+    };
+
+    std::vector<std::string> K = {
+        "#  # ",
+        "# #  ",
+        "##   ",
+        "# #  ",
+        "#  # "
+    };
+
+    std::vector<std::string> E = {
+        "#####",
+        "#    ",
+        "###  ",
+        "#    ",
+        "#####"
+    };
+
+    std::vector<std::string> R = {
+        "#### ",
+        "#   #",
+        "#### ",
+        "# #  ",
+        "#  # "
+    };
+
+    std::vector<std::string> S = {
+        " ####",
+        "#    ",
+        " ### ",
+        "    #",
+        "#### "
+    };
+    
+    std::vector<std::string> T = {
+        "#####",
+        "  #  ",
+        "  #  ",
+        "  #  ",
+        "  #  "
+    };
+
+    std::vector<std::string> A = {
+        "  #  ",
+        " # # ",
+        "#####",
+        "#   #",
+        "#   #"
+    };
+
+    std::vector<std::string> space = {
+        " ",
+        " ",
+        " ",
+        " ",
+        " "
+    };
+    
+    std::vector<std::string> G = {
+        " ####",
+        "#    ",
+        "# ###",
+        "#   #",
+        " ####"
+    };
+
+    std::vector<std::string> M = {
+        "#   #",
+        "## ##",
+        "# # #",
+        "#   #",
+        "#   #"
+    };
+    
+    std::vector<std::string> V = {
+        "#   #",
+        "#   #",
+        "#   #",
+        " # # ",
+        "  #  "
+    };
+
+    std::map<char, std::vector<std::string>> ascii_map;
+    ascii_map['P'] = P;
+    ascii_map['O'] = O;
+    ascii_map['K'] = K;
+    ascii_map['E'] = E;
+    ascii_map['R'] = R;
+    ascii_map['S'] = S;
+    ascii_map['T'] = T;
+    ascii_map['A'] = A;
+    ascii_map['G'] = G;
+    ascii_map['M'] = M;
+    ascii_map['V'] = V;
+    ascii_map[' '] = space;
+
+    int height = P.size();
+
+    for (int i = 0; i < height; ++i) {
+
+        for (char c : text) {
+
+            auto it = ascii_map.find(c);
+            if (it != ascii_map.end()) {
+                std::cout << it->second[i] << " ";
+            } else {
+                std::cout << "      ";
+            }
+        }
+        std::cout << std::endl;
+    }
+}
+
+// =========== printAsciiArt =============
+
+void printAsciiArt(int index) {
+    switch(index) {
+    case 1:
+        std::cout << R"(⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⣤⣤⣤⣴⣶⣿⣿⣿⣶⣶⣤⣤⣤⣤⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣾⣿⣿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣾⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⣿⣿⡿⠋⠁⠀⠀⠀⠉⠙⠛⠻⠿⢿⣿⣿⣿⣿⣿⣿⣷⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⠟⠋⠁⢸⣿⣿⠁⠀⠀⠀⢸⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠻⢿⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⡏⠀⠀⠀⢸⣿⣿⠀⠀⠀⢀⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡇⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⡇⠀⠀⠀⢸⣿⣿⠀⠀⠀⣸⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⠀⠀⠀⢸⣿⣿⠀⠀⢀⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⡆⠀⠀⢸⣿⣿⠀⠀⣸⣿⡟⠀⠀⠀⠀⠀⣀⣤⣾⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⣸⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⠀⠀⢸⣿⣿⠀⢠⣿⣿⠃⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⢠⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀)" << "\n";
+        break;
+    case 2:
+        std::cout << R"(
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣤⣤⣤⣶⣶⣶⣶⡶⣴⣿⡿⢹⣿⣿⣿⣿⣿⣿⡖⣴⣶⣷⣶⣤⣀⡢⠤⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⠏⢿⣿⣿⣿⣿⣿⡇⢸⣿⢃⡘⣿⣿⣿⣿⣿⣿⢑⣿⡿⠃⣿⣿⣿⣿⣿⣶⣯⣵⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢀⣄⣤⣴⣶⣿⣯⢸⣿⠰⠘⣿⣿⣿⣿⣿⣧⣼⣏⣤⡄⣿⣿⣿⣿⣿⠇⣼⡿⠁⠃⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣤⣆⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⢰⣾⡿⢿⣿⣿⣿⣿⣿⣿⣸⣿⣰⣦⣹⣿⣿⣿⣿⠀⣿⠿⠉⢿⣿⣿⣿⣿⣟⢰⣿⣷⣿⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠘⣿⣷⢀⢻⣿⣿⣿⣿⣿⠉⣟⠉⠁⠈⣿⣿⣿⡿⣄⣿⣦⣠⣤⣿⣿⣿⡿⢌⣿⣏⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⢹⣿⠈⣤⣻⣿⣿⣿⣿⡀⣿⣶⣤⣾⣿⠏⠁⠀⢹⣿⣿⣿⣿⣿⣿⣿⡓⣼⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢿⣿⠟⠻⢿⣿⣿⣿⡇⢻⣿⣿⣿⡏⠀⠀⠀⢸⣿⣿⣿⣿⣿⡿⠏⢱⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠸⣿⣀⣠⣼⣿⣿⣿⡇⢸⣿⣿⣿⣷⡀⠀⠈⣿⣿⣿⣿⣿⡏⠀⢀⣿⣿⣿⣿⣿⣿⡿⠟⠋⠁⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀)" << "\n";
+        break;
+    case 3:
+        std::cout << R"(⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠤⠀⠠⠀⢀⣀⠠⠄⠐⠒⠢⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠄⣒⠍⠀⠀⠒⠒⠛⠓⠖⢉⣁⢀⣒⠛⠛⠋⡍⠛⠋⠠⢀⣑⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠠⠄⠒⠋⠉⠉⡇⢀⡞⠉⢳⠀⠀⢰⠀⢠⣧⡜⠁⠀⠀⡸⠀⠀⡐⡇⠀⠈⠉⠛⠩⠍⣁⠐⠒⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢀⠠⠐⠚⠁⠀⠈⢻⠀⠀⠀⡇⠈⣧⠤⡸⡀⠀⡸⠀⣸⡁⣳⡀⠀⢀⠁⢠⡞⠂⡇⠀⠀⠀⠀⠀⠀⠀⠉⠀⠂⠤⢀⡀⠀⠀⠀⠀⠀⠀
+⠀⠀⠠⠐⠈⢀⠠⡀⠀⠆⠀⢀⡘⡆⠀⠀⠁⠀⠈⢁⠙⠃⠀⡇⠀⢀⣠⠀⠀⠀⡆⠀⠀⣀⠘⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠒⠠⠀⠀⠀
+⠀⠀⠇⠐⣆⢸⡀⠸⡄⢰⠀⠈⠉⡁⠀⠀⢸⠀⣠⣿⣷⣄⢀⠃⢰⣿⣿⣷⠀⠘⠀⣴⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀
+⠀⠀⠘⡄⠘⣆⠑⠀⠁⠀⠇⠀⣰⣿⣷⡄⢸⠀⠙⠻⠟⠃⢸⠀⠀⠉⠋⠉⢠⠁⠀⠈⠟⠛⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀
+⠀⠀⠀⠘⡈⠁⢀⣶⣤⣄⠰⠀⠙⠛⠏⠁⢸⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠎⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡸⠀⠀⠀
+⠀⠀⠀⠀⠰⡀⠸⣿⢿⠋⠀⡆⠀⠀⠀⠀⠘⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⡘⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠁⠀⠀⠀)" << "\n";
+        break;
+    case 4:
+        std::cout << R"(⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠠⠀⠀⠲⣶⠶⠶⠶⠶⠶⢶⡶⠀⠀⠄⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣴⣥⣤⠄⣠⣵⣶⣿⠛⠿⢹⢉⣛⢻⣷⣶⣥⡀⢤⣤⣵⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⡧⡘⢿⣿⣿⣿⠲⢤⢠⢠⡀⢈⣿⣿⡿⠟⠸⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣶⣤⣀⣀⠘⢉⣭⣿⣿⣾⣾⣿⣯⣍⠓⢀⣀⣠⡴⣾⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⡄⢸⠉⣿⣿⢹⣿⣿⣿⣿⣿⡏⠉⢹⡇⠀⢸⡇⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣷⡼⢤⣿⣿⣸⣿⣿⣿⣿⣿⣇⣀⣸⣧⣤⣼⠷⠟⣋⣥⣶⣶⡤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⡇⢸⡇⣿⣿⠉⣿⣿⣿⣿⣿⡏⠉⠉⡇⠀⣴⣿⣿⡟⢿⣿⢿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡿⢿⣿⣾⣧⣿⣿⣄⣿⣿⣿⣿⣿⣇⣀⠤⠧⡄⡿⠿⠛⡇⠈⢡⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⡇⢸⡆⣿⣿⠈⣿⣿⣿⣿⣿⡇⠀⠀⡇⠀⠀⡇⡧⠶⢚⣧⠀⢸⣿⣿⣿⣆⢾⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣷⠻⡿⢤⣿⣿⣿⣿⣿⣧⣤⣴⠧⠶⡿⠇⢱⣾⣿⢿⣦⡜⡿⢻⠉⢹⣮⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⠀⡇⢸⣿⡇⣿⣿⣿⣿⣿⡇⠀⠀⡇⠀⠈⣏⣤⣶⣿⣷⢻⠸⡂⠨⠜⣎⣿⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⡏⢻⠛⣿⣾⢿⣷⣿⣿⣿⣿⡿⠷⢶⡖⠓⢹⡇⠸⣿⣿⣿⣿⣧⢯⣥⠀⠇⣻⣸⣧⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣇⣸⠀⣿⣿⢸⣿⣿⣿⣿⣿⡇⠀⢸⡇⠀⣸⣧⣇⢻⣿⣿⣿⣿⣮⢳⣤⣾⣿⡇⠈⠄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⠉⣿⠛⣿⡶⢿⣿⣿⣿⣿⣷⠶⠚⢻⠛⠉⢹⠀⠆⢻⠉⠀⠈⣟⠀⠹⢿⣿⡇⠄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⠄⣡⢈⣿⡇⢸⣿⣿⠿⠟⢛⣀⣠⣤⣤⣴⠶⠶⠂⠀⠁⠀⠛⠉⣧⡀⠀⣭⣴⣦⠰⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⢉⠩⠀⢀⠠⣙⣯⡽⣖⢒⢘⣛⢻⣿⣷⣶⡄⢻⣿⣿⣿⣦⣹⣿⣿⠇⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣥⣤⢊⣶⣿⣿⣯⣀⣈⢈⡀⣀⢈⣿⣿⠟⠁⠚⢋⣹⣿⡿⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡿⠌⠛⠿⠿⠿⠤⠬⢤⣂⣛⣯⣥⣀⣀⠤⠒⣿⢸⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣷⣦⠤⣤⢤⣤⣾⢿⣿⣿⣿⣿⣿⠉⠁⢻⠀⠀⢹⠤⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣿⣿⡀⢻⠈⣿⣷⠘⣿⣿⣿⣿⣿⣆⠠⠼⠒⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠑⠚⠒⠛⠛⠒⠛⠋⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀)" << "\n";
+        break;
+    }
+}
+
+
 // ===========Timer=============
+
+Timer::Timer(Game& game) : game(game) {};
 
 void Timer::SetExist(bool ex) {
     
@@ -34,22 +237,25 @@ bool Timer::IsExist() {
     
 void Timer::TimerStart() { 
 
-    // Variable for tracking time
-    auto start = std::chrono::steady_clock::now();
+    if (seconds <= 0) return;
     
-    system("rm /tmp/timerData");
+    system("rm -f /tmp/timerData");
     system("mkfifo /tmp/timerData");
     
     system("gnome-terminal -- bash -c \"g++ -o bin/start_timer TimerData/main_timer.cpp && ./bin/start_timer bash\"");
-    
+
+    auto start = std::chrono::steady_clock::now();
+    std::string line;
+
     // Loop until the specified number of seconds have passed
     while (true) {
         auto now = std::chrono::steady_clock::now();
         std::chrono::duration<double> elapsed = now - start;
 
         // If the specified amount of time has passed, exit the loop
-        if (elapsed.count() >= seconds + 1) {
+        if (elapsed.count() >= seconds) {
             system("echo \"Timer finished!\" > /tmp/timerData");
+            game.timeIsUp = true;
             break;
         }
 
@@ -63,18 +269,25 @@ void Timer::TimerStart() {
         
     }
     std::cout << "--\nTimer finised, game over.\n";
-    exit(0);
+    game.timeIsUp = true;
 }
 
 
 // ===========Game=============
 
-Game::Game() {}
-Game::~Game() {}
+Game::Game() : contact(*this) {
+    timer = std::make_unique<Timer>(*this);
+}
+Game::~Game() {
+    if (musicThread.joinable()) {
+        if (melody) melody->stop();
+        musicThread.join();
+    }
+}
 
 // Creating players
 void Game::setPlayer(std::string name) {
-    players.push_back(std::make_unique<Player>(name));
+    players.push_back(std::make_unique<Player>(name, *this));
 }
 
 std::vector<std::unique_ptr<Player>>& Game::getPlayer() {
@@ -100,12 +313,12 @@ void Game::setBot(std::string name, int index) {
     switch(index) {
         case 1:
         
-            players.push_back(std::make_unique<AIPlayer_easy>(name));
+            players.push_back(std::make_unique<AIPlayer_easy>(name, *this));
             break;
     
         case 2:
         
-            players.push_back(std::make_unique<AIPlayer_normal>(name));
+            players.push_back(std::make_unique<AIPlayer_normal>(name, *this));
             break;
             
     }
@@ -116,32 +329,32 @@ void Game::setPlayerCharacter(std::string name, int index) {
     switch(index) {
         case 1:
         
-            players.push_back(std::make_unique<AllSeeingPlayer>(name));
+            players.push_back(std::make_unique<AllSeeingPlayer>(name, *this));
             break;
             
         case 2:
         
-            players.push_back(std::make_unique<CheaterPlayer>(name));
+            players.push_back(std::make_unique<CheaterPlayer>(name, *this));
             break;
             
         case 3:
         
-            players.push_back(std::make_unique<EngagedDeckPlayer>(name));
+            players.push_back(std::make_unique<EngagedDeckPlayer>(name, *this));
             break;
             
         case 4:
         
-            players.push_back(std::make_unique<DeallersFrendPlayer>(name));
+            players.push_back(std::make_unique<DeallersFrendPlayer>(name, *this));
             break;
             
         case 5:
         
-            players.push_back(std::make_unique<PhotographicMemoryPlayer>(name));
+            players.push_back(std::make_unique<PhotographicMemoryPlayer>(name, *this));
             break;
             
         case 6:
         
-            players.push_back(std::make_unique<BettingManipulatorPlayer>(name));
+            players.push_back(std::make_unique<BettingManipulatorPlayer>(name, *this));
             break;
     }
 
@@ -180,7 +393,6 @@ void Game::resetGame() {
     for (auto& player : players) {
         player->delAllCards();
     }
-    
 }
 
 bool Game::checkContinueGame() {
@@ -241,66 +453,85 @@ std::string Game::getValidAction(std::vector<std::string> actions, std::string p
 // Main function to start the game
 int Game::startGame() {
     
+    if (players.empty()) {
+        throw std::runtime_error("No players in the game!");
+    }
+
     // Path game
-    do {
-        bool Allin = false; // True if somebody make an Allin
-        dealler.shuffleDeck(); // The dealer shuffles the deck
-        
-        // Create vector for allin and pass
-        std::vector<bool> DataPass(players.size(), false);
-        
-        // Array for storing player character actions 
-        std::vector<bool> ifActPlayerData(players.size(), false);
-        
-        // Distribute cards to the players
-        for (auto& player : players) {
-            dealler.dealCards(2, *player);
-        }
-        
-        // Output information about players
-        gamemode[0]->OutputInfoPlayers();
-
-        // Array with number
-        std::vector<std::string> Numbers = { "First", "Second", "Third" };
-
-        for (int raund = 1; raund <= 3; raund++) {
-            Card card = dealler.getOneCard(); // Get card from deck
-            cards.push_back(card);
-
-            std::cout << "\n> " << Numbers[raund - 1] << " card: ";
-            card.display();
+    try {
+        do {
+            std::cout << "\n";
             
-            gamemode[0]->GameModePathGame(DataPass, ifActPlayerData, Allin, raund);
-            
-        }
+            bool Allin = false; // True if somebody make an Allin
+            dealler.shuffleDeck(); // The dealer shuffles the deck
 
-        std::vector<Player> player_refs;
-        for (const auto& player : players) {
-            player_refs.push_back(*player);
-        }
-        
-        std::vector<int> answer = dealler.SearchWinner(player_refs, cards, DataPass);
-        
-        for (std::size_t count = 0; count < answer.size(); count++) {
-        
-            if (answer[count] == 123456) {
-                std::cout << "All players make a pass!\n";
-            } else if (answer[count] == -2) {
-                std::cout << "Player: " << count + 1<< " - " << players[count]->getName() << " make a pass!\n";
-            } else if (answer[count] == -3) {
-                std::cout << "Player: " << count + 1 << " - " << players[count]->getName() << " fool!\n";
-            } else {
-                std::cout << "Player: " << count + 1 << " - " << players[count]->getName() << " win!\n";
-                players[count]->setChips(players[count]->getChips() + bank.getPlayerMoney());
+            // Create vector for allin and pass
+            std::vector<bool> DataPass(players.size(), false);
+
+            // Array for storing player character actions 
+            std::vector<bool> ifActPlayerData(players.size(), false);
+
+            // Distribute cards to the players
+            for (auto& player : players) {
+                dealler.dealCards(2, *player);
             }
 
-        }
+            // Output information about players
+            gamemode[0]->OutputInfoPlayers();
 
-        resetGame();
+            // Array with number
+            std::vector<std::string> Numbers = { "First", "Second", "Third" };
 
-    } while (checkContinueGame());
+            for (int raund = 1; raund <= 3; raund++) {
+                Card card = dealler.getOneCard(); // Get card from deck
+                cards.push_back(card);
+                printAsciiArt(raund);
+                std::cout << "\n-> " << Numbers[raund - 1] << " card: ";
+                card.display();
+                std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+                gamemode[0]->GameModePathGame(DataPass, ifActPlayerData, Allin, raund);
 
-    std::cout << "Game over!\n";
+            }
+
+            std::vector<Player> player_refs;
+            for (const auto& player : players) {
+                player_refs.push_back(*player);
+            }
+
+            std::vector<int> answer = dealler.SearchWinner(player_refs, cards, DataPass);
+
+            for (std::size_t count = 0; count < answer.size(); count++) {
+
+                if (answer[count] == 123456) {
+                    std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+                    std::cout << "-> All players make a pass!\n";
+                    std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+                }
+                else if (answer[count] == -2) {
+                    std::cout << "Player: " << count + 1 << " - " << players[count]->getName() << " make a pass!\n";
+                }
+                else if (answer[count] == -3) {
+                    std::cout << "Player: " << count + 1 << " - " << players[count]->getName() << " fool!\n";
+                }
+                else {
+                    std::cout << "Player: " << count + 1 << " - " << players[count]->getName() << " win!\n";
+                    players[count]->setChips(players[count]->getChips() + bank.getPlayerMoney());
+                }
+
+            }
+            printAsciiArt(4);
+            resetGame();
+            
+        } while (checkContinueGame() && !timeIsUp);
+
+    } catch (const std::runtime_error& e) {
+        std::cout << "\n----------\n" << e.what() << "\nGame over!\n";
+    }
+
+    std::cout << "\n";
+    std::cout << "\n================================================================\n\n";
+    printAsciiArt("    GAME OVER");
+    std::cout << "\n================================================================\n";
     return 0;
 }
 
@@ -315,11 +546,11 @@ void Game::setMode() {
     }
 
     if (setMusic == "y") {
-        int type = contact.answerUserCheckInt("> Write the music type (1-random note, 2-random parts, 3-grasshopper): ");
+        int type = contact.answerUserCheckInt("> Write the music type (1-random note, 2-parts, 3-grasshopper): ");
 
         while (!(type >= 1 && type <= 3)) {
             std::cerr << "ERROR: Write 1 or 2 or 3!\n";
-            type = contact.answerUserCheckInt("> Write the music type (1-random note, 2-random parts, 3-grasshopper): ");
+            type = contact.answerUserCheckInt("> Write the music type (1-random note, 2-parts, 3-grasshopper): ");
         }
 
         // Create Generator and engine
@@ -336,36 +567,38 @@ void Game::setMode() {
         generators.push_back(std::make_unique<SquareWaveGenerator>());
         generators.push_back(std::make_unique<TriangleWaveGenerator>());
         generators.push_back(std::make_unique<SawWaveGenerator>());
-        generators.push_back(std::make_unique<NoiseGenerator>());
+        generators.push_back(std::make_unique<SineWaveGenerator>());
 
         melody->setGenerators(std::move(generators));
 
-        std::thread([this, type]() {
+        musicThread = std::thread([this, type]() {
             switch (type) {
-            
-                case 1:
-                
-                    melody->startInfinite_Lite();
-                    break;
-                    
-                case 2: {
-                
-                    std::vector<std::vector<double>> parts = {
-                        {440.0, 493.88, 523.25},
-                        {523.25, 587.33, 659.25},
-                        {698.46, 739.99, 783.99},
-                        {880.00, 987.77, 1046.50}
-                    };
-                    melody->setMelodyParts(parts);
-                    melody->startInfinite_Part();
-                    break;
-                }
-                case 3:
-                
-                    melody->startInfinite_Melody_1();
-                    break;
+
+            case 1:
+
+                melody->startInfinite_Lite();
+                break;
+
+            case 2: {
+
+                std::vector<std::vector<double>> parts = {
+                    {440.0, 440.0, 493.88, 523.25, 523.25, 493.88, 440.0, 392.0},
+                    {440.0, 440.0, 392.0, 392.0, 440.0, 440.0, 392.0},
+                    {440.0, 440.0, 493.88, 523.25, 523.25, 493.88, 440.0, 392.0},
+                    {440.0, 392.0, 440.0, 493.88, 440.0, 392.0, 349.23, 329.63},
+                    {329.63, 349.23, 392.0, 440.0, 392.0, 349.23, 349.23},
+                    {440.0, 440.0, 493.88, 523.25, 440.0, 392.0, 392.0},
+                };
+                melody->setMelodyParts(parts);
+                melody->startInfinite_Part();
+                break;
             }
-        }).detach();
+            case 3:
+
+                melody->startInfinite_Melody_1();
+                break;
+            }
+        });
     }
 
     
@@ -382,7 +615,7 @@ void Game::setMode() {
     if (setTimer == "y") {
         
         int second = contact.answerUserCheckInt("> Write the game time (at second): ");
-        timer.setSecondForTimer(second);
+        timer->setSecondForTimer(second);
         
     }
     
@@ -432,13 +665,20 @@ void Game::setMode() {
     bank.setCountBetEachPlayer(static_cast<int>(getPlayer().size()));
     
     bank.setCurrentBet(0);
-    
-    std::cout << "Chips has been set.\nGame mode has been set.\n\n========Start Play========\n";
+
+    system("clear");
+
+    std::cout << "\n";
+    std::cout << "\n================================================================\n\n";
+    printAsciiArt(" POKER START");
+    std::cout << "\n================================================================\n";
+    std::cout << "~~~~~~~~~~~~~~~~~~~~Write 'rule' to see rules~~~~~~~~~~~~~~~~~~~\n\n";
     
     // Set Game
-    if (timer.IsExist()) {
+    if (timer->IsExist()) {
         
-        std::thread timerThread(&Timer::TimerStart, &timer);
+        std::thread timerThread(&Timer::TimerStart, timer.get());
+        timerThread.detach();
         
         startGame();
         
@@ -476,10 +716,11 @@ void Rule::getRuleOnDisplay(ContactWithPlayer& contact) {
     
         if (act == 1) {
 
-            std::cout << "1) The game is a card game where players can bet, raise, fold, and go all-in based on their hand.\n";
+            std::cout << "1) The game is a card game where players can call, raise, pass, and go all-in based on their hand.\n";
             std::cout << "2) Players can choose between multiple game modes, including All Bots and One-on-One mode.\n";
             std::cout << "3) The game includes both human players and bots, with various actions available depending on the game mode.\n";
             std::cout << "4) Players can interact with each other and the game through various characters with unique abilities.\n";
+            std::cout << "\n-> To accept the current rate, enter the current rate if 'call' is selected or enter 0 if 'raise' is selected.\n";
         }
         else if (act == 2) {
 

@@ -24,7 +24,9 @@
 
 // ===========AllSeeingPlayer=============
 
-AllSeeingPlayer::AllSeeingPlayer(std::string name) : Player(name) {}
+AllSeeingPlayer::AllSeeingPlayer(std::string name, Game& game) : Player(name, game) {
+    if (name.empty()) throw std::invalid_argument("Name cannot be empty!");
+}
 
 // Check if it's a character or not
 bool AllSeeingPlayer::isCharacter() {
@@ -37,6 +39,8 @@ void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& pla
     // Getting data from the player
     int player = contact.answerUserCheckInt("> Which player does the action apply to?: ");
     
+    if (player < 1 || player > static_cast<int>(players.size())) throw std::out_of_range("Invalid player index!");
+
     while (player < 1 || player > static_cast<int>(players.size())) {
         
         std::cerr << "ERROR: Players count: " << static_cast<int>(players.size()) << ". Please enter a valid players number!\n";
@@ -46,6 +50,8 @@ void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& pla
     
     int card = contact.answerUserCheckInt("> Which card does the action apply to?: ");
     
+    if (card < 1 || card > players[player - 1]->getCountCards()) throw std::out_of_range("Invalid card index!");
+
     while (card < 1 || card > players[player-1]->getCountCards()) {
         
         std::cerr << "ERROR: Cards count: " << players[player-1]->getCountCards() << ". Please enter a valid card number!\n";
@@ -63,7 +69,9 @@ void AllSeeingPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& pla
 
 // ===========CheaterPlayer=============
 
-CheaterPlayer::CheaterPlayer(std::string name) : Player(name) {}
+CheaterPlayer::CheaterPlayer(std::string name, Game& game) : Player(name, game) {
+    if (name.empty()) throw std::invalid_argument("Name cannot be empty!");
+}
 
 // Check if it's a character or not
 bool CheaterPlayer::isCharacter() {
@@ -115,7 +123,9 @@ void CheaterPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& playe
 
 // ===========EngagedDeckPlayer=============
 
-EngagedDeckPlayer::EngagedDeckPlayer(std::string name) : Player(name) {}
+EngagedDeckPlayer::EngagedDeckPlayer(std::string name, Game& game) : Player(name, game) {
+    if (name.empty()) throw std::invalid_argument("Name cannot be empty!");
+}
 
 // Check if it's a character or not
 bool EngagedDeckPlayer::isCharacter() {
@@ -131,7 +141,9 @@ void EngagedDeckPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& p
 
 // ===========DeallersFrendPlayer=============
 
-DeallersFrendPlayer::DeallersFrendPlayer(std::string name) : Player(name) {}
+DeallersFrendPlayer::DeallersFrendPlayer(std::string name, Game& game) : Player(name, game) {
+    if (name.empty()) throw std::invalid_argument("Name cannot be empty!");
+}
 
 // Check if it's a character or not
 bool DeallersFrendPlayer::isCharacter() {
@@ -140,26 +152,29 @@ bool DeallersFrendPlayer::isCharacter() {
 
 // Main method for CheaterPlayer
 void DeallersFrendPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
-    
-    // Gat Last card on table
+    if (cardsOnTable.empty()) {
+        throw std::runtime_error("No cards on the table!");
+    }
+
     Card LastCard = cardsOnTable.back();
-    
-    // Put one card in Deck
     deck.putOneCardInDeck(LastCard);
-    
-    // Del Last card on table
     cardsOnTable.pop_back();
-    
-    // New card on table
-    cardsOnTable.push_back(deck.deal());
-    
-    std::cout << "&& A new card is put on the table.\n";
+
+    try {
+        cardsOnTable.push_back(deck.deal());
+    }
+    catch (const std::out_of_range& e) {
+        cardsOnTable.push_back(LastCard);
+        throw;
+    }
 }
 
 
 // ===========PhotographicMemoryPlayer=============
 
-PhotographicMemoryPlayer::PhotographicMemoryPlayer(std::string name) : Player(name) {}
+PhotographicMemoryPlayer::PhotographicMemoryPlayer(std::string name, Game& game) : Player(name, game) {
+    if (name.empty()) throw std::invalid_argument("Name cannot be empty!");
+}
 
 // Check if it's a character or not
 bool PhotographicMemoryPlayer::isCharacter() {
@@ -169,6 +184,8 @@ bool PhotographicMemoryPlayer::isCharacter() {
 // Check if there is a card in the deck
 bool PhotographicMemoryPlayer::searchCardInDeck(Card& InFullDeck, std::vector<Card>& deck) {
     
+    if (deck.empty()) return false;
+
     for (std::size_t i = 0; i < deck.size(); i++) {
         if (deck[i].getNumber() == InFullDeck.getNumber() && deck[i].getSuit() == InFullDeck.getSuit()) {
             return true;
@@ -179,34 +196,28 @@ bool PhotographicMemoryPlayer::searchCardInDeck(Card& InFullDeck, std::vector<Ca
 
 // Main method for CheaterPlayer
 void PhotographicMemoryPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
+    std::vector<Card>& RemainDeck = deck.getAllCards();
+    if (RemainDeck.empty()) {
+        std::cout << "&& Deck is empty!\n";
+        return;
+    }
 
-   std::cout << "&& Remaining cards in the deck: \n";
-   
-   // Create new deck
-   Deck newdeck;
-   
-   std::vector<Card> FullDeck = newdeck.getAllCards();
-   
-   // Deck with remain card
-   std::vector<Card> RemainDeck = deck.getAllCards();
-   
-   for (std::size_t i = 0; i < FullDeck.size(); i++) {
-       
-       if (searchCardInDeck(FullDeck[i], RemainDeck)) {
-       
-           // Check card
-           std::cout << "&& Number: " << FullDeck[i].getNumber() << ", Suit: " << FullDeck[i].getSuit() << "\n";
-       }
-       
-   }
+    Deck FullDeck;
+    std::vector<Card>& FullDeckCards = FullDeck.getAllCards();
 
+    for (Card& card : FullDeckCards) {
+        if (searchCardInDeck(card, RemainDeck)) {
+            std::cout << "&& Number: " << card.getNumber() << ", Suit: " << card.getSuit() << "\n";
+        }
+    }
 }
 
 
 // ===========BettingManipulatorPlayer=============
 
-BettingManipulatorPlayer::BettingManipulatorPlayer(std::string name) : Player(name) {}
-    
+BettingManipulatorPlayer::BettingManipulatorPlayer(std::string name, Game& game) : Player(name, game) {
+    if (name.empty()) throw std::invalid_argument("Name cannot be empty!");
+}
 bool BettingManipulatorPlayer::isCharacter() {
     return true;
 }
@@ -214,17 +225,21 @@ bool BettingManipulatorPlayer::isCharacter() {
 // Main method for CheaterPlayer
 void BettingManipulatorPlayer::CharacterActions(std::vector<std::unique_ptr<Player>>& players, std::vector<Card>& cardsOnTable, Deck& deck, Bank& bank, int indexPlayer) {
     
+    if (players.empty()) {
+        throw std::invalid_argument("No players available!");
+    }
+
     // Chose player
     int actionPlayer1 = contact.answerUserCheckInt("&& Which player do you want to steal from: ");
     
-    while (actionPlayer1 > static_cast<int>(players.size())) {
+    while (actionPlayer1 > static_cast<int>(players.size()) || actionPlayer1 == indexPlayer) {
         
-        std::cerr << "ERROR: Such a player does not exist!\n";
+        if (actionPlayer1 > static_cast<int>(players.size())) std::cerr << "ERROR: Such a player does not exist!\n";
+        if (actionPlayer1 == indexPlayer) std::cerr << "Cannot steal from yourself!\n";
         
         actionPlayer1 = contact.answerUserCheckInt("&& Which player do you want to steal from: ");
         
     }
-    
     // Steal money from Player
     int actionPlayer2 = contact.answerUserCheckInt("&& How manu do you want to steal: ");
     

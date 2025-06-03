@@ -18,9 +18,9 @@
 
 // ===========AIPlayer_easy=============
 
-class AIPlayer_easy : public Player {
+class AIPlayer_easy : public Player {  
 public:
-    AIPlayer_easy(std::string name); // Create bot easy
+    AIPlayer_easy(std::string name, Game& game); // Create bot easy
 
     bool isBot() override; // Does a timer exist
     
@@ -32,7 +32,7 @@ public:
 
 class AIPlayer_normal : public Player {
 public:
-    AIPlayer_normal(std::string name); // Create bot normal
+    AIPlayer_normal(std::string name, Game& game); // Create bot normal
 
     bool isBot() override;// Does a timer exist
     
