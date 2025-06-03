@@ -49,26 +49,14 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 # =========== Build RtAudio ===========
 
 rtaudio:
-	if [ ! -d libs/rtaudio ]; then git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio; fi
-	mkdir -p libs/rtaudio/build
-	cd libs/rtaudio/build && cmake -D RTAUDIO_API_ALSA=ON -D BUILD_SHARED_LIBS=ON .. && make -j
-	cd libs/rtaudio/build && \
-	if [ -f librtaudio.so ]; then \
-		echo "Dynamic library exists"; \
-	elif ls librtaudio.so.* 1> /dev/null 2>&1; then \
-		ln -sf $$(ls librtaudio.so.* | head -n1) librtaudio.so; \
-	elif [ -f librtaudio.a ]; then \
-		ln -sf librtaudio.a librtaudio.so; \
-	else \
-		echo "Error: No rtaudio library found!"; exit 1; \
+	@if [ ! -d libs/rtaudio ]; then git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio; \
 	fi
-
-libs/rtaudio/build/librtaudio.so: rtaudio
+	@mkdir -p libs/rtaudio/build
+	@cd libs/rtaudio/build && cmake .. && make -j
 
 # =========== Google Test Targets ===========
 
-test: rtaudio libs/rtaudio/build/librtaudio.so \
-      $(OBJDIR)/gtestBaseGameRule.o \
+test: $(OBJDIR)/gtestBaseGameRule.o \
       $(OBJDIR)/gtestBot.o \
       $(OBJDIR)/gtestPathGame.o \
       $(OBJDIR)/gtestCharacters.o \

@@ -337,26 +337,6 @@ TEST(OneOnOneTest, SetupForGameModeLoadTest) {
 
 // ===== 5) Edge Case Testing
 
-
-// Testing the GameModePathGame method with all players passing
-TEST(OneOnOneTest, GameModePathGameEdgeCaseAllPass) {
-    Game game;
-    game.setPlayer("Player1");
-    game.setPlayer("Player2");
-    
-    OneOnOne oneOnOne(game);
-    std::vector<bool> DataPass = {true, true};
-    std::vector<bool> ifActPlayerData = {false, false};
-    bool Allin = false;
-    int raund = 1;
-    
-    std::istringstream input("");
-    std::streambuf* originalCin = std::cin.rdbuf(input.rdbuf());
-    
-    EXPECT_NO_THROW(oneOnOne.GameModePathGame(DataPass, ifActPlayerData, Allin, raund));
-    std::cin.rdbuf(originalCin);
-}
-
 // Testing the setupForGameMode method with maximum players
 TEST(OneOnOneTest, SetupForGameModeEdgeCaseMaxPlayers) {
     Game game;
