@@ -21,21 +21,22 @@ jobs:
   test:
     name: Run C++ tests
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        
       - name: Install dependencies
-        run: sudo apt-get install g++ cmake libgtest-dev libasound2-dev
-
+        run: sudo apt-get install -y g++ cmake libgtest-dev libasound2-dev libjack-dev
+        
       - name: Clone RtAudio
         run: git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio
-
+        
+      - name: Verify RtAudio build
+        run: ls -la libs/rtaudio/build/*.so*
+        
       - name: Build and run tests
         run: |
-          export LD_LIBRARY_PATH=libs/rtaudio/build:$LD_LIBRARY_PATH
-          make test
+          make test || (ls -la libs/rtaudio/build; exit 1)
           make clean
 
   build:
