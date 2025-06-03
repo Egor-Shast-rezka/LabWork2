@@ -1,4 +1,6 @@
-on:Add commentMore actions
+name: Start test and build
+
+on:
   push:
     branches:
       - MainBranchForAllProject
