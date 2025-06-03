@@ -34,6 +34,9 @@ jobs:
       - name: Export LD_LIBRARY_PATH
         run: export LD_LIBRARY_PATH=libs/rtaudio/build:$LD_LIBRARY_PATH
         
+      - name: Set LD_LIBRARY_PATH for RtAudio
+        run: echo "export LD_LIBRARY_PATH=$(pwd)/libs/rtaudio/build:\$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        
       - name: Build and run tests
         run: |
           make test
