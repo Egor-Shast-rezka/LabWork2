@@ -62,7 +62,7 @@ test: $(OBJDIR)/gtestBaseGameRule.o \
       $(OBJDIR)/gtestCharacters.o \
       $(OBJDIR)/gtestGameMode.o \
       $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test $^ $(GTEST_LIBS) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test $^ $(GTEST_LIBS)
 	$(BINDIR)/test
 	$(BINDIR)/test --gtest_output=xml:$(DOCDIR)/test_report_new.xml
 

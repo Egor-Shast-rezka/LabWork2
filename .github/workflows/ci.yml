@@ -28,12 +28,8 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install g++ cmake libgtest-dev libasound2-dev
         
-      - name: Clone RtAudio
-        run: git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio
-        
       - name: Build and run tests
         run: |
-          export LD_LIBRARY_PATH=libs/rtaudio/build:$LD_LIBRARY_PATH
           make test
           make clean
 
