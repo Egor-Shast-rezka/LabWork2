@@ -49,15 +49,14 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 # =========== Build RtAudio ===========
 
 rtaudio:
-    if [ ! -d libs/rtaudio ]; then \
-        git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio; \
-    fi
-    mkdir -p libs/rtaudio/build
-    cd libs/rtaudio/build && cmake -D RTAUDIO_API_ALSA=ON .. && make -j
-    cd libs/rtaudio/build && \
-    if [ -f librtaudio.so.* ]; then \
+	if [ ! -d libs/rtaudio ]; then git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio; \
+	fi
+	mkdir -p libs/rtaudio/build
+	cd libs/rtaudio/build && cmake -D RTAUDIO_API_ALSA=ON .. && make -j
+	cd libs/rtaudio/build && \
+	if [ -f librtaudio.so.* ]; then \
         ln -sf $$(ls librtaudio.so.* | grep -E '\.so\.[0-9]+$$' | head -n1) librtaudio.so; \
-    fi
+	fi
 
 
 # =========== Google Test Targets ===========
