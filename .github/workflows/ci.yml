@@ -35,7 +35,7 @@ jobs:
       - name: Build and run tests
         run: |
           export LD_LIBRARY_PATH=libs/rtaudio/build:$LD_LIBRARY_PATH
-          make all_test
+          make test
           make clean
 
   build:
