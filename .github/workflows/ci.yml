@@ -32,7 +32,7 @@ jobs:
         run: git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio
         
       - name: Verify RtAudio build
-        run: ls -la libs/rtaudio/build/*.so*
+        run: ls -la libs/rtaudio/build/lib*
         
       - name: Build and run tests
         run: |
