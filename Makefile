@@ -25,7 +25,7 @@ GTEST_LIBS = -lgtest -lgtest_main -pthread
 
 # =========== Main Build Targets ===========
 
-all: rtaudio $(OBJDIR) $(BINDIR) $(TIMER) $(TARGET) 
+all: $(OBJDIR) $(BINDIR) $(TIMER) rtaudio $(TARGET) 
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
@@ -49,8 +49,10 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 # =========== Build RtAudio ===========
 
 rtaudio:
+	@if [ ! -d libs/rtaudio ]; then git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio; \
+	fi
 	@mkdir -p libs/rtaudio/build
-	cd libs/rtaudio/build && cmake .. && make
+	@cd libs/rtaudio/build && cmake .. && make -j
 
 
 # =========== Google Test Targets ===========
@@ -90,7 +92,7 @@ $(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp | $(OBJDIR)
 # =========== Clean ===========
 
 clean:
-	rm -rf $(OBJDIR) $(BINDIR) $(TIMERPATH) $(TIMER)
+	rm -rf $(OBJDIR) $(BINDIR) $(TIMERPATH) $(TIMER) libs/rtaudio/build
 
 
 # =========== PHONY ===========
