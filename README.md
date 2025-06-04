@@ -25,7 +25,7 @@ make
 To start the game, run the compiled executable:
 
 ```sh
-./bin/Poker
+make run
 ```
 
 ## Tests

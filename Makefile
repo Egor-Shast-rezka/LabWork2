@@ -52,8 +52,8 @@ rtaudio:
 		echo "RtAudio not found. Cloning..."; \
 		git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio; \
 	fi
-	@cmake -S libs/rtaudio -B libs/rtaudio/build
-	@$(MAKE) -C libs/rtaudio/build
+	@mkdir -p libs/rtaudio/build
+	@cd libs/rtaudio/build && cmake .. && make -j
 	
 	
 # =========== Google Test Targets ===========
@@ -89,7 +89,10 @@ $(OBJDIR)/gtestCharacters.o: $(TESTDIR)/gtestCharacters.cpp | $(OBJDIR)
 	
 $(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-	
+
+
+run: $(TARGET)
+	LD_LIBRARY_PATH=libs/rtaudio/build ./$(TARGET)
 
 # =========== Clean ===========
 
@@ -98,4 +101,4 @@ clean:
 
 # =========== PHONY ===========
 
-.PHONY: all clean test rtaudio
+.PHONY: all clean test rtaudio run
