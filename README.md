@@ -15,6 +15,23 @@ This project is a C++ implementation of a poker game that simulates gameplay wit
 
 ## Installation and Build
 
+### Required Libraries and Tools
+
+Before building the project, make sure you have the following libraries and tools installed on your system:
+
+| Package Name       | Description                            |
+|--------------------|--------------------------------------|
+| `make`             | Build automation tool                 |
+| `cmake`            | Cross-platform build system          |
+| `libasound2-dev`   | ALSA (Advanced Linux Sound Architecture) development files for audio support |
+
+### Installing on Ubuntu/Debian
+
+```sh
+sudo apt update
+sudo apt install make cmake libasound2-dev
+```
+
 ### Building the Project
 
 ```sh
