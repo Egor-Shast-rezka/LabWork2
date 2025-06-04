@@ -10,6 +10,7 @@ BINDIR = bin
 TESTDIR = tests
 DOCDIR = doc
 TIMER = tmp
+LIBSDIR = libs
 TIMERPATH = /tmp/timerData
 
 TARGET = $(BINDIR)/Poker
@@ -24,7 +25,7 @@ TEST_OBJS = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TEST_SRCS))
 	
 # =========== Main Build Targets ===========
 
-all: $(OBJDIR) $(BINDIR) $(TIMER) rtaudio $(TARGET) 
+all: check_libasound2  $(OBJDIR) $(BINDIR) $(TIMER) rtaudio $(TARGET) 
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
@@ -48,6 +49,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 # =========== Build RtAudio ===========
 
 rtaudio:
+	@mkdir -p $(LIBSDIR)
 	@if [ ! -d "libs/rtaudio" ]; then \
 		echo "RtAudio not found. Cloning..."; \
 		git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio; \
@@ -55,7 +57,15 @@ rtaudio:
 	@mkdir -p libs/rtaudio/build
 	@cd libs/rtaudio/build && cmake .. && make -j
 	
-	
+check_libasound2:
+	@if ! dpkg -s libasound2-dev >/dev/null 2>&1; then \
+		echo "libasound2-dev not found. Installing..."; \
+		sudo apt update && sudo apt install -y libasound2-dev; \
+	else \
+		echo "libasound2-dev already installed."; \
+	fi
+
+
 # =========== Google Test Targets ===========
 
 TEST_OBJS = $(OBJDIR)/gtestBaseGameRule.o \
@@ -97,7 +107,7 @@ run: $(TARGET)
 # =========== Clean ===========
 
 clean:
-	rm -rf $(OBJDIR) $(BINDIR) /tmp/timerData tmp libs/rtaudio/build $(DOCDIR)/test_report_new.xml
+	rm -rf $(OBJDIR) $(BINDIR) $(LIBSDIR) /tmp/timerData tmp libs/rtaudio $(DOCDIR)/test_report_new.xml
 
 # =========== PHONY ===========
 

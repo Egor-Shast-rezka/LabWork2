@@ -9,13 +9,12 @@
 | CardTest | EdgeCaseSetGetSuit | ✅ Pass | 0 |
 | CardTest | EdgeCaseComparisonEqualCards | ✅ Pass | 0 |
 | DeckTest | GenerateFullDeck | ✅ Pass | 0 |
-| DeckTest | TestShuffle | ✅ Pass | 0 |
 | DeckTest | DealCard | ✅ Pass | 0 |
 | DeckTest | PutOneCardInDeck | ✅ Pass | 0 |
 | DeckTest | SeeLastCard | ✅ Pass | 0 |
 | DeckTest | DealFromEmptyDeckThrowsException | ✅ Pass | 0 |
 | DeckTest | SeeLastCardFromEmptyDeckThrowsException | ✅ Pass | 0 |
-| DeckTest | PerformanceShuffleDeck | ✅ Pass | 0.056 |
+| DeckTest | PerformanceShuffleDeck | ✅ Pass | 0.06 |
 | DeckTest | LoadTestShuffleAndDeal | ✅ Pass | 0.002 |
 | DeckTest | EmptyDeckHasZeroCards | ✅ Pass | 0 |
 | DeckTest | ShuffleEmptyDeck | ✅ Pass | 0 |
@@ -40,7 +39,7 @@
 | BankTest | NegativeBet | ✅ Pass | 0 |
 | PlayerTest | ConstructorDestructor | ✅ Pass | 0 |
 | PlayerTest | SetName | ✅ Pass | 0 |
-| PlayerTest | GetNameOnDisplay | ✅ Pass | 0 |
+| PlayerTest | GetNameOnDisplay | ✅ Pass | 0.002 |
 | PlayerTest | SetChips | ✅ Pass | 0 |
 | PlayerTest | GetChipsOnDisplay | ✅ Pass | 0 |
 | PlayerTest | PlaceBid | ✅ Pass | 0 |
@@ -57,7 +56,7 @@
 | DeallerAndPlayerTest | DealCardsToManyPlayers | ✅ Pass | 0 |
 | DeallerAndPlayerTest | DealZeroCards | ✅ Pass | 0 |
 | DeallerAndPlayerTest | DealMaxCards | ✅ Pass | 0 |
-| DeallerTest | ShuffleDeck | ✅ Pass | 0 |
+| DeallerTest | ShuffleDeck | ✅ Pass | 0.003 |
 | DeallerTest | DealCards | ✅ Pass | 0 |
 | DeallerTest | GetOneCard | ✅ Pass | 0 |
 | DeallerTest | PutOneCardInDeck | ✅ Pass | 0 |
@@ -74,7 +73,7 @@
 | AIPlayer_easyTest | BotActionsRandomDecision | ✅ Pass | 0 |
 | AIPlayer_easyTest | BotActionsAllInCondition | ✅ Pass | 0 |
 | AIPlayer_easyTest | BotActionsInvalidInputNegativeBet | ✅ Pass | 0 |
-| AIPlayer_easyTest | BotActionsLoadTest | ✅ Pass | 0.005 |
+| AIPlayer_easyTest | BotActionsLoadTest | ✅ Pass | 0.004 |
 | AIPlayer_normalTest | Constructor | ✅ Pass | 0 |
 | AIPlayer_normalTest | IsBot | ✅ Pass | 0 |
 | AIPlayer_normalTest | CalculateOuts | ✅ Pass | 0 |
@@ -82,12 +81,7 @@
 | AIPlayer_normalTest | BotActionsHighWinProbability | ✅ Pass | 0 |
 | AIPlayer_normalTest | BotActionsInvalidInputNegativeBet | ✅ Pass | 0 |
 | AIPlayer_normalTest | BotActionsPerformance | ✅ Pass | 0 |
-| AIPlayer_normalTest | BotActionsLoadTest | ✅ Pass | 0.002 |
-| PathGameTest | SetupForGameMode | ✅ Pass | 0 |
-| PathGameTest | GameModePathGame | ✅ Pass | 0 |
-| PathGameTest | SetupForGameModeValidInput | ✅ Pass | 0 |
-| PathGameTest | GameModePathGamePerformance | ✅ Pass | 0 |
-| PathGameTest | GameModePathGameLoadTest | ✅ Pass | 0 |
+| AIPlayer_normalTest | BotActionsLoadTest | ✅ Pass | 0.003 |
 | AllSeeingPlayerTest | Constructor | ✅ Pass | 0 |
 | AllSeeingPlayerTest | IsCharacter | ✅ Pass | 0 |
 | CheaterPlayerTest | Constructor | ✅ Pass | 0 |
@@ -115,5 +109,4 @@
 | OneOnOneTest | SetupForGameModePerformance | ✅ Pass | 0 |
 | OneOnOneTest | GameModePathGamePerformance | ✅ Pass | 0 |
 | OneOnOneTest | SetupForGameModeLoadTest | ✅ Pass | 0 |
-| OneOnOneTest | GameModePathGameEdgeCaseAllPass | ✅ Pass | 0 |
 | OneOnOneTest | SetupForGameModeEdgeCaseMaxPlayers | ✅ Pass | 0 |

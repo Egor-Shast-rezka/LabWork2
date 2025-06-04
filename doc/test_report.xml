@@ -1,152 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites tests="117" failures="0" disabled="0" errors="0" time="0.088" timestamp="2025-06-03T04:23:11.140" name="AllTests">
-  <testsuite name="CardTest" tests="8" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.140">
-    <testcase name="ConstructorAndGetNumber" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="CardTest" />
-    <testcase name="SetAndGetSuit" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="CardTest" />
-    <testcase name="GetSuit" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="CardTest" />
-    <testcase name="DisplayCard" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="CardTest" />
-    <testcase name="LoadTestComparisonOperator" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="CardTest" />
-    <testcase name="EdgeCaseSetGetNumber" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="CardTest" />
-    <testcase name="EdgeCaseSetGetSuit" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="CardTest" />
-    <testcase name="EdgeCaseComparisonEqualCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="CardTest" />
+<testsuites tests="110" failures="0" disabled="0" errors="0" time="0.1" timestamp="2025-06-04T17:16:54.798" name="AllTests">
+  <testsuite name="CardTest" tests="8" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-04T17:16:54.798">
+    <testcase name="ConstructorAndGetNumber" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="CardTest" />
+    <testcase name="SetAndGetSuit" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="CardTest" />
+    <testcase name="GetSuit" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="CardTest" />
+    <testcase name="DisplayCard" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="CardTest" />
+    <testcase name="LoadTestComparisonOperator" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="CardTest" />
+    <testcase name="EdgeCaseSetGetNumber" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="CardTest" />
+    <testcase name="EdgeCaseSetGetSuit" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="CardTest" />
+    <testcase name="EdgeCaseComparisonEqualCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="CardTest" />
   </testsuite>
-  <testsuite name="DeckTest" tests="11" failures="0" disabled="0" skipped="0" errors="0" time="0.059" timestamp="2025-06-03T04:23:11.140">
-    <testcase name="GenerateFullDeck" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="DeckTest" />
-    <testcase name="TestShuffle" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.140" classname="DeckTest" />
-    <testcase name="DealCard" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.141" classname="DeckTest" />
-    <testcase name="PutOneCardInDeck" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.141" classname="DeckTest" />
-    <testcase name="SeeLastCard" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.141" classname="DeckTest" />
-    <testcase name="DealFromEmptyDeckThrowsException" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.141" classname="DeckTest" />
-    <testcase name="SeeLastCardFromEmptyDeckThrowsException" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.141" classname="DeckTest" />
-    <testcase name="PerformanceShuffleDeck" status="run" result="completed" time="0.056" timestamp="2025-06-03T04:23:11.141" classname="DeckTest" />
-    <testcase name="LoadTestShuffleAndDeal" status="run" result="completed" time="0.002" timestamp="2025-06-03T04:23:11.198" classname="DeckTest" />
-    <testcase name="EmptyDeckHasZeroCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="DeckTest" />
-    <testcase name="ShuffleEmptyDeck" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="DeckTest" />
+  <testsuite name="DeckTest" tests="10" failures="0" disabled="0" skipped="0" errors="0" time="0.063" timestamp="2025-06-04T17:16:54.798">
+    <testcase name="GenerateFullDeck" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="DeckTest" />
+    <testcase name="DealCard" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="DeckTest" />
+    <testcase name="PutOneCardInDeck" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.798" classname="DeckTest" />
+    <testcase name="SeeLastCard" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.799" classname="DeckTest" />
+    <testcase name="DealFromEmptyDeckThrowsException" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.799" classname="DeckTest" />
+    <testcase name="SeeLastCardFromEmptyDeckThrowsException" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.799" classname="DeckTest" />
+    <testcase name="PerformanceShuffleDeck" status="run" result="completed" time="0.06" timestamp="2025-06-04T17:16:54.799" classname="DeckTest" />
+    <testcase name="LoadTestShuffleAndDeal" status="run" result="completed" time="0.002" timestamp="2025-06-04T17:16:54.859" classname="DeckTest" />
+    <testcase name="EmptyDeckHasZeroCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="DeckTest" />
+    <testcase name="ShuffleEmptyDeck" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="DeckTest" />
   </testsuite>
-  <testsuite name="HandTest" tests="9" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.200">
-    <testcase name="RemoveLastCardFromHand" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="HandTest" />
-    <testcase name="GetAllCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="HandTest" />
-    <testcase name="DisplayAllCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="HandTest" />
-    <testcase name="RemoveCardFromEmptyHandThrowsException" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="HandTest" />
-    <testcase name="DisplayEmptyHandThrowsException" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="HandTest" />
-    <testcase name="PerformanceAddCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="HandTest" />
-    <testcase name="LoadTestRemoveCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="HandTest" />
-    <testcase name="EmptyHandHasZeroCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="HandTest" />
-    <testcase name="RemoveCardFromEmptyHand" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="HandTest" />
+  <testsuite name="HandTest" tests="9" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-04T17:16:54.862">
+    <testcase name="RemoveLastCardFromHand" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="HandTest" />
+    <testcase name="GetAllCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="HandTest" />
+    <testcase name="DisplayAllCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="HandTest" />
+    <testcase name="RemoveCardFromEmptyHandThrowsException" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="HandTest" />
+    <testcase name="DisplayEmptyHandThrowsException" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="HandTest" />
+    <testcase name="PerformanceAddCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="HandTest" />
+    <testcase name="LoadTestRemoveCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="HandTest" />
+    <testcase name="EmptyHandHasZeroCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="HandTest" />
+    <testcase name="RemoveCardFromEmptyHand" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="HandTest" />
   </testsuite>
-  <testsuite name="BankTest" tests="10" failures="0" disabled="0" skipped="0" errors="0" time="0.015" timestamp="2025-06-03T04:23:11.200">
-    <testcase name="SetCurrentBet" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="BankTest" />
-    <testcase name="SetCountBetEachPlayer" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="BankTest" />
-    <testcase name="AddCurrentBet" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="BankTest" />
-    <testcase name="AddCountBetEachPlayer" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="BankTest" />
-    <testcase name="GetPlayerMoney" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="BankTest" />
-    <testcase name="OutOfRangeException" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.200" classname="BankTest" />
-    <testcase name="PerformanceAddBet" status="run" result="completed" time="0.001" timestamp="2025-06-03T04:23:11.200" classname="BankTest" />
-    <testcase name="LoadTest" status="run" result="completed" time="0.014" timestamp="2025-06-03T04:23:11.202" classname="BankTest" />
-    <testcase name="ZeroBet" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.216" classname="BankTest" />
-    <testcase name="NegativeBet" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.216" classname="BankTest" />
+  <testsuite name="BankTest" tests="10" failures="0" disabled="0" skipped="0" errors="0" time="0.016" timestamp="2025-06-04T17:16:54.862">
+    <testcase name="SetCurrentBet" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="BankTest" />
+    <testcase name="SetCountBetEachPlayer" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="BankTest" />
+    <testcase name="AddCurrentBet" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="BankTest" />
+    <testcase name="AddCountBetEachPlayer" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="BankTest" />
+    <testcase name="GetPlayerMoney" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="BankTest" />
+    <testcase name="OutOfRangeException" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.862" classname="BankTest" />
+    <testcase name="PerformanceAddBet" status="run" result="completed" time="0.001" timestamp="2025-06-04T17:16:54.862" classname="BankTest" />
+    <testcase name="LoadTest" status="run" result="completed" time="0.014" timestamp="2025-06-04T17:16:54.864" classname="BankTest" />
+    <testcase name="ZeroBet" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.878" classname="BankTest" />
+    <testcase name="NegativeBet" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.878" classname="BankTest" />
   </testsuite>
-  <testsuite name="PlayerTest" tests="13" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.216">
-    <testcase name="ConstructorDestructor" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.216" classname="PlayerTest" />
-    <testcase name="SetName" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.216" classname="PlayerTest" />
-    <testcase name="GetNameOnDisplay" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.216" classname="PlayerTest" />
-    <testcase name="SetChips" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
-    <testcase name="GetChipsOnDisplay" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
-    <testcase name="PlaceBid" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
-    <testcase name="SetCard" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
-    <testcase name="GetCountCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
-    <testcase name="DelAllCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
-    <testcase name="IsBot" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
-    <testcase name="BotActions" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
-    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
-    <testcase name="CharacterActions" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="PlayerTest" />
+  <testsuite name="PlayerTest" tests="13" failures="0" disabled="0" skipped="0" errors="0" time="0.002" timestamp="2025-06-04T17:16:54.878">
+    <testcase name="ConstructorDestructor" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.878" classname="PlayerTest" />
+    <testcase name="SetName" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.878" classname="PlayerTest" />
+    <testcase name="GetNameOnDisplay" status="run" result="completed" time="0.002" timestamp="2025-06-04T17:16:54.878" classname="PlayerTest" />
+    <testcase name="SetChips" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
+    <testcase name="GetChipsOnDisplay" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
+    <testcase name="PlaceBid" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
+    <testcase name="SetCard" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
+    <testcase name="GetCountCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
+    <testcase name="DelAllCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
+    <testcase name="IsBot" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
+    <testcase name="BotActions" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
+    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
+    <testcase name="CharacterActions" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="PlayerTest" />
   </testsuite>
-  <testsuite name="DeallerAndPlayerTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.217">
-    <testcase name="DealCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="DeallerAndPlayerTest" />
-    <testcase name="DealCards_EmptyDeck" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="DeallerAndPlayerTest" />
-    <testcase name="ShufflePerformance" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="DeallerAndPlayerTest" />
-    <testcase name="DealCardsToManyPlayers" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="DeallerAndPlayerTest" />
-    <testcase name="DealZeroCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.217" classname="DeallerAndPlayerTest" />
-    <testcase name="DealMaxCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerAndPlayerTest" />
+  <testsuite name="DeallerAndPlayerTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="0.002" timestamp="2025-06-04T17:16:54.881">
+    <testcase name="DealCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.881" classname="DeallerAndPlayerTest" />
+    <testcase name="DealCards_EmptyDeck" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.882" classname="DeallerAndPlayerTest" />
+    <testcase name="ShufflePerformance" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.882" classname="DeallerAndPlayerTest" />
+    <testcase name="DealCardsToManyPlayers" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.883" classname="DeallerAndPlayerTest" />
+    <testcase name="DealZeroCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.883" classname="DeallerAndPlayerTest" />
+    <testcase name="DealMaxCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.883" classname="DeallerAndPlayerTest" />
   </testsuite>
-  <testsuite name="DeallerTest" tests="12" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.218">
-    <testcase name="ShuffleDeck" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="DealCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="GetOneCard" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="PutOneCardInDeck" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="PowerHand" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="FunctionalDealAndNewDeck" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="DealCardsZero_Exception" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="DealTooManyCards_Exception" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="ShufflePerformance" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="DealPerformance" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.218" classname="DeallerTest" />
-    <testcase name="LoadTestManyPlayers" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.219" classname="DeallerTest" />
-    <testcase name="DealMaxCards" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.219" classname="DeallerTest" />
+  <testsuite name="DeallerTest" tests="12" failures="0" disabled="0" skipped="0" errors="0" time="0.004" timestamp="2025-06-04T17:16:54.884">
+    <testcase name="ShuffleDeck" status="run" result="completed" time="0.003" timestamp="2025-06-04T17:16:54.884" classname="DeallerTest" />
+    <testcase name="DealCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="GetOneCard" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="PutOneCardInDeck" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="PowerHand" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="FunctionalDealAndNewDeck" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="DealCardsZero_Exception" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="DealTooManyCards_Exception" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="ShufflePerformance" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="DealPerformance" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="LoadTestManyPlayers" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
+    <testcase name="DealMaxCards" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="DeallerTest" />
   </testsuite>
-  <testsuite name="AIPlayer_easyTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="0.005" timestamp="2025-06-03T04:23:11.219">
-    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.219" classname="AIPlayer_easyTest" />
-    <testcase name="IsBot" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.219" classname="AIPlayer_easyTest" />
-    <testcase name="BotActionsRandomDecision" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.219" classname="AIPlayer_easyTest" />
-    <testcase name="BotActionsAllInCondition" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.219" classname="AIPlayer_easyTest" />
-    <testcase name="BotActionsInvalidInputNegativeBet" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.219" classname="AIPlayer_easyTest" />
-    <testcase name="BotActionsLoadTest" status="run" result="completed" time="0.005" timestamp="2025-06-03T04:23:11.219" classname="AIPlayer_easyTest" />
+  <testsuite name="AIPlayer_easyTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="0.005" timestamp="2025-06-04T17:16:54.888">
+    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="AIPlayer_easyTest" />
+    <testcase name="IsBot" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="AIPlayer_easyTest" />
+    <testcase name="BotActionsRandomDecision" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="AIPlayer_easyTest" />
+    <testcase name="BotActionsAllInCondition" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.888" classname="AIPlayer_easyTest" />
+    <testcase name="BotActionsInvalidInputNegativeBet" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.889" classname="AIPlayer_easyTest" />
+    <testcase name="BotActionsLoadTest" status="run" result="completed" time="0.004" timestamp="2025-06-04T17:16:54.889" classname="AIPlayer_easyTest" />
   </testsuite>
-  <testsuite name="AIPlayer_normalTest" tests="8" failures="0" disabled="0" skipped="0" errors="0" time="0.003" timestamp="2025-06-03T04:23:11.224">
-    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.224" classname="AIPlayer_normalTest" />
-    <testcase name="IsBot" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.224" classname="AIPlayer_normalTest" />
-    <testcase name="CalculateOuts" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.224" classname="AIPlayer_normalTest" />
-    <testcase name="CalculateWinningProbability" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.224" classname="AIPlayer_normalTest" />
-    <testcase name="BotActionsHighWinProbability" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.224" classname="AIPlayer_normalTest" />
-    <testcase name="BotActionsInvalidInputNegativeBet" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.225" classname="AIPlayer_normalTest" />
-    <testcase name="BotActionsPerformance" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.225" classname="AIPlayer_normalTest" />
-    <testcase name="BotActionsLoadTest" status="run" result="completed" time="0.002" timestamp="2025-06-03T04:23:11.225" classname="AIPlayer_normalTest" />
+  <testsuite name="AIPlayer_normalTest" tests="8" failures="0" disabled="0" skipped="0" errors="0" time="0.003" timestamp="2025-06-04T17:16:54.894">
+    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.894" classname="AIPlayer_normalTest" />
+    <testcase name="IsBot" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.894" classname="AIPlayer_normalTest" />
+    <testcase name="CalculateOuts" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.894" classname="AIPlayer_normalTest" />
+    <testcase name="CalculateWinningProbability" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.894" classname="AIPlayer_normalTest" />
+    <testcase name="BotActionsHighWinProbability" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.894" classname="AIPlayer_normalTest" />
+    <testcase name="BotActionsInvalidInputNegativeBet" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.894" classname="AIPlayer_normalTest" />
+    <testcase name="BotActionsPerformance" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.894" classname="AIPlayer_normalTest" />
+    <testcase name="BotActionsLoadTest" status="run" result="completed" time="0.003" timestamp="2025-06-04T17:16:54.894" classname="AIPlayer_normalTest" />
   </testsuite>
-  <testsuite name="PathGameTest" tests="5" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.228">
-    <testcase name="SetupForGameMode" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="PathGameTest" />
-    <testcase name="GameModePathGame" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="PathGameTest" />
-    <testcase name="SetupForGameModeValidInput" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="PathGameTest" />
-    <testcase name="GameModePathGamePerformance" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="PathGameTest" />
-    <testcase name="GameModePathGameLoadTest" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="PathGameTest" />
+  <testsuite name="AllSeeingPlayerTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-04T17:16:54.897">
+    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.897" classname="AllSeeingPlayerTest" />
+    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.897" classname="AllSeeingPlayerTest" />
   </testsuite>
-  <testsuite name="AllSeeingPlayerTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.228">
-    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllSeeingPlayerTest" />
-    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllSeeingPlayerTest" />
+  <testsuite name="CheaterPlayerTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-04T17:16:54.897">
+    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.897" classname="CheaterPlayerTest" />
+    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.897" classname="CheaterPlayerTest" />
   </testsuite>
-  <testsuite name="CheaterPlayerTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.228">
-    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="CheaterPlayerTest" />
-    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="CheaterPlayerTest" />
+  <testsuite name="EngagedDeckPlayerTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-04T17:16:54.897">
+    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.897" classname="EngagedDeckPlayerTest" />
+    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.897" classname="EngagedDeckPlayerTest" />
   </testsuite>
-  <testsuite name="EngagedDeckPlayerTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.228">
-    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="EngagedDeckPlayerTest" />
-    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="EngagedDeckPlayerTest" />
+  <testsuite name="DeallersFrendPlayerTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-04T17:16:54.898">
+    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="DeallersFrendPlayerTest" />
+    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="DeallersFrendPlayerTest" />
   </testsuite>
-  <testsuite name="DeallersFrendPlayerTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.228">
-    <testcase name="Constructor" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="DeallersFrendPlayerTest" />
-    <testcase name="IsCharacter" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="DeallersFrendPlayerTest" />
+  <testsuite name="AllBotsTest" tests="10" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-04T17:16:54.898">
+    <testcase name="ConstructorDestructor" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
+    <testcase name="SetAllBots" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
+    <testcase name="SetupForGameMode" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
+    <testcase name="OutputInfoPlayers" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
+    <testcase name="GameModePathGame" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
+    <testcase name="InteractionWithGame" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
+    <testcase name="SetupForGameModePerformance" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
+    <testcase name="GameModePathGamePerformance" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
+    <testcase name="SetupForGameModeLoadTest" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
+    <testcase name="GameModePathGameEdgeCaseAllPass" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="AllBotsTest" />
   </testsuite>
-  <testsuite name="AllBotsTest" tests="10" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.228">
-    <testcase name="ConstructorDestructor" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-    <testcase name="SetAllBots" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-    <testcase name="SetupForGameMode" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-    <testcase name="OutputInfoPlayers" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-    <testcase name="GameModePathGame" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-    <testcase name="InteractionWithGame" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-    <testcase name="SetupForGameModePerformance" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-    <testcase name="GameModePathGamePerformance" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-    <testcase name="SetupForGameModeLoadTest" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-    <testcase name="GameModePathGameEdgeCaseAllPass" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.228" classname="AllBotsTest" />
-  </testsuite>
-  <testsuite name="OneOnOneTest" tests="11" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-03T04:23:11.229">
-    <testcase name="ConstructorDestructor" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="SetupForGameMode" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="OutputInfoPlayers" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="GameModePathGame" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="InteractionWithGame" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="GameModePathGameInvalidInput" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="SetupForGameModePerformance" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="GameModePathGamePerformance" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="SetupForGameModeLoadTest" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="GameModePathGameEdgeCaseAllPass" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
-    <testcase name="SetupForGameModeEdgeCaseMaxPlayers" status="run" result="completed" time="0" timestamp="2025-06-03T04:23:11.229" classname="OneOnOneTest" />
+  <testsuite name="OneOnOneTest" tests="10" failures="0" disabled="0" skipped="0" errors="0" time="0" timestamp="2025-06-04T17:16:54.898">
+    <testcase name="ConstructorDestructor" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="OneOnOneTest" />
+    <testcase name="SetupForGameMode" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="OneOnOneTest" />
+    <testcase name="OutputInfoPlayers" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="OneOnOneTest" />
+    <testcase name="GameModePathGame" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="OneOnOneTest" />
+    <testcase name="InteractionWithGame" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="OneOnOneTest" />
+    <testcase name="GameModePathGameInvalidInput" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="OneOnOneTest" />
+    <testcase name="SetupForGameModePerformance" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="OneOnOneTest" />
+    <testcase name="GameModePathGamePerformance" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.898" classname="OneOnOneTest" />
+    <testcase name="SetupForGameModeLoadTest" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.899" classname="OneOnOneTest" />
+    <testcase name="SetupForGameModeEdgeCaseMaxPlayers" status="run" result="completed" time="0" timestamp="2025-06-04T17:16:54.899" classname="OneOnOneTest" />
   </testsuite>
 </testsuites>
