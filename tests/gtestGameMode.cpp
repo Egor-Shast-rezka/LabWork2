@@ -209,24 +209,22 @@ TEST(OneOnOneTest, GameModePathGame) {
     OneOnOne oneOnOne(game);
 
     std::stringstream combinedInput;
-    combinedInput << "1\nqwe\npass\npass\n"; 
+    combinedInput << "2\nAlice\nBob\npass\npass\n"; 
     
     std::streambuf* originalCin = std::cin.rdbuf();
     std::cin.rdbuf(combinedInput.rdbuf());
 
     oneOnOne.setupForGameMode();
 
-    std::vector<bool> DataPass = {false, false};
+    std::vector<bool> DataPass = {true, true};
     std::vector<bool> ifActPlayerData = {false, false};
     bool Allin = false;
     int raund = 1;
 
-    // Проверка что метод не упадёт
     EXPECT_NO_THROW({
         oneOnOne.GameModePathGame(DataPass, ifActPlayerData, Allin, raund);
     });
 
-    // Восстанавливаем оригинальный std::cin
     std::cin.rdbuf(originalCin);
 }
 
@@ -301,7 +299,6 @@ TEST(OneOnOneTest, GameModePathGamePerformance) {
     bool Allin = false;
     int raund = 1;
 
-    // Используем быстрые корректные действия
     std::istringstream input("pass\npass\n");
     std::streambuf* originalCin = std::cin.rdbuf(input.rdbuf());
 

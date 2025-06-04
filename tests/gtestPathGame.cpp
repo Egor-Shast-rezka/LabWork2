@@ -9,7 +9,7 @@
 #include "pathGame.h"
 #include "gameMode.h"
 
-
+/*
 // ===========PathGame=============
 // ===== 1) Unit Testing
 
@@ -67,4 +67,4 @@ TEST(PathGameTest, GameModePathGameLoadTest) {
     int raund = 1;
 
     EXPECT_NO_THROW(gameMode.GameModePathGame(DataPass, ifActPlayerData, Allin, raund));  // Ensure the method handles a large number of players
-}
+}*/

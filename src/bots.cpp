@@ -44,7 +44,12 @@ std::vector<int> AIPlayer_easy::BotActions(std::unique_ptr<Player>& player, std:
     
     std::random_device rd;
     std::mt19937 gen(rd());
-
+    
+    if (Allin) {
+        action[2] = 1;
+        return action;
+    }
+    
     // Random chance for bot to reboot, or reboot if condition is met
     std::uniform_int_distribution<> chanceReboot(1, 5);
     if (chanceReboot(gen) == 1 || ifReboot) {

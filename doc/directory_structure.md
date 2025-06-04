@@ -39,5 +39,8 @@
 |-- /obj                                # Directory for object files.
 |-- /Makefile                           # Makefile to automate the build process.
 |-- /README.md                          # Project overview and documentation.
+|
+|-- /libs
+|   |-- /rtaudio
 
 

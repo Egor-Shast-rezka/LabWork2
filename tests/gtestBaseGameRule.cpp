@@ -99,9 +99,28 @@ TEST(DeckTest, TestShuffle) {
     Deck deck2;
     
     deck1.shuffle();
+    deck1.shuffle();
+    deck2.shuffle();
     deck2.shuffle();
     
-    EXPECT_NE(deck1.seeLastCard().getNumber(), deck2.seeLastCard().getNumber());  // The order should be changed
+    Card lastCardDeck1 = deck1.seeLastCard();
+    Card lastCardDeck2 = deck2.seeLastCard();
+    
+    bool numberDiffers1 = lastCardDeck1.getNumber() != lastCardDeck2.getNumber();
+    bool suitDiffers1 = lastCardDeck1.getSuit() != lastCardDeck2.getSuit();
+    
+    deck1.shuffle();
+    deck1.shuffle();
+    deck2.shuffle();
+    deck2.shuffle();
+    
+    Card lastCardDeck1_1 = deck1.seeLastCard();
+    Card lastCardDeck2_1 = deck2.seeLastCard();
+    
+    bool numberDiffers2 = lastCardDeck1_1.getNumber() != lastCardDeck2_1.getNumber();
+    bool suitDiffers2 = lastCardDeck1_1.getSuit() != lastCardDeck2_1.getSuit();
+    
+    EXPECT_TRUE((numberDiffers1 && suitDiffers1) || (numberDiffers2 && suitDiffers2));
 }
 
 // Testing the "deal card" method
