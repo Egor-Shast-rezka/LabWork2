@@ -1,6 +1,7 @@
 CXX = g++
 CXXFLAGS = -Werror -Wpedantic -Wall -std=c++20 -Iinclude -Ilibs/rtaudio -Ilibs/rtaudio/include 
 LDFLAGS = -Llibs/rtaudio/build -lrtaudio -lasound -lpthread
+GTEST_LIBS = -lgtest -lgtest_main -pthread
 
 SRCDIR = src
 INCDIR = include
@@ -19,10 +20,8 @@ OBJS_NO_MAIN = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter-out $(SRCDIR)
 
 TEST_SRCS = $(wildcard $(TESTDIR)/*.cpp)
 TEST_OBJS = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TEST_SRCS))
-
-GTEST_LIBS = -lgtest -lgtest_main -pthread
-
-
+	
+	
 # =========== Main Build Targets ===========
 
 all: $(OBJDIR) $(BINDIR) $(TIMER) rtaudio $(TARGET) 
@@ -49,22 +48,26 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 # =========== Build RtAudio ===========
 
 rtaudio:
-	@if [ ! -d libs/rtaudio ]; then git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio; \
+	@if [ ! -d "libs/rtaudio" ]; then \
+		echo "RtAudio not found. Cloning..."; \
+		git clone --depth 1 https://github.com/thestk/rtaudio.git libs/rtaudio; \
 	fi
-	@mkdir -p libs/rtaudio/build
-	@cd libs/rtaudio/build && cmake .. && make -j
-
+	@cmake -S libs/rtaudio -B libs/rtaudio/build
+	@$(MAKE) -C libs/rtaudio/build
+	
+	
 # =========== Google Test Targets ===========
 
-test: $(OBJDIR)/gtestBaseGameRule.o \
-      $(OBJDIR)/gtestBot.o \
-      $(OBJDIR)/gtestPathGame.o \
-      $(OBJDIR)/gtestCharacters.o \
-      $(OBJDIR)/gtestGameMode.o \
-      $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
+TEST_OBJS = $(OBJDIR)/gtestBaseGameRule.o \
+            $(OBJDIR)/gtestBot.o \
+            $(OBJDIR)/gtestPathGame.o \
+            $(OBJDIR)/gtestCharacters.o \
+            $(OBJDIR)/gtestGameMode.o
+            
+test: $(TEST_OBJS) $(OBJS_NO_MAIN) | $(OBJDIR) $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $(BINDIR)/test $^ $(GTEST_LIBS) $(LDFLAGS)
-	$(BINDIR)/test
-	$(BINDIR)/test --gtest_output=xml:$(DOCDIR)/test_report_new.xml
+	LD_LIBRARY_PATH=libs/rtaudio/build $(BINDIR)/test
+	LD_LIBRARY_PATH=libs/rtaudio/build $(BINDIR)/test --gtest_output=xml:$(DOCDIR)/test_report_new.xml
 
 
 # =========== GTest Object Compilation ===========
@@ -91,9 +94,8 @@ $(OBJDIR)/gtestGameMode.o: $(TESTDIR)/gtestGameMode.cpp | $(OBJDIR)
 # =========== Clean ===========
 
 clean:
-	rm -rf $(OBJDIR) $(BINDIR) $(TIMERPATH) $(TIMER) libs/rtaudio/build
-
+	rm -rf $(OBJDIR) $(BINDIR) /tmp/timerData tmp libs/rtaudio/build $(DOCDIR)/test_report_new.xml
 
 # =========== PHONY ===========
 
-.PHONY: all clean test
+.PHONY: all clean test rtaudio
