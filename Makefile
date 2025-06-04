@@ -25,7 +25,7 @@ TEST_OBJS = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TEST_SRCS))
 	
 # =========== Main Build Targets ===========
 
-all: check_libasound2  $(OBJDIR) $(BINDIR) $(TIMER) rtaudio $(TARGET) 
+all: $(OBJDIR) $(BINDIR) $(TIMER) rtaudio $(TARGET) 
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
@@ -56,14 +56,6 @@ rtaudio:
 	fi
 	@mkdir -p libs/rtaudio/build
 	@cd libs/rtaudio/build && cmake .. && make -j
-	
-check_libasound2:
-	@if ! dpkg -s libasound2-dev >/dev/null 2>&1; then \
-		echo "libasound2-dev not found. Installing..."; \
-		sudo apt update && sudo apt install -y libasound2-dev; \
-	else \
-		echo "libasound2-dev already installed."; \
-	fi
 
 
 # =========== Google Test Targets ===========
